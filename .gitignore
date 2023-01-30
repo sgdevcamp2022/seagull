@@ -1,4 +1,9 @@
 
 .idea
 .DS_Store
-/seagull/src/main/java/smilegate/seagull/util/KafkaConstants
+*.properties
+*.yml
+*.sql
+*.pdf
+*.txt
+seagull/**/KafkaConstants.*
