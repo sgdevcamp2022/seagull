@@ -6,16 +6,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import smilegate.seagull.model.Message;
 import smilegate.seagull.util.KafkaConstants;
 
 import java.time.LocalDateTime;
 
 @Slf4j
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/kafka")
 public class ChatController {
@@ -37,6 +35,7 @@ public class ChatController {
     @MessageMapping("/sendMessage")
     @SendTo("/topic/group")
     public Message broadcastGroupMessage(@Payload Message message) {
+        log.debug("message : {}", message.getContent());
         return message;
     }
 
