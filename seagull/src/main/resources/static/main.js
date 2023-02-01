@@ -23,9 +23,8 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/ws');
+        var socket = new SockJS('/my-chat');
         stompClient = Stomp.over(socket);
-
         stompClient.connect({}, onConnected, onError);
     }
     event.preventDefault();
@@ -34,14 +33,13 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/topic/group', onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
+    stompClient.send("/kafka/addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({author: username, type: 'JOIN'})
     )
-
     connectingElement.classList.add('hidden');
 }
 
@@ -51,23 +49,32 @@ function onError(error) {
     connectingElement.style.color = 'red';
 }
 
-
 function sendMessage(event) {
+    var httpRequest = new XMLHttpRequest();
+
     var messageContent = messageInput.value.trim();
 
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
+            author: username,
             content: messageInput.value,
             type: 'CHAT'
         };
 
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/kafka/sendMessage", {}, JSON.stringify(chatMessage));
+
         messageInput.value = '';
+
+        httpRequest.open('POST', '/kafka/publish', true);
+        /* Response Type을 Json으로 사전 정의 */
+        httpRequest.responseType = "json";
+        /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+        httpRequest.send(JSON.stringify(chatMessage));
     }
     event.preventDefault();
 }
-
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
@@ -76,22 +83,22 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+        message.content = message.author + ' joined!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        message.content = message.author + ' left!';
     } else {
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
+        var avatarText = document.createTextNode(message.author[0]);
         avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        avatarElement.style['background-color'] = getAvatarColor(message.author);
 
         messageElement.appendChild(avatarElement);
 
         var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
+        var usernameText = document.createTextNode(message.author);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
     }
