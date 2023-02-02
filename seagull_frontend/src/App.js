@@ -1,10 +1,10 @@
+import Login from "./components/pages/Login";
+
 
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+   <Login/>
   );
 }
 
