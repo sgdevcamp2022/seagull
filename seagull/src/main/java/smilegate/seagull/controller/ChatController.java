@@ -6,44 +6,38 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.web.bind.annotation.*;
-import smilegate.seagull.model.ChatMessage;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import smilegate.seagull.model.Message;
 import smilegate.seagull.util.KafkaConstants;
 
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
 @RequestMapping("/kafka")
-@CrossOrigin(origins = "http://localhost:5500", allowedHeaders = "*")
 public class ChatController {
 
     @Autowired
-    private KafkaTemplate<String, ChatMessage> kafkaTemplate;
+    private KafkaTemplate<String, Message> kafkaTemplate;
 
-    @RequestMapping("/publish")
-    public void sendMessage(@RequestBody ChatMessage chatMessage) {
-        chatMessage.setTimestamp(LocalDateTime.now().toString());
+    @PostMapping("/publish")
+    public void sendMessage(@RequestBody Message message) {
+        log.info("Produce message : " + message.toString());
+        message.setTimestamp(LocalDateTime.now().toString());
         try {
-            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, chatMessage).get();
+            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, message).get();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @MessageMapping("/sendMessage") // 클라이언트에서 보내는 메세지 매핑
+    @MessageMapping("/sendMessage")
     @SendTo("/topic/group")
-    public ChatMessage broadcastGroupMessage(@Payload ChatMessage chatMessage) {
-        return chatMessage;
+    public Message broadcastGroupMessage(@Payload Message message) {
+        return message;
     }
 
-    @MessageMapping("/addUser")
-    @SendTo("/topic/group")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getAuthor());
-        return chatMessage;
-    }
 }
