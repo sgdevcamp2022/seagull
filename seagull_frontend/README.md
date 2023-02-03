@@ -1,1 +1,0 @@
-# EGuBa(이거봐) - FRONTEND
