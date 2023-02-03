@@ -22,6 +22,8 @@ function connect(event) {
     if(username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
+        var path = window.location.pathname;
+        console.log("path :"+path);
 
         var socket = new SockJS('/my-chat');
         stompClient = Stomp.over(socket);
@@ -61,9 +63,7 @@ function sendMessage(event) {
             type: 'CHAT'
         };
 
-        stompClient.send("/kafka/sendMessage", {}, JSON.stringify(chatMessage));
-
-        messageInput.value = '';
+        // stompClient.send("/kafka/sendMessage", {}, JSON.stringify(chatMessage));
 
         httpRequest.open('POST', '/kafka/publish', true);
         /* Response Type을 Json으로 사전 정의 */
@@ -72,6 +72,8 @@ function sendMessage(event) {
         httpRequest.setRequestHeader('Content-Type', 'application/json');
         /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
         httpRequest.send(JSON.stringify(chatMessage));
+
+        messageInput.value = '';
     }
     event.preventDefault();
 }

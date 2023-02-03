@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -21,6 +22,17 @@ import java.util.Properties;
 @EnableKafka
 @Configuration
 public class ProducerConfiguration {
+
+//    @Value("${kafka.broker}")
+//    private static String kafkaBroker;
+//
+//    @Value("${kafka.groupId}")
+//    private static String groupId;
+//
+//    @Value("${kafka.kafka-topic}")
+//    private static String kafkaTopic;
+
+
 
     @Bean
     public KafkaTemplate<String, ChatMessage> kafkaTemplate() {
@@ -40,7 +52,6 @@ public class ProducerConfiguration {
         configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return configurations;
     }
-
 
 
 }
