@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import smilegate.seagull.model.ChatMessage;
 import smilegate.seagull.util.KafkaConstants;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 @Slf4j
-//@CrossOrigin("*")
 @RestController
 @RequestMapping("/kafka")
+@CrossOrigin(origins = "http://localhost:5500", allowedHeaders = "*")
 public class ChatController {
 
     @Autowired
@@ -42,9 +43,7 @@ public class ChatController {
     @SendTo("/topic/group")
     public ChatMessage addUser(@Payload ChatMessage chatMessage,
                                SimpMessageHeaderAccessor headerAccessor) {
-        // Add username in web socket session
         headerAccessor.getSessionAttributes().put("username", chatMessage.getAuthor());
         return chatMessage;
     }
-
 }
