@@ -1,21 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import LoginErrorMessage from '../ui/Login/LoginErrorMessage';
 import LoginSignupButton from '../ui/public/LoginSignupButton';
 import LoginSignupInputForm from '../ui/public/LoginSignupInputForm';
 import LoginSignupTitle from '../ui/public/LoginSignupTitle';
+import PasswordInputForm from '../ui/public/PasswordInputForm';
 import SignupButton from '../ui/Signup/SignupButton';
 
 const Login = () => {
+
   return (
     <LoginContainer>
       <LoginSignupTitle />
       <Wrap>
         <LoginWrap>
           <LoginSignupInputForm text="아이디" />
-          <LoginSignupInputForm text="비밀번호" />
+          <PasswordInputForm text='비밀번호'/>
           <LoginErrorMessage />
-          <LoginSignupButton />
+          <LoginSignupButton text='로그인' />
           <SignupButton />
         </LoginWrap>
       </Wrap>
@@ -51,7 +54,6 @@ const Wrap = styled.div`
 
 const LoginWrap = styled.form`
   margin: 50px 150px;
-  /* background-color: beige; */
 `;
 
 export default Login;

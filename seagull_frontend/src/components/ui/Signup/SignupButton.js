@@ -1,9 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import {useNavigate} from 'react-router-dom'
 
 const SignupButton = () => {
+
+    const navigate = useNavigate();
+
   return (
-    <SignupBtn>
+    <SignupBtn onClick={() => {navigate("/signup")}}>
         회원가입
     </SignupBtn>
   )
