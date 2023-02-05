@@ -66,7 +66,10 @@
 ### FE
 ​
 ### BE - 채팅
-- 카프카 연동: https://github.com/sgdevcamp2022/seagull/wiki/KAFKA-%EC%84%9C%EB%B2%84-%EA%B5%AC%ED%98%84-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4-%EC%A0%95%EB%A6%AC
+- ec2 서버 구축 후 카프카 연동: https://github.com/sgdevcamp2022/seagull/wiki/KAFKA-%EC%84%9C%EB%B2%84-%EA%B5%AC%ED%98%84-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4-%EC%A0%95%EB%A6%AC
+- ec2에 도커 설치: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98
+- 도커에 mysql 설치: https://github.com/sgdevcamp2022/seagull/wiki/docker-mysql-%EC%84%A4%EC%B9%98
+- 깃 Rebase 컨벤션 작성: https://github.com/sgdevcamp2022/seagull/wiki/rebase-%EB%B0%A9%EB%B2%95
 ​
 ### BE - 영상 공유
 ​
