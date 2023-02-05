@@ -11,7 +11,6 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import smilegate.seagull.model.ChatMessage;
-import smilegate.seagull.util.KafkaConstants;
 
 import java.util.HashMap;
 import java.util.Map;

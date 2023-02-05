@@ -10,8 +10,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.*;
 import smilegate.seagull.model.ChatMessage;
-import smilegate.seagull.util.KafkaConstants;
-
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
