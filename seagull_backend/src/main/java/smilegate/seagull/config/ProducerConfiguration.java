@@ -23,16 +23,8 @@ import java.util.Properties;
 @Configuration
 public class ProducerConfiguration {
 
-//    @Value("${kafka.broker}")
-//    private static String kafkaBroker;
-//
-//    @Value("${kafka.groupId}")
-//    private static String groupId;
-//
-//    @Value("${kafka.kafka-topic}")
-//    private static String kafkaTopic;
-
-
+    @Value("${kafka.broker}")
+    public String KAFKA_BROKER; // 생성한 토픽의 이름
 
     @Bean
     public KafkaTemplate<String, ChatMessage> kafkaTemplate() {
@@ -47,7 +39,7 @@ public class ProducerConfiguration {
     @Bean
     public Map<String, Object> producerConfigurations() {
         Map<String, Object> configurations = new HashMap<>(); // 카프카 프로듀서 객체 생성
-        configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConstants.KAFKA_BROKER);
+        configurations.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
         configurations.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configurations.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return configurations;
