@@ -63,21 +63,21 @@
 #### - 함께 영상을 보면서 채팅하는 기능<br/>
 ​
 ## 🛠 작업 내역
-### FE
+### FE - 박정원
 ​
-### BE - 채팅
+### BE - 박성준
 - ec2 서버 구축 후 카프카 연동: https://github.com/sgdevcamp2022/seagull/wiki/KAFKA-%EC%84%9C%EB%B2%84-%EA%B5%AC%ED%98%84-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4-%EC%A0%95%EB%A6%AC
 - ec2에 도커 설치: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98
 - 도커에 mysql 설치: https://github.com/sgdevcamp2022/seagull/wiki/docker-mysql-%EC%84%A4%EC%B9%98
 - 깃 Rebase 컨벤션 작성: https://github.com/sgdevcamp2022/seagull/wiki/rebase-%EB%B0%A9%EB%B2%95
 ​
-### BE - 영상 공유
+### BE - 이효승
 ​
-### BE - 유저
+### BE - 이범수
 ​
 ​
 ​
 ## 📌 Trouble Shooting
-### BE - 채팅
+### BE - 박성준
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
 - 배포 서버와 클라이언트 간 CORS 에러: https://github.com/sgdevcamp2022/seagull/wiki/%EC%84%9C%EB%B2%84,-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-CORS-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
