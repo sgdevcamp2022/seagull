@@ -14,9 +14,9 @@ import smilegate.seagull.util.KafkaConstants;
 public class MessageListener {
 
     @Autowired
-    SimpMessagingTemplate template;
+    private SimpMessagingTemplate template;
 
-    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC, groupId = KafkaConstants.GROUP_ID)
+    @KafkaListener(topics = "kafka-chat", groupId = "chatting")
     public void listen(ChatMessage chatMessage) {
         log.info("sending via kafka listener..");
         template.convertAndSend("/topic/group", chatMessage);

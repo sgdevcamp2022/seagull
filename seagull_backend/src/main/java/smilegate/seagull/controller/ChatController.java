@@ -2,6 +2,7 @@ package smilegate.seagull.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -20,6 +21,9 @@ import java.time.LocalDateTime;
 @CrossOrigin(origins = "http://localhost:5500", allowedHeaders = "*")
 public class ChatController {
 
+    @Value("${kafka.kafka-topic}")
+    public String KAFKA_TOPIC; // 생성한 토픽의 이름
+
     @Autowired
     private KafkaTemplate<String, ChatMessage> kafkaTemplate;
 
@@ -27,7 +31,7 @@ public class ChatController {
     public void sendMessage(@RequestBody ChatMessage chatMessage) {
         chatMessage.setTimestamp(LocalDateTime.now().toString());
         try {
-            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, chatMessage).get();
+            kafkaTemplate.send(KAFKA_TOPIC, chatMessage).get();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
