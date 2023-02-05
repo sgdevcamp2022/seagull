@@ -7,16 +7,15 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import smilegate.seagull.model.ChatMessage;
-import smilegate.seagull.util.KafkaConstants;
 
 @Slf4j
 @Component
 public class MessageListener {
 
     @Autowired
-    SimpMessagingTemplate template;
+    private SimpMessagingTemplate template;
 
-    @KafkaListener(topics = KafkaConstants.KAFKA_TOPIC, groupId = KafkaConstants.GROUP_ID)
+    @KafkaListener(topics = "kafka-chat", groupId = "chatting")
     public void listen(ChatMessage chatMessage) {
         log.info("sending via kafka listener..");
         template.convertAndSend("/topic/group", chatMessage);
