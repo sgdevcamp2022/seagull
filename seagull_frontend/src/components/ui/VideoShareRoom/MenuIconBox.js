@@ -1,11 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { HiUsers } from 'react-icons/hi';
 
-const MenuIconBox = ({ menu, number }) => {
+const MenuIconBox = ({ isActive , menu, number }) => {
   return (
-    <Wrap>
+    <Wrap isActive={isActive}>
       <Icon>
         {menu === '채팅' ? (
           <BsFillChatDotsFill size={18} />
@@ -19,14 +19,20 @@ const MenuIconBox = ({ menu, number }) => {
 };
 
 const Wrap = styled.div`
-  width: 35%;
+  ${({isActive}) => {
+    return css`
+      width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 2px solid black;
+  border-bottom: ${isActive?"2px solid black":""} ;
+  color: ${isActive?"black":"grey"};
   padding: 0 10px;
   box-sizing: border-box;
+    `
+  }}
+
 `;
 
 const Icon = styled.div`
