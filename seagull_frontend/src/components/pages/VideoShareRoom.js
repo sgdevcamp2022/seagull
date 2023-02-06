@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {BiInfoCircle} from 'react-icons/bi';
+import { BiInfoCircle } from 'react-icons/bi';
+import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
 
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
-
 
 const VideoShareRoom = () => {
   return (
@@ -13,18 +13,24 @@ const VideoShareRoom = () => {
       <VideoWrap>
         <RoomInfoWrap>
           <InfoIcon>
-            <BiInfoCircle size={20} color='#0e72ed'/>
+            <BiInfoCircle size={20} color="#0e72ed" />
           </InfoIcon>
-          <RoomName>
-          방 이름 방 이름 방 이름
-          </RoomName>
-          </RoomInfoWrap>
+          <RoomName>방 이름 방 이름 방 이름</RoomName>
+        </RoomInfoWrap>
         <VideoShareForm />
         <ToolBarWrap>
+          <ShareVideoInput>
+            <VideoIcon>
+              <MdVideoCall size={30} color="#0e72ed" />
+            </VideoIcon>
+            <VideoUrlInput placeholder="영상 url을 입력하세요"></VideoUrlInput>
+            <InputButton>
+              <MdOutlineInput size={25} color="grey" />
+            </InputButton>
+          </ShareVideoInput>
           <LeaveButton />
         </ToolBarWrap>
       </VideoWrap>
-
       <ChatWrap>
         <ChatRoomUserContainer />
       </ChatWrap>
@@ -61,19 +67,18 @@ const RoomInfoWrap = styled.div`
   display: flex;
 `;
 
-const InfoIcon =styled.div`
+const InfoIcon = styled.div`
   width: 20px;
   height: 20px;
   margin-top: 15px;
   /* background-color: aliceblue; */
 `;
 
-const RoomName =styled.div`
-display: flex;
-align-items: center;
+const RoomName = styled.div`
+  display: flex;
+  align-items: center;
   height: 20px;
-  margin: 15px auto 0 2px; 
-
+  margin: 15px auto 0 2px;
 `;
 
 const VideoChatWrap = styled.div`
@@ -90,6 +95,40 @@ const ToolBarWrap = styled.div`
   justify-content: center;
   align-items: center;
   height: 80px;
+  width: 100%;
+`;
+
+const ShareVideoInput = styled.div`
+  width: 400px;
+  height: 50%;
+  margin-right: 450px;
+  background-color: #ffffff;
+  display: flex;
+  border-radius: 10px;
+`;
+
+const VideoIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+`;
+
+const VideoUrlInput = styled.input`
+  width: 320px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+`;
+
+const InputButton = styled.div`
+  width: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: lightgray; */
+  border-radius: 10px;
 `;
 
 export default VideoShareRoom;
