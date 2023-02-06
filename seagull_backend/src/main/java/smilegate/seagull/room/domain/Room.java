@@ -2,10 +2,12 @@ package smilegate.seagull.room.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
 import smilegate.seagull.user.domain.User;
 
 @Getter
 @Setter
+@RedisHash(value = "room")
 public class Room {
     private Long id;
     private String roomName;
