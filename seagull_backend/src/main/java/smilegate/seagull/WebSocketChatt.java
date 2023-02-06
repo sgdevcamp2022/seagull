@@ -15,6 +15,7 @@ import java.util.Set;
 @Service
 @ServerEndpoint(value = "/chatt")
 public class WebSocketChatt {
+
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
 
     @OnMessage
