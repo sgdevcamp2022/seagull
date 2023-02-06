@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useState } from 'react';
-import Popover from '../ui/public/Popover';
+import ProfileImagePopover from '../ui/public/ProfileImagePopover';
 
 const Header = () => {
   const [isPopperShown, setIsPopperShown] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
           <ProfileImg isPopperShown={isPopperShown} onClick={onOpenerClick}>
             <img src={'/images/anonymousProfile.png'} alt="" />
           </ProfileImg>
-          {isPopperShown && <Popover onOpenerClick={onOpenerClick} />}
+          {isPopperShown && <ProfileImagePopover onOpenerClick={onOpenerClick} />}
         </AfterLoginBox>
       </Wrap>
     </NavBarWrap>

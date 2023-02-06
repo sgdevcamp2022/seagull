@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoginSignupInputForm = ({ text }) => {
-  return <InputForm type="text" placeholder={text} />;
+const LoginSignupInputForm = ({ idRef, text }) => {
+  console.log(idRef);
+
+  return <InputForm ref={idRef} type="text" placeholder={text} />;
 };
 
 const InputForm = styled.input`

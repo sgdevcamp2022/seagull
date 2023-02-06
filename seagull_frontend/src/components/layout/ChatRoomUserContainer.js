@@ -1,19 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
+
 import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
 import ChatForm from './ChatForm';
 import RoomUserForm from './RoomUserForm';
 
 const ChatRoomUserContainer = () => {
+
+  const [isViewChat, setIsViewChat] = useState(true);
+
   return (
     <div>
       <MenuWrap>
-        <MenuIconBox menu="채팅" />
-        <MenuIconBox menu="참여자" number='2' />
+        <TabWrap onClick={() =>setIsViewChat(true) }>
+        <MenuIconBox isActive={isViewChat?true:false}menu="채팅" />
+        </TabWrap>
+        <TabWrap onClick={() => setIsViewChat(false)}>
+        <MenuIconBox isActive={isViewChat?false:true}menu="참여자" number='2' />
+        </TabWrap>
       </MenuWrap>
       <ContentWrap>
-        <ChatForm/>
-        {/* <RoomUserForm/> */}
+        {
+          isViewChat?<ChatForm />:<RoomUserForm/>
+        }
       </ContentWrap>
     </div>
   );
@@ -26,6 +36,11 @@ const MenuWrap = styled.div`
   justify-content: space-evenly;
   border-bottom: 1px solid lightgrey;
   /* background-color: aliceblue; */
+`;
+
+const TabWrap = styled.div`
+cursor: pointer;
+width:35%;
 `;
 
 const ContentWrap = styled.div`
