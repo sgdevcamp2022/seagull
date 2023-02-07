@@ -1,16 +1,16 @@
-package smilegate.seagull;
+package smilegate.seagull.utils;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class Base62 {
     private static final char[] BASE62 = "aZbYc0XdWeV1fUgTh2SiRjQ3kPlOm4NnMoL5pKqJr6IsHtG7uFvEw8DxCyB9zA".toCharArray();
 
-    private int abs(int a) {
+    private static int abs(int a) {
         return a > 0 ? a : -a;
     }
 
-    public String encode(int id) {
+    public static String encode(int id) {
         StringBuilder shortURL = new StringBuilder("");
         while (id > 0) {
             shortURL.append(BASE62[id % 62]);
@@ -19,7 +19,7 @@ public class Base62 {
         return shortURL.reverse().toString();
     }
 
-    public int decode(String str) {
+    public static int decode(String str) {
         int id = 0;
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);

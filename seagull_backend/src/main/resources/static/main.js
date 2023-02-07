@@ -4,6 +4,7 @@ var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
+var roomForm = document.querySelector('#roomForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
@@ -126,5 +127,18 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
+function makeRoom() {
+    var httpRequest = new XMLHttpRequest();
+
+    httpRequest.open('POST', '/create', true);
+    /* Response Type을 Json으로 사전 정의 */
+    httpRequest.responseType = "json";
+    /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+    httpRequest.setRequestHeader('Content-Type', 'application/json');
+    /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+    httpRequest.send(JSON.stringify(chatMessage));
+}
+
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
+roomForm.addEventListener('submit',makeRoom,true)
