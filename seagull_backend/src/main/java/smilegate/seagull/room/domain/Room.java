@@ -13,13 +13,13 @@ public class Room {
 
     @Id
     private Long id;
-    private Long hostId;
+    private String hostId;
     private String roomLink;
 
     public Room() {
     }
 
-    public Room(Long id, Long hostId, String roomLink) {
+    public Room(Long id, String hostId, String roomLink) {
         this.id = id;
         this.hostId = hostId;
         this.roomLink = roomLink;
