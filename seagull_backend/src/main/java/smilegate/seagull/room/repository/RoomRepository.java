@@ -16,7 +16,7 @@ public class RoomRepository {
 
     public Room save(User user, String roomName, String link) {
         Room room = new Room();
-        room.setRoomHost(user);
+        room.setHostId(user.getId());
         room.setRoomName(roomName);
         room.setRoomLink(link);
         room.setId(roomId++);
