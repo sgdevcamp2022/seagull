@@ -21,7 +21,7 @@ class SeagullApplicationTests {
 		Room room = new Room();
 		User user = new User(1L,"a","b");
 
-		room.setRoomHost(user);
+		room.setHostId(user.getId());
 		room.setRoomName("roomName");
 		room.setRoomLink("link");
 		Room result = roomRedisRepository.save(room);
