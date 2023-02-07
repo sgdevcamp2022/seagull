@@ -14,16 +14,14 @@ public class Room {
     @Id
     private Long id;
     private Long hostId;
-    private String roomName;
     private String roomLink;
 
     public Room() {
     }
 
-    public Room(Long id, Long hostId, String roomName, String roomLink) {
+    public Room(Long id, Long hostId, String roomLink) {
         this.id = id;
         this.hostId = hostId;
-        this.roomName = roomName;
         this.roomLink = roomLink;
     }
 }
