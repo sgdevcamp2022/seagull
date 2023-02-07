@@ -1,13 +1,27 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import webSocketAPI from '../../../apis/webSocketAPI';
 
-const RoomMakeModal = ({ setModalOpen, id, title, content, writer }) => {
+const RoomMakeModal = ({ setModalOpen }) => {
   // 모달 끄기
   const closeModal = () => {
     setModalOpen(false);
   };
 
   const navigate = useNavigate();
+
+  const makeRoom = async () => {
+    await webSocketAPI
+      .get('/room/create', { userId: '1q2w3e4r' })
+      .then((res) => {
+        console.log(res);
+        // navigate('/videoshare');
+      })
+      .catch((err) => {
+        console.log('방만들기 에러', err);
+        window.alert('방만들기에 실패하였습니다');
+      });
+  };
 
   return (
     <>
@@ -23,9 +37,7 @@ const RoomMakeModal = ({ setModalOpen, id, title, content, writer }) => {
 
           <Wrap>
             <CancelBtn onClick={closeModal}>취소</CancelBtn>
-            <RoomMakeBtn onClick={() => navigate('/videoshare')}>
-              만들기
-            </RoomMakeBtn>
+            <RoomMakeBtn onClick={makeRoom}>만들기</RoomMakeBtn>
           </Wrap>
         </ContentWrap>
       </Container>
