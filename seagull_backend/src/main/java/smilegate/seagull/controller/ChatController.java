@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RestController
 @RequestMapping("/kafka")
-@CrossOrigin(origins = "http://localhost:5500", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:5500, http://localhost:3000", allowedHeaders = "*")
 public class ChatController {
 
     @Value("${kafka.kafka-topic}")
@@ -25,6 +25,7 @@ public class ChatController {
     @Autowired
     private KafkaTemplate<String, ChatMessage> kafkaTemplate;
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
     @RequestMapping("/publish")
     public void sendMessage(@RequestBody ChatMessage chatMessage) {
         chatMessage.setTimestamp(LocalDateTime.now().toString());

@@ -1,9 +1,14 @@
 package smilegate.seagull.room.repository;
 
+import org.springframework.data.annotation.QueryAnnotation;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import smilegate.seagull.room.domain.Room;
 
-public interface RoomRedisRepository extends CrudRepository<Room, String> {
+import java.util.Collections;
+import java.util.Optional;
 
-    public Room findByRoomLink(String RoomLink);
+public interface RoomRedisRepository extends CrudRepository<Room, String> {
+    // select * from Room u where u.RoomLink := roomLink
+    Optional<Room> findByRoomLink(String roomLink);
 }

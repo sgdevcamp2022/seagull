@@ -7,6 +7,12 @@ import smilegate.seagull.utils.Base62;
 import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.repository.RoomRedisRepository;
 import smilegate.seagull.user.domain.User;
+import smilegate.seagull.utils.StringBase62;
+
+import java.nio.charset.Charset;
+import java.util.Base64;
+import java.util.Iterator;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -17,27 +23,39 @@ public class RoomService {
     @Autowired
     private RoomRedisRepository roomRedisRepository;
 
-    public Room createRoom(User user, String link) {
-        Room room = new Room();
-        room.setHostId(user.getId());
-        room.setRoomLink(link);
-        roomRedisRepository.save(room);
+    public Room createRoom(String userId, String link) {
+        /**
+         *  TODO
+         *   roomDTO 만들기
+         * **/
+
+        Room roomTemp = new Room();
+        roomTemp.setHostId(userId);
+        roomTemp.setRoomLink(link);
+        Room room = roomRedisRepository.save(roomTemp);
         return room;
     }
 
-    public String generateRoom(User user) {
-        int decode = Base62.decode(user.getId().toString());
-        String roomLink = url + decode;
-        return roomLink;
+    public String generateRoom(String userId) {
+        String encodedString = Base64.getEncoder().encodeToString(userId.getBytes());
+        return encodedString;
     }
 
     public void deleteRoom(String roomLink) {
-        Room room = roomRedisRepository.findByRoomLink(roomLink);
-        roomRedisRepository.delete(room);
+        Optional<Room> room = roomRedisRepository.findByRoomLink(roomLink);
+        if(room != null) roomRedisRepository.delete(room.get());
     }
 
-    public Room findRoom(String roomLink) {
-        Room room = roomRedisRepository.findByRoomLink(roomLink);
-        return room;
+    public Optional<Room> findRoom(String roomLink) {
+        Iterable<Room> all = roomRedisRepository.findAll();
+        Iterator<Room> iterator = all.iterator();
+        Optional<Room> result = null;
+        for (Iterator<Room> iter = iterator; iter.hasNext(); ) {
+            Room room = iter.next();
+            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
+        }
+        return result;
+//        Optional<Room> room = roomRedisRepository.findByRoomLink(roomLink);
+//        return room;
     }
 }
