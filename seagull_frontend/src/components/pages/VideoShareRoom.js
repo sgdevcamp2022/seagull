@@ -2,12 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiInfoCircle } from 'react-icons/bi';
 import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
+// import { useRecoilValue } from 'recoil';
+// import { UserState } from '../../state/UserAtom';
 
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 
 const VideoShareRoom = () => {
+  // const value = useRecoilValue(UserState);
   return (
     <Container>
       <VideoWrap>

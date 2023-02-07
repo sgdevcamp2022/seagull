@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const LoginSignupButton = ({ text, clickLogin }) => {
+const LoginSignupButton = ({ text, clickSubmit }) => {
   const navigate = useNavigate();
 
-  return <SubmitButton onClick={clickLogin}>{text}</SubmitButton>;
+  return <SubmitButton onClick={clickSubmit}>{text}</SubmitButton>;
 };
 
 const SubmitButton = styled.button`

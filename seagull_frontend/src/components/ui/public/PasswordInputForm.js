@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PasswordInputForm = ({ pwRef, text }) => {
-  return <InputForm ref={pwRef} type="password" placeholder={text}></InputForm>;
+const PasswordInputForm = ({ inputRef, text }) => {
+  return (
+    <InputForm ref={inputRef} type="password" placeholder={text}></InputForm>
+  );
 };
 
 const InputForm = styled.input`

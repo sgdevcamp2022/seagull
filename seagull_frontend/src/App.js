@@ -11,13 +11,12 @@ import VideoShareRoom from './components/pages/VideoShareRoom';
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<RoomMake/>}/>
-      <Route path='/login' element={<Login />}/>
-      <Route path='/signup' element={<Signup/>}/>
-      <Route path='/videoshare' element={<VideoShareRoom/>}/>
+      <Route path="/" element={<RoomMake />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/videoshare/:roomlink" element={<VideoShareRoom />} />
     </Routes>
   );
 }
-
 
 export default App;

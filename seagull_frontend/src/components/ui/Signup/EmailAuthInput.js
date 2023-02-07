@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const EmailAuthInput = ({ OnClickCallback, title, placeholder }) => {
+const EmailAuthInput = ({ inputRef, OnClickCallback, title, placeholder }) => {
   return (
     <>
       <Container>
-        <InputForm type="text" placeholder={placeholder} />
+        <InputForm type="text" placeholder={placeholder} ref={inputRef} />
         <ReceiveEmailButton onClick={OnClickCallback}>
           {title}
         </ReceiveEmailButton>
