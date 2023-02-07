@@ -50,7 +50,9 @@ public class RoomController {
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
-        return new ResponseEntity<Room>(room, headers, HttpStatus.OK);
+        if (room != null) {
+            return new ResponseEntity<Room>(room, headers, HttpStatus.OK);
+        }
+        return new ResponseEntity<Room>(room, headers, HttpStatus.NOT_FOUND);
     }
 }

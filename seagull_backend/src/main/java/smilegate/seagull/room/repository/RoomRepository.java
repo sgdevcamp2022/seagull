@@ -14,10 +14,9 @@ public class RoomRepository {
     public static List<Room> roomList = new ArrayList<>();
     public static Long roomId = 1L;
 
-    public Room save(User user, String roomName, String link) {
+    public Room save(User user, String link) {
         Room room = new Room();
         room.setHostId(user.getId());
-        room.setRoomName(roomName);
         room.setRoomLink(link);
         room.setId(roomId++);
         roomList.add(room);
@@ -25,7 +24,6 @@ public class RoomRepository {
     }
 
     public void delete(String roomLink) {
-
         roomList.remove(roomLink);
     }
 

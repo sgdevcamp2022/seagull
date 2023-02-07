@@ -19,7 +19,6 @@ public class RoomService {
 
     public Room createRoom(User user, String link) {
         Room room = new Room();
-        room.setRoomName("eGuBa");
         room.setHostId(user.getId());
         room.setRoomLink(link);
         roomRedisRepository.save(room);
