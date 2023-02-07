@@ -90,6 +90,14 @@ async def register(inputted_user_info: RegisterUserInfo, database: Session = Dep
     return {"detail": "User successfully created"}
 
 
+@router.get("/id_duplicate_check")
+async def id_duplicate_check(user_type: str, user_id: str, database: Session = Depends(get_database)):
+    if get_user(database, user_type, user_id) != None:
+        return {"duplicate": True, "detail": "user is already exist"}
+    else:
+        return {"duplicate": False, "detail": "this id is useable"}
+
+
 @router.get("/login/normal")
 async def login(inputted_user_info: LoginUserInfo = Depends(), database: Session = Depends(get_database)):
     user_info_in_db = get_user(database, "normal", inputted_user_info.user_id)
