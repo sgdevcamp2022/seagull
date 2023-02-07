@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 import LoginSignupButton from '../ui/public/LoginSignupButton';
 import LoginSignupInputForm from '../ui/public/LoginSignupInputForm';
@@ -11,103 +11,167 @@ import PasswordInputForm from '../ui/public/PasswordInputForm';
 import AuthNumberInput from '../ui/Signup/AuthNumberInput';
 import EmailAuthInput from '../ui/Signup/EmailAuthInput';
 import SignupInputTitle from '../ui/Signup/SignupInputTitle';
+import userAPI from '../../apis/userAPI';
 
 const Signup = () => {
+  const receiveEmail = async (email) => {
+    console.log(email);
+    await userAPI
+      .post('/email_auth/sending_email', { email: email })
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
+          // icon: 'success',
+          title: '인증메일이 발송되었습니다',
+          text: `인증메일이 오지 않을 경우, 스팸함 또는 스팸설정을 확인해주세요`,
+          width: 420,
+          confirmButtonColor: '#0e72ed',
+        });
+      })
+      .catch((err) => {
+        console.log('인증번호 전송 에러', err);
+        window.alert('인증번호 전송 실패!');
+      });
+  };
 
-    //timer
-    let PlAYTIME;
-    let timerAuth;
-    let sec = 60;
-    var time = 60000*3;
-  
-    const [alertSent, setAlertSent] = useState(false);
-    const [alertcomment, setAlertcomment] = useState("");
-    const [sentAuth, setSentAuth] = useState(false);
-    const [sentAuthCount, setSentAuthCount] = useState(3);
-    const [authData, setAuthData]=useState();
-  
-    const playNumber = useRef(null);
-    const timerNumber = useRef(null);
+  const completeSignUp = async (SignupData) => {
+    await userAPI
+      .post('/lregister', SignupData)
+      .then((res) => {
+        console.log(res);
+        window.alert('회원가입 성공!');
+      })
+      .catch((err) => {
+        console.log('회원가입 오류', err);
+        window.alert('회원가입 실패!');
+      });
+  };
 
-  const [showTimer, setShowTimer] = useState("");
+  //timer
+  let PlAYTIME;
+  let timerAuth;
+  let sec = 60;
+  var time = 60000 * 3;
+
+  const [alertSent, setAlertSent] = useState(false);
+  const [alertcomment, setAlertcomment] = useState('');
+  const [sentAuth, setSentAuth] = useState(false);
+  const [sentAuthCount, setSentAuthCount] = useState(3);
+  const [authData, setAuthData] = useState();
+
+  const playNumber = useRef(null);
+  const timerNumber = useRef(null);
+
+  const [showTimer, setShowTimer] = useState('');
 
   const TIMER = () => {
     PlAYTIME = setInterval(function () {
       time = time - 1000;
-      let min = time / (60 * 1000 ); //초를 분으로 나눠준다.
+      let min = time / (60 * 1000); //초를 분으로 나눠준다.
       if (sec > 0) {
         //sec=60 에서 1씩 빼서 출력해준다.
         sec = sec - 1;
-        setShowTimer(Math.floor(min) + "분" + sec + "초"); //실수로 계산되기 때문에 소숫점 아래를 버리고 출력해준다.
+        setShowTimer(Math.floor(min) + '분' + sec + '초'); //실수로 계산되기 때문에 소숫점 아래를 버리고 출력해준다.
       }
       if (sec === 0) {
         // 0에서 -1을 하면 -59가 출력된다.
         // 그래서 0이 되면 바로 sec을 60으로 돌려주고 value에는 0을 출력하도록 해준다.
         sec = 60;
-        setShowTimer(Math.floor(min) + "분" + "00초");
+        setShowTimer(Math.floor(min) + '분' + '00초');
       }
     }, 1000); //1초마다
     playNumber.current = PlAYTIME;
   };
 
   const ReceiveEmail = () => {
-    Swal.fire({
-      // icon: 'success',
-      title: '인증메일이 발송되었습니다',
-      text: `인증메일이 오지 않을 경우, 스팸함 또는 스팸설정을 확인해주세요`,
-      width :420,
-      confirmButtonColor: "#0e72ed",
-      
-  })
-  TIMER();
-  timerAuth = setTimeout(() => SentAuthOverTime(), time); //3분이 되면 타이머를 삭제한다.
-  timerNumber.current = timerAuth;
-  }
+    const email = emailRef.current.value;
+    receiveEmail(email);
+
+    TIMER();
+    timerAuth = setTimeout(() => SentAuthOverTime(), time); //3분이 되면 타이머를 삭제한다.
+    timerNumber.current = timerAuth;
+  };
 
   const SentAuthOverTime = () => {
-    console.log("종료", timerNumber.current, playNumber.current);
+    console.log('종료', timerNumber.current, playNumber.current);
     clearTimeout(timerNumber.current);
     clearInterval(playNumber.current);
-    setAlertcomment("인증 시간이 초과되었습니다.");
-    setShowTimer("");
+    setAlertcomment('인증 시간이 초과되었습니다.');
+    setShowTimer('');
     setAlertSent(true);
     setSentAuth(false);
   };
 
+  //user
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const emailAuthNumRef = useRef();
+  const nickNameRef = useRef();
+  const passwordRef = useRef();
+  const passwordCheckRef = useRef();
+
+  const clickSubmit = () => {
+    const SignupData = {
+      user_id: usernameRef.current.value,
+      password: passwordRef.current.value,
+      password_check: passwordCheckRef.current.value,
+      nickname: nickNameRef.current.value,
+      email: emailRef.current.value,
+    };
+    console.log(SignupData);
+    completeSignUp(SignupData);
+  };
 
   return (
     <SignupContainer>
-      <LoginSignupTitle/>
+      <LoginSignupTitle />
       <Wrap>
-      
-      <SignupWrap>
-        <SignupInputTitle title='본인 확인 이메일'/>
-        <EmailAuthInput 
-        OnClickCallback={ReceiveEmail}
-        title = '인증번호 전송'
-        placeholder='이메일을 입력해주세요'
-        />
-        <AuthNumberInput showTimer={showTimer} />
+        <SignupWrap>
+          <SignupInputTitle title="본인 확인 이메일" />
+          <EmailAuthInput
+            inputRef={emailRef}
+            OnClickCallback={ReceiveEmail}
+            title="인증번호 전송"
+            placeholder="이메일을 입력해주세요"
+          />
+          <AuthNumberInput
+            emailAuthNumRef={emailAuthNumRef}
+            showTimer={showTimer}
+            emailAddress={emailRef}
+          />
 
-        <SignupInputTitle title='닉네임'/>
-        <LoginSignupInputForm text='닉네임을 입력해주세요.'/>
+          <SignupInputTitle title="아이디" />
+          <LoginSignupInputForm
+            inputRef={usernameRef}
+            text="아이디를 입력해주세요."
+          />
 
-        <SignupInputTitle title='비밀번호'/>
-        <PasswordInputForm text='비밀번호를 입력해주세요.'/>
+          <SignupInputTitle title="닉네임" />
+          <LoginSignupInputForm
+            inputRef={nickNameRef}
+            text="닉네임을 입력해주세요."
+          />
 
-        <SignupInputTitle title='비밀번호 확인'/>
-    <PasswordInputForm text='비밀번호를 다시 입력해주세요.'/>
+          <SignupInputTitle title="비밀번호" />
+          <PasswordInputForm
+            inputRef={passwordRef}
+            text="비밀번호를 입력해주세요."
+          />
 
-        <LoginSignupButton text='가입하기'/>
+          <SignupInputTitle title="비밀번호 확인" />
+          <PasswordInputForm
+            inputRef={passwordCheckRef}
+            text="비밀번호를 다시 입력해주세요."
+          />
 
-      </SignupWrap>
+          <LoginSignupButton clickSubmit={clickSubmit} text="가입하기" />
+        </SignupWrap>
       </Wrap>
-      
     </SignupContainer>
-  )
-}
+  );
+};
 
-const SignupContainer =styled.div`
+const SignupContainer = styled.div`
   font-family: 'Noto Sans KR';
   font-style: normal;
   width: 100%;
@@ -120,7 +184,7 @@ const SignupContainer =styled.div`
 `;
 
 const Wrap = styled.div`
-/* height: 1000px; */
+  /* height: 1000px; */
   width: 500px;
   max-width: 500px;
   /* max-height: 1000px; */
@@ -134,8 +198,8 @@ const Wrap = styled.div`
   border-radius: 10px;
 `;
 
-const SignupWrap =styled.form`
- margin: 50px 150px;
-`
+const SignupWrap = styled.div`
+  margin: 50px 150px;
+`;
 
-export default Signup
+export default Signup;

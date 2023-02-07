@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { LoginState, UserState } from '../../state/UserAtom';
+
+import userAPI from '../../apis/userAPI';
 
 import LoginErrorMessage from '../ui/Login/LoginErrorMessage';
 import LoginSignupButton from '../ui/public/LoginSignupButton';
@@ -14,20 +18,40 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(false);
 
   const navigate = useNavigate();
-
   const idRef = useRef();
   const pwRef = useRef();
 
-  const clickLogin = (e) => {
+  const [userData, setUserData] = useRecoilState(UserState);
+  const [isLogin, setIsLogin] = useRecoilState(LoginState);
+
+  const normalLogin = async ({ username, password }) => {
+    await userAPI
+      .get(`./login/normal?user_id=${username}&password=${password}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('로그인 에러', err);
+        window.alert('로그인에 실패하였습니다');
+      });
+  };
+
+  const clickSubmit = (e) => {
     e.preventDefault();
-    console.log(idRef);
-    console.log(pwRef);
+    const LoginData = {
+      username: idRef.current.value,
+      password: pwRef.current.value,
+    };
     if (idRef.current.value === '' || pwRef.current.value === '') {
       setErrorMessage(true);
       return;
     } else {
       setErrorMessage(false);
-      navigate('/');
+      // setUserData(LoginData);
+      setIsLogin(true);
+      console.log(LoginData);
+      normalLogin(LoginData);
+      // navigate('/');
     }
   };
 
@@ -36,11 +60,14 @@ const Login = () => {
       <LoginSignupTitle />
       <Wrap>
         <LoginWrap>
-          <LoginSignupInputForm idRef={idRef} text="아이디" />
-          <PasswordInputForm pwRef={pwRef} type="password" text="비밀번호" />
+          <LoginSignupInputForm inputRef={idRef} text="아이디" />
+          <PasswordInputForm inputRef={pwRef} type="password" text="비밀번호" />
           <LoginErrorMessage errorMessage={errorMessage} />
-          <LoginSignupButton clickLogin={clickLogin} text="로그인" />
+          <LoginSignupButton clickSubmit={clickSubmit} text="로그인" />
           <SignupButton />
+          {/* <LineWrap> */}
+          {/* <Line/> <Text</Text> */}
+          {/* </LineWrap> */}
         </LoginWrap>
       </Wrap>
     </LoginContainer>
@@ -96,6 +123,12 @@ const InputForm = styled.input`
   &::placeholder {
     color: gray;
   }
+`;
+
+const LineWrap = styled.div`
+  width: 100%;
+  height: 20px;
+  background-color: aliceblue;
 `;
 
 export default Login;

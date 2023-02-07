@@ -21,7 +21,9 @@ const Header = () => {
           <ProfileImg isPopperShown={isPopperShown} onClick={onOpenerClick}>
             <img src={'/images/anonymousProfile.png'} alt="" />
           </ProfileImg>
-          {isPopperShown && <ProfileImagePopover onOpenerClick={onOpenerClick} />}
+          {isPopperShown && (
+            <ProfileImagePopover onOpenerClick={onOpenerClick} />
+          )}
         </AfterLoginBox>
       </Wrap>
     </NavBarWrap>

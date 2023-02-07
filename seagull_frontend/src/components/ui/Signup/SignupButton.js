@@ -1,33 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const SignupButton = () => {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <SignupBtn onClick={() => {navigate("/signup")}}>
-        회원가입
+    <SignupBtn
+      onClick={() => {
+        navigate('/signup');
+      }}
+    >
+      회원가입
     </SignupBtn>
-  )
-}
+  );
+};
 
-
-const SignupBtn =styled.div`
+const SignupBtn = styled.div`
   width: 55px;
   height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 15px auto 29px;
+  margin: 15px auto 10px;
   font-size: 15px;
   color: gray;
   cursor: pointer;
-  &:hover{
+  &:hover {
     border-bottom: 1px solid gray;
-  } 
+  }
 `;
 
-
-export default SignupButton
+export default SignupButton;
