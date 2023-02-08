@@ -12,7 +12,7 @@ const RoomMakeModal = ({ setModalOpen }) => {
 
   const makeRoom = async () => {
     await webSocketAPI
-      .get('/room/create', { userId: '1q2w3e4r' })
+      .post('/room/create/tjdwns4537')
       .then((res) => {
         console.log(res);
         // navigate('/videoshare');
