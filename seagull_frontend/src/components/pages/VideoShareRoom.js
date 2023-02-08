@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiInfoCircle } from 'react-icons/bi';
 import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-
-// import { useRecoilValue } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { ChatMessageState, UserName } from '../../state/UserAtom';
 // import { UserState } from '../../state/UserAtom';
 
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
@@ -16,21 +16,41 @@ import webSocketAPI from '../../apis/webSocketAPI';
 import Login from './Login';
 
 const VideoShareRoom = () => {
+  const [isConnect, setIsConnect] = useState(false);
+  // const [userName, setUserName] = useState();
+  const [client, setClient] = useState();
+
   const { roomlink } = useParams();
+  const userRef = useRef();
   // console.log(roomlink);
   // const value = useRecoilValue(UserState);
+  const setChatMessage = useSetRecoilState(ChatMessageState);
+  const [userName, setUserName] = useRecoilState(UserName);
 
   var stompClient = null;
-  const username = 'test_username';
   const messageInputRef = useRef();
   // var messageArea = ;
 
+  const connectRoomWebSocket = () => {
+    var socket = new SockJS('http://3.34.161.56:8084/my-chat');
+    stompClient = Stomp.over(() => socket);
+
+    // var roomInfo = { hostId: 'qqq123', roomLink: roomlink };
+
+    // stompClient.send('/kafka/enterRoom', {}, JSON.stringify(roomInfo));
+    // stompClient.subscribe(`/topic/room/${roomlink}`, entryRoom);
+
+    stompClient.connect({}, onConnected, onError);
+
+    setClient(stompClient);
+  };
+
   const entryRoom = async () => {
-    // console.log(roomlink);
     await webSocketAPI
       .post(`/room/${roomlink}`, { roomLink: roomlink })
       .then((res) => {
         console.log(res);
+        connect();
       })
       .catch((err) => {
         console.log('방 입장 실패', err);
@@ -39,19 +59,34 @@ const VideoShareRoom = () => {
   };
 
   // connect socket
-  const connect = (event) => {
+  const connect = () => {
+    const username = userRef.current.value;
+    // setUserName(username);
+
     if (username) {
+      // setIsConnect(true);
       console.log('소켓연결 시도');
 
-      var socket = new SockJS('http://3.34.161.56:8084/my-chat');
-      stompClient = Stomp.over(() => socket);
-      stompClient.connect({}, onConnected, onError);
+      // var socket = new SockJS('http://3.34.161.56:8084/my-chat');
+      // stompClient = Stomp.over(() => socket);
+      // stompClient.connect({}, onConnected, onError);
+      // setClient(stompClient);
     }
     // event.preventDefault();
   };
 
   const onConnected = () => {
+    var roomInfo = { hostId: 'qqq123', roomLink: roomlink };
+
+    stompClient.send('/kafka/enterRoom', {}, JSON.stringify(roomInfo));
+    stompClient.subscribe(`/topic/room/${roomlink}`, entryRoom);
+
+    console.log(client);
     stompClient.subscribe('/topic/group', onMessageReceived);
+    console.log(client);
+    const username = userRef.current.value;
+    setUserName(username);
+    setIsConnect(true);
   };
 
   const onError = (error) => {
@@ -59,16 +94,20 @@ const VideoShareRoom = () => {
     window.alert('웹소켓 연결 실패!');
   };
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
     console.log(messageInputRef.current.value);
+    console.log(userName);
     var messageInput = messageInputRef.current.value;
     var httpRequest = new XMLHttpRequest();
 
     var messageContent = messageInput;
+    console.log(messageContent, client);
 
-    if (messageContent && stompClient) {
+    if (messageContent && client) {
+      console.log(userName, messageContent);
+      messageInputRef.current.value = '';
       var chatMessage = {
-        author: username,
+        author: userName,
         content: messageInput,
         type: 'CHAT',
       };
@@ -83,10 +122,16 @@ const VideoShareRoom = () => {
 
       messageInput = '';
     }
+    e.preventDefault();
   };
 
   const onMessageReceived = (payload) => {
     var message = JSON.parse(payload.body);
+
+    if (message.type === 'CHAT') {
+      setChatMessage(message);
+    }
+    // console.log(message);
 
     var messageElement = document.createElement('li');
 
@@ -125,44 +170,62 @@ const VideoShareRoom = () => {
   const entryRoomSocket = () => {
     //로그인 유무 판단 하기
 
-    entryRoom();
-    connect();
+    connectRoomWebSocket();
   };
 
-  entryRoomSocket();
+  // entryRoomSocket();
 
   return (
     <Container>
-      <VideoWrap>
-        <RoomInfoWrap>
-          <InfoIcon>
-            <BiInfoCircle size={20} color="#0e72ed" />
-          </InfoIcon>
-          <RoomName>방 이름 방 이름 방 이름</RoomName>
-        </RoomInfoWrap>
-        <VideoShareForm />
-        <ToolBarWrap>
-          <ShareVideoInput>
-            <VideoIcon>
-              <MdVideoCall size={30} color="#0e72ed" />
-            </VideoIcon>
-            <VideoUrlInput placeholder="영상 url을 입력하세요"></VideoUrlInput>
-            <InputButton>
-              <MdOutlineInput size={25} color="grey" />
-            </InputButton>
-          </ShareVideoInput>
-          <LeaveButton />
-        </ToolBarWrap>
-      </VideoWrap>
-      <ChatWrap>
-        <ChatRoomUserContainer
-          messageInputRef={messageInputRef}
-          sendMessage={sendMessage}
-        />
-      </ChatWrap>
+      {!isConnect ? (
+        <>
+          <InputUser ref={userRef}></InputUser>
+          <Button onClick={entryRoomSocket}>들어가기</Button>
+        </>
+      ) : (
+        <>
+          <VideoWrap>
+            <RoomInfoWrap>
+              <InfoIcon>
+                <BiInfoCircle size={20} color="#0e72ed" />
+              </InfoIcon>
+              <RoomName>방 이름 방 이름 방 이름</RoomName>
+            </RoomInfoWrap>
+            <VideoShareForm />
+            <ToolBarWrap>
+              <ShareVideoInput>
+                <VideoIcon>
+                  <MdVideoCall size={30} color="#0e72ed" />
+                </VideoIcon>
+                <VideoUrlInput placeholder="영상 url을 입력하세요"></VideoUrlInput>
+                <InputButton>
+                  <MdOutlineInput size={25} color="grey" />
+                </InputButton>
+              </ShareVideoInput>
+              <LeaveButton />
+            </ToolBarWrap>
+          </VideoWrap>
+          <ChatWrap>
+            <ChatRoomUserContainer
+              messageInputRef={messageInputRef}
+              sendMessage={sendMessage}
+            />
+          </ChatWrap>
+        </>
+      )}
     </Container>
   );
 };
+
+const InputUser = styled.input`
+  width: 300px;
+  font-size: 50px;
+`;
+
+const Button = styled.div`
+  width: 400px;
+  height: 300px;
+`;
 
 const Container = styled.div`
   width: 100%;

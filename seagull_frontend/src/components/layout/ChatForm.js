@@ -1,23 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { ChatMessageState, UserName } from '../../state/UserAtom';
+
 import { FiSend } from 'react-icons/fi';
 import ReceiveUnitChat from '../ui/VideoShareRoom/ReceiveUnitChat';
 import SendUnitChat from '../ui/VideoShareRoom/SendUnitChat';
 
 const ChatForm = ({ messageInputRef, sendMessage }) => {
+  const chatMessage = useRecoilValue(ChatMessageState);
+  const testUserName = useRecoilValue(UserName);
+  const [message, setMessage] = useState([]);
+  console.log(chatMessage);
+  console.log(testUserName);
+
+  useEffect(() => {
+    setMessage([...message, chatMessage]);
+  }, [chatMessage.timestamp]);
+
+  useEffect(() => {
+    console.log(message);
+  }, [message]);
+
   return (
     <Wrap>
       <Title>채팅</Title>
       <Content>
-        <ReceiveUnitChat />
-        <ReceiveUnitChat />
-        <ReceiveUnitChat />
-        <SendUnitChat />
-        <SendUnitChat />
-        <SendUnitChat />
-        <SendUnitChat />
-        <SendUnitChat />
-        <SendUnitChat />
+        {message &&
+          message.map((msg, idx) =>
+            testUserName === msg.author ? (
+              <SendUnitChat
+                key={idx}
+                time={msg.timestamp}
+                content={msg.content}
+                author={msg.author}
+              />
+            ) : (
+              <ReceiveUnitChat
+                key={idx}
+                time={msg.timestamp}
+                content={msg.content}
+                author={msg.author}
+              />
+            )
+          )}
       </Content>
       <InputWrap>
         <InputBox>
@@ -60,7 +86,7 @@ const InputWrap = styled.div`
   border-top: 1px solid lightgrey;
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
   /* background-color: aliceblue; */
   width: 95%;
   height: 50px;
@@ -81,7 +107,7 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const SendButton = styled.div`
+const SendButton = styled.button`
   width: 13%;
   height: 100%;
   border-radius: 25px;

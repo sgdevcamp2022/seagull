@@ -13,3 +13,20 @@ export const LoginState = atom({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+//test_user
+export const UserName = atom({
+  key: 'UserName',
+  default: {},
+});
+
+//chat
+export const ChatMessageState = atom({
+  key: 'ChatMessageState',
+  default: {
+    author: '',
+    content: '',
+    timestamp: '',
+    type: '',
+  },
+});
