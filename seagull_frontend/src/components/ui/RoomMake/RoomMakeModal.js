@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import webSocketAPI from '../../../apis/webSocketAPI';
+import { useRef } from 'react';
 
 const RoomMakeModal = ({ setModalOpen }) => {
+  const testuserRef = useRef();
   // 모달 끄기
   const closeModal = () => {
     setModalOpen(false);
@@ -11,8 +13,11 @@ const RoomMakeModal = ({ setModalOpen }) => {
   const navigate = useNavigate();
 
   const makeRoom = async () => {
+    const username = testuserRef.current.value;
+    console.log(username);
+
     await webSocketAPI
-      .post('/room/create/tjdwns4537')
+      .post(`/room/create/${username}`)
       .then((res) => {
         console.log(res);
         // navigate('/videoshare');
@@ -32,7 +37,7 @@ const RoomMakeModal = ({ setModalOpen }) => {
         <ContentWrap>
           <Wrap>
             <RoomName>방 제목</RoomName>
-            <InputRoomName></InputRoomName>
+            <InputRoomName ref={testuserRef}></InputRoomName>
           </Wrap>
 
           <Wrap>
