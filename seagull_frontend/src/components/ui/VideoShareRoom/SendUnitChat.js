@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SendUnitChat = ({ key, time, content, author }) => {
+  const chatTime = time && new Date(time).getHours();
+  const chatMin = time && new Date(time).getMinutes();
   return (
     <Wrap>
       <ChatForm>
         <ChatTitle>
-          <Time>{time} PM</Time>
+          <Time>{`${
+            chatTime >= 12 ? chatTime - 12 : chatTime
+          }:${chatMin}PM`}</Time>
           <Nickname>{author}</Nickname>
         </ChatTitle>
 
