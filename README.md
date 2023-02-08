@@ -81,3 +81,9 @@
 ### BE - 박성준
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
 - 배포 서버와 클라이언트 간 CORS 에러: https://github.com/sgdevcamp2022/seagull/wiki/%EC%84%9C%EB%B2%84,-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-CORS-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
+
+## code review
+
+- 성준
+  - 룸 레포지토리에 findByRoomLink에 null이 들어오는데, crudRepository를 잘못 쓰고있는건지 궁금합니다.
+  - 웹 소켓을 서로 다른 엔드포인트에 접근하게 하려는데, 계속 알아보고있지만 감이 안잡혀서 추천해주시는 방향이 있는지 궁금합니다
