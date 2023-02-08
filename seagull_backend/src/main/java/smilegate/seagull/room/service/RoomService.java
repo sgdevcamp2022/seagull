@@ -49,12 +49,11 @@ public class RoomService {
     public Optional<Room> findRoom(String roomLink) {
         Iterable<Room> all = roomRedisRepository.findAll();
         Iterator<Room> iterator = all.iterator();
-        Optional<Room> result = null;
         for (Iterator<Room> iter = iterator; iter.hasNext(); ) {
             Room room = iter.next();
             if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
         }
-        return result;
+        return null;
 //        Optional<Room> room = roomRedisRepository.findByRoomLink(roomLink);
 //        return room;
     }
