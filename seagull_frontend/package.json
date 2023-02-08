@@ -18,7 +18,8 @@
     "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.7.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "start": "react-scripts start",
