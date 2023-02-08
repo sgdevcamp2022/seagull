@@ -3,10 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { RxExit } from 'react-icons/rx';
+import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { UserState } from '../../../state/UserAtom';
 
 const ProfileImagePopover = ({ onOpenerClick }) => {
   const settingsWindowRef = useRef(null);
   const navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useRecoilState(UserState);
+
+  const logoutHandler = () => {
+    localStorage.removeItem('recoil-persist');
+    setIsLogin(false);
+    navigate('/login');
+  };
 
   useEffect(() => {
     const pageClickEvent = (e) => {
@@ -37,6 +48,7 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
         <RxExit />
         <Logout
           onClick={() => {
+            logoutHandler();
             Swal.fire('로그아웃 되었습니다!');
             navigate('/login');
           }}
