@@ -6,24 +6,32 @@ import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
 import ChatForm from './ChatForm';
 import RoomUserForm from './RoomUserForm';
 
-const ChatRoomUserContainer = () => {
-
+const ChatRoomUserContainer = ({ messageInputRef, sendMessage }) => {
   const [isViewChat, setIsViewChat] = useState(true);
 
   return (
     <div>
       <MenuWrap>
-        <TabWrap onClick={() =>setIsViewChat(true) }>
-        <MenuIconBox isActive={isViewChat?true:false}menu="채팅" />
+        <TabWrap onClick={() => setIsViewChat(true)}>
+          <MenuIconBox isActive={isViewChat ? true : false} menu="채팅" />
         </TabWrap>
         <TabWrap onClick={() => setIsViewChat(false)}>
-        <MenuIconBox isActive={isViewChat?false:true}menu="참여자" number='2' />
+          <MenuIconBox
+            isActive={isViewChat ? false : true}
+            menu="참여자"
+            number="2"
+          />
         </TabWrap>
       </MenuWrap>
       <ContentWrap>
-        {
-          isViewChat?<ChatForm />:<RoomUserForm/>
-        }
+        {isViewChat ? (
+          <ChatForm
+            messageInputRef={messageInputRef}
+            sendMessage={sendMessage}
+          />
+        ) : (
+          <RoomUserForm />
+        )}
       </ContentWrap>
     </div>
   );
@@ -39,8 +47,8 @@ const MenuWrap = styled.div`
 `;
 
 const TabWrap = styled.div`
-cursor: pointer;
-width:35%;
+  cursor: pointer;
+  width: 35%;
 `;
 
 const ContentWrap = styled.div`
