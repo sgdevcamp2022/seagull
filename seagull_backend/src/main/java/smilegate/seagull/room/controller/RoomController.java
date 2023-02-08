@@ -51,8 +51,8 @@ public class RoomController {
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         if (room.isPresent()) {
-            return new ResponseEntity<Optional<Room>>(room, headers, HttpStatus.OK);
+            return new ResponseEntity<>(room, headers, HttpStatus.OK);
         }
-        return new ResponseEntity<Optional<Room>>(room, headers, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(room, headers, HttpStatus.NOT_FOUND);
     }
 }
