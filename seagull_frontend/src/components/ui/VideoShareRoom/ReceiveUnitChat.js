@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ReceiveUnitChat = ({ key, time, content, author }) => {
+  const chatTime = time && new Date(time).getHours();
+  const chatMin = time && new Date(time).getMinutes();
+  //   console.log(chatTime);
   return (
     <Wrap>
       <ProfileImage>
@@ -10,7 +13,9 @@ const ReceiveUnitChat = ({ key, time, content, author }) => {
       <ChatForm>
         <ChatTitle>
           <Nickname>{author}</Nickname>
-          <Time>{time} PM</Time>
+          <Time>{`${
+            chatTime >= 12 ? chatTime - 12 : chatTime
+          }:${chatMin}PM`}</Time>
         </ChatTitle>
 
         <ChatMessage>{content}</ChatMessage>
