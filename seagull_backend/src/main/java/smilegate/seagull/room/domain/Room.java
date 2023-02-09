@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.web.socket.WebSocketSession;
 import smilegate.seagull.user.domain.User;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter

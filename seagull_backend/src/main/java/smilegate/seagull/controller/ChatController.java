@@ -8,9 +8,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
-import smilegate.seagull.model.ChatMessage;
-import javax.servlet.http.HttpServletResponse;
+import smilegate.seagull.chatting.domain.ChatMessage;
+import smilegate.seagull.room.domain.Room;
+
 import java.time.LocalDateTime;
 
 @Slf4j

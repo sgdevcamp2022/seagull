@@ -1,4 +1,4 @@
-package smilegate.seagull.model;
+package smilegate.seagull.chatting.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ChatMessage implements Serializable {
+    private String chatRoomId;
     private MessageType type;
     private String content;
     private String author;
