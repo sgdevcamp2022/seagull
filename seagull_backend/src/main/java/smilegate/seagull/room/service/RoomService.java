@@ -36,7 +36,7 @@ public class RoomService {
         return room;
     }
 
-    public String generateRoom(String userId) {
+    public String generateRoomLink(String userId) {
         String encodedString = Base64.getEncoder().encodeToString(userId.getBytes());
         return encodedString;
     }
@@ -54,7 +54,11 @@ public class RoomService {
             if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
         }
         return null;
-//        Optional<Room> room = roomRedisRepository.findByRoomLink(roomLink);
-//        return room;
+    }
+
+    public Optional<Room> findById(Long Id){
+        Optional<Room> room = roomRedisRepository.findById(Id);
+        if(room.isPresent()) return room;
+        return null;
     }
 }
