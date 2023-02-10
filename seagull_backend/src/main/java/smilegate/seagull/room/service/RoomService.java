@@ -2,17 +2,14 @@ package smilegate.seagull.room.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import smilegate.seagull.utils.Base62;
+import smilegate.seagull.redis.RedisDao;
 import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.repository.RoomRedisRepository;
-import smilegate.seagull.user.domain.User;
-import smilegate.seagull.utils.StringBase62;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
-import java.util.Iterator;
-import java.util.Optional;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -23,17 +20,39 @@ public class RoomService {
     @Autowired
     private RoomRedisRepository roomRedisRepository;
 
-    public Room createRoom(String userId, String link) {
-        /**
-         *  TODO
-         *   roomDTO 만들기
-         * **/
+    private final RedisDao redisDao;
 
-        Room roomTemp = new Room();
-        roomTemp.setHostId(userId);
-        roomTemp.setRoomLink(link);
-        Room room = roomRedisRepository.save(roomTemp);
-        return room;
+    @Autowired
+    public RoomService(RedisDao redisDao) {
+        this.redisDao = redisDao;
+    }
+
+    private Map<String, Room> roomMap = new HashMap<>();
+
+    @PostConstruct
+    public void init() {
+        String roomLink1 = generateRoomLink("jun");
+        String roomLink2 = generateRoomLink("pok");
+        String roomLink3 = generateRoomLink("woc");
+        System.out.println(roomLink1);
+        System.out.println(roomLink2);
+        System.out.println(roomLink3);
+        Room room1 = new Room("jun",roomLink1);
+        Room room2 = new Room("pok",roomLink2);
+        Room room3 = new Room("woc",roomLink3);
+        redisDao.setValues("jun",roomLink1);
+        redisDao.setValues("pok",roomLink2);
+        redisDao.setValues("woc",roomLink3);
+    }
+
+    public Room createRoom(String userId, String roomLink) {
+//        Room room = Room.create(userId, roomLink);
+        Room room = new Room();
+        room.setRoomLink(roomLink);
+        room.setHostId(userId);
+        Room saveRoom = roomRedisRepository.save(room);
+//        roomMap.put(userId, room);
+        return saveRoom;
     }
 
     public String generateRoomLink(String userId) {
@@ -41,10 +60,10 @@ public class RoomService {
         return encodedString;
     }
 
-    public void deleteRoom(String roomLink) {
-        Optional<Room> room = roomRedisRepository.findByRoomLink(roomLink);
-        if(room != null) roomRedisRepository.delete(room.get());
-    }
+//    public void deleteRoom(Long roomId) {
+//        Optional<Room> room = roomRedisRepository.findById(roomId);
+//        if(room.isPresent()) roomRedisRepository.delete(room.get());
+//    }
 
     public Optional<Room> findRoom(String roomLink) {
         Iterable<Room> all = roomRedisRepository.findAll();
@@ -56,9 +75,11 @@ public class RoomService {
         return null;
     }
 
-    public Optional<Room> findById(Long Id){
-        Optional<Room> room = roomRedisRepository.findById(Id);
-        if(room.isPresent()) return room;
+    public Optional<Room> findRoomLink(String roomLink) {
+        Iterable<Room> all = roomRedisRepository.findAll();
+        for (Room room : all) {
+            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
+        }
         return null;
     }
 }

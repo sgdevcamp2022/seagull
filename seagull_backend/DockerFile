@@ -1,0 +1,10 @@
+FROM amazoncorretto:11
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+# ARG port
+# EXPOSE ${8084}
+# COPY build/libs/seagull_backend-0.0.1-SNAPSHOT.jar build/libs/seagull_backend-0.0.1-SNAPSHOT.jar
+# RUN chmod +x build/libs/seagull_backend-0.0.1-SNAPSHOT.jar
+# ENTRYPOINT ["java", "-jar", "seagull_backend-0.0.1-SNAPSHOT.jar"]
