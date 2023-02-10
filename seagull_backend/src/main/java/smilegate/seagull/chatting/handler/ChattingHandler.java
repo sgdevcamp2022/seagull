@@ -6,7 +6,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import smilegate.seagull.chatting.domain.ChatMessage;
-import smilegate.seagull.room.repository.ChattingRoomRepository;
 
 public class ChattingHandler extends TextWebSocketHandler {
     //  sock.send()가 실행되면 데이터가 오게되는 곳

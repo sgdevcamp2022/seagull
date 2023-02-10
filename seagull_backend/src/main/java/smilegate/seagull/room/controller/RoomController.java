@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -15,7 +16,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.domain.RoomDto;
-import smilegate.seagull.room.repository.ChattingRoomRepository;
+import smilegate.seagull.room.domain.RoomUser;
 import smilegate.seagull.room.service.RoomService;
 import smilegate.seagull.user.domain.User;
 
@@ -35,7 +36,7 @@ public class RoomController {
     private RoomService roomService;
 
     @Autowired
-    private SimpMessageSendingOperations messagingTemplate;
+    private SimpMessageSendingOperations roomTemplate;
 
     @PostMapping("/create/{user_id}")
     public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
@@ -53,47 +54,51 @@ public class RoomController {
         return new ResponseEntity<>(room, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
-    public void deleteHostRoom(@RequestParam(value = "roomLink") String roomLink) {
-        roomService.deleteRoom(roomLink);
-    }
+//    @PostMapping("/delete")
+//    public void deleteHostRoom(@RequestParam(value = "roomId") Long roomId) {
+//        roomService.deleteRoom(roomId);
+//    }
 
-    @PostMapping("{roomLink}")
-    public ResponseEntity<Optional<Room>> enterRoom(@PathVariable(value = "roomLink") String roomLink, HttpServletResponse response) {
-        Optional<Room> room = roomService.findRoom(roomLink);
+    @GetMapping("{roomLink}")
+    public ResponseEntity<Optional<Room>> enterRoom(@PathVariable(value = "roomLink") String roomLink) {
+        Optional<Room> room = roomService.findRoomLink(roomLink);
+        log.info("room: {}", room.get().getRoomLink());
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
         if (room.isPresent()) {
             return new ResponseEntity<>(room, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(room, headers, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/rooms")
-    public ResponseEntity<Collection<Room>> rooms() {
-        ChattingRoomRepository chattingRoomRepository = new ChattingRoomRepository();
-        Collection<Room> rooms = chattingRoomRepository.getChatRooms();
-        log.info("chatRooms.size() : {}", rooms.size());
+//    @PostMapping({"{roomId}"})
+//    public ResponseEntity<Optional<Room>> enterRoomId(@PathVariable("roomId") Long roomId) {
+//        Optional<Room> room = roomService.findById(roomId);
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        return new ResponseEntity<>(room, httpHeaders, HttpStatus.OK);
+//    }
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//    @MessageMapping("/enterRoom/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
+//    public void enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomUser roomUser) {
+//        log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
+//        roomTemplate.convertAndSend("/topic/room/" + roomLink, roomUser);
+//    }
 
-        return new ResponseEntity<>(rooms, httpHeaders, HttpStatus.OK);
-    }
-
-    @PostMapping({"{roomId}"})
-    public ResponseEntity<Optional<Room>> enterRoomId(@PathVariable("roomId") Long roomId) {
-        Optional<Room> room = roomService.findById(roomId);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        return new ResponseEntity<>(room, httpHeaders, HttpStatus.OK);
-    }
-
-    @MessageMapping("/enterRoom") // 클라이언트에서 보내는 메세지 매핑
-    public RoomDto enterRoom(@Payload RoomDto roomDto) {
-        log.info("room data : {} 들어옴", roomDto.getRoomLink());
-        messagingTemplate.convertAndSend("/room/" + roomDto.getRoomLink(), roomDto);
+    @MessageMapping("/enterRoom/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
+    public RoomDto enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomDto roomDto) {
+        log.info("{} 가 {} 방에 들어옴", roomDto.getHostId(), roomLink);
+        roomTemplate.convertAndSend("/topic/room/" + roomLink, roomDto);
         return roomDto;
     }
+
+
+    @MessageMapping("/enterRoom") // 클라이언트에서 보내는 메세지 매핑
+    public void enter(@Payload RoomUser roomUser) {
+        log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomUser.getRoomId());
+//        roomTemplate.convertAndSend("/topic/room/" + roomUser.getRoomId(), roomUser);
+    }
+
 }
