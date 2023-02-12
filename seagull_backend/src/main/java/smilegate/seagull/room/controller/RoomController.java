@@ -68,7 +68,7 @@ public class RoomController {
         if (room.isPresent()) {
             return new ResponseEntity<>(room, headers, HttpStatus.OK);
         }
-        return new ResponseEntity<>(room, headers, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 //    @PostMapping({"{roomId}"})
