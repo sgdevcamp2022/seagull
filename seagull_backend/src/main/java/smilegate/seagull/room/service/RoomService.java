@@ -39,7 +39,8 @@ public class RoomService {
         redisDao.setValues(roomLink3,"woc");
     }
 
-    public Room createRoom(String userId, String roomLink) {
+    public Room createRoom(String userId) {
+        String roomLink = generateRoomLink(userId);
         Room room = Room.create(userId, roomLink);
 //        Room room = new Room();
 //        room.setRoomLink(roomLink);
