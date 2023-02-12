@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import smilegate.seagull.chatting.domain.ChatMessage;
 
 @Slf4j
-@Component
+//@Component
 public class MessageListener {
 
     @Autowired

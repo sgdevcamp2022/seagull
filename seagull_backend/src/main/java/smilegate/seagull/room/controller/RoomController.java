@@ -47,7 +47,10 @@ public class RoomController {
 
 //        User tempUser = new User(5L, "tjdwns", "email@email.com");
         String roomLink = roomService.generateRoomLink(userId);
-        Room room = roomService.createRoom(userId, roomLink);
+//        Room room = roomService.createRoom(userId, roomLink);
+        roomService.createRoom(userId, roomLink);
+        log.info("roomHost : {}",room.getHostId());
+        log.info("roomLink : {}",room.getRoomLink());
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 

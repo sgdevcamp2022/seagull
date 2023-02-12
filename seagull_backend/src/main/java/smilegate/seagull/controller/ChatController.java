@@ -21,22 +21,22 @@ import java.time.LocalDateTime;
 @CrossOrigin(origins = "http://localhost:5500, http://localhost:3000", allowedHeaders = "*")
 public class ChatController {
 
-    @Value("${kafka.kafka-topic}")
-    public String KAFKA_TOPIC; // 생성한 토픽의 이름
-
-    @Autowired
-    private KafkaTemplate<String, ChatMessage> kafkaTemplate;
-
-    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
-    @RequestMapping("/publish")
-    public void sendMessage(@RequestBody ChatMessage chatMessage) {
-        chatMessage.setTimestamp(LocalDateTime.now().toString());
-        try {
-            kafkaTemplate.send(KAFKA_TOPIC, chatMessage).get();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Value("${kafka.kafka-topic}")
+//    public String KAFKA_TOPIC; // 생성한 토픽의 이름
+//
+//    @Autowired
+//    private KafkaTemplate<String, ChatMessage> kafkaTemplate;
+//
+//    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+//    @RequestMapping("/publish")
+//    public void sendMessage(@RequestBody ChatMessage chatMessage) {
+//        chatMessage.setTimestamp(LocalDateTime.now().toString());
+//        try {
+//            kafkaTemplate.send(KAFKA_TOPIC, chatMessage).get();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @MessageMapping("/sendMessage") // 클라이언트에서 보내는 메세지 매핑
     @SendTo("/topic/group")

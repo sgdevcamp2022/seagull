@@ -4,7 +4,7 @@ var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
-var roomForm = document.querySelector('#roomForm');
+// var roomForm = document.querySelector('#roomForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
@@ -35,14 +35,22 @@ function connect(event) {
 
 
 function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/group', onMessageReceived);
+
+    var RoomDto = {
+        "hostId": "tjdwns4537",
+        "roomLink": "dGpkd25zNDUzNw=="
+    };
 
     // Tell your username to the server
-    stompClient.send("/kafka/addUser",
+    stompClient.send("/kafka/enterRoom/dGpkd25zNDUzNw==",
         {},
-        JSON.stringify({author: username, type: 'JOIN'})
+        JSON.stringify(RoomDto)
     )
+
+    // Subscribe to the Public Topic
+    stompClient.subscribe("/topic/room/dGpkd25zNDUzNw==");
+
+    console.log("subscribe 성공");
     connectingElement.classList.add('hidden');
 }
 
@@ -53,7 +61,7 @@ function onError(error) {
 }
 
 function sendMessage(event) {
-    var httpRequest = new XMLHttpRequest();
+    // var httpRequest = new XMLHttpRequest();
 
     var messageContent = messageInput.value.trim();
 
@@ -64,15 +72,15 @@ function sendMessage(event) {
             type: 'CHAT'
         };
 
-        // stompClient.send("/kafka/sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/kafka/sendMessage", {}, JSON.stringify(chatMessage));
 
-        httpRequest.open('POST', '/kafka/publish', true);
-        /* Response Type을 Json으로 사전 정의 */
-        httpRequest.responseType = "json";
-        /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
-        httpRequest.setRequestHeader('Content-Type', 'application/json');
-        /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
-        httpRequest.send(JSON.stringify(chatMessage));
+        // httpRequest.open('POST', '/kafka/publish', true);
+        // /* Response Type을 Json으로 사전 정의 */
+        // httpRequest.responseType = "json";
+        // /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+        // httpRequest.setRequestHeader('Content-Type', 'application/json');
+        // /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+        // httpRequest.send(JSON.stringify(chatMessage));
 
         messageInput.value = '';
     }
@@ -141,4 +149,4 @@ function makeRoom() {
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
-roomForm.addEventListener('submit',makeRoom,true)
+// roomForm.addEventListener('submit',makeRoom,true)

@@ -30,28 +30,23 @@ public class RoomService {
     private Map<String, Room> roomMap = new HashMap<>();
 
     @PostConstruct
-    public void init() {
+    public void init() { // 테스트용 더미 데이터
         String roomLink1 = generateRoomLink("jun");
         String roomLink2 = generateRoomLink("pok");
         String roomLink3 = generateRoomLink("woc");
-        System.out.println(roomLink1);
-        System.out.println(roomLink2);
-        System.out.println(roomLink3);
-        Room room1 = new Room("jun",roomLink1);
-        Room room2 = new Room("pok",roomLink2);
-        Room room3 = new Room("woc",roomLink3);
-        redisDao.setValues("jun",roomLink1);
-        redisDao.setValues("pok",roomLink2);
-        redisDao.setValues("woc",roomLink3);
+        redisDao.setValues(roomLink1,"jun");
+        redisDao.setValues(roomLink2,"pok");
+        redisDao.setValues(roomLink3,"woc");
     }
 
     public Room createRoom(String userId, String roomLink) {
-//        Room room = Room.create(userId, roomLink);
-        Room room = new Room();
-        room.setRoomLink(roomLink);
-        room.setHostId(userId);
-        Room saveRoom = roomRedisRepository.save(room);
+        Room room = Room.create(userId, roomLink);
+//        Room room = new Room();
+//        room.setRoomLink(roomLink);
+//        room.setHostId(userId);
 //        roomMap.put(userId, room);
+        Room saveRoom = roomRedisRepository.save(room);
+        redisDao.setValues(userId, roomLink);
         return saveRoom;
     }
 
