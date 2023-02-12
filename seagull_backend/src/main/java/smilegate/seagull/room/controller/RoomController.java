@@ -44,11 +44,7 @@ public class RoomController {
          *  TODO
          *   - user api 완성되면 그 데이터를 받아와 user에 할당
          * **/
-
-//        User tempUser = new User(5L, "tjdwns", "email@email.com");
-        String roomLink = roomService.generateRoomLink(userId);
-//        Room room = roomService.createRoom(userId, roomLink);
-        roomService.createRoom(userId, roomLink);
+        Room room = roomService.createRoom(userId);
         log.info("roomHost : {}",room.getHostId());
         log.info("roomLink : {}",room.getRoomLink());
         HttpHeaders headers= new HttpHeaders();
