@@ -87,17 +87,8 @@ public class RoomController {
 //    }
 
     @MessageMapping("/enterRoom/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
-    public RoomDto enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomDto roomDto) {
-        log.info("{} 가 {} 방에 들어옴", roomDto.getHostId(), roomLink);
-        roomTemplate.convertAndSend("/topic/room/" + roomLink, roomDto);
-        return roomDto;
+    public void enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomUser roomUser) {
+        log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
+        roomTemplate.convertAndSend("/topic/room/" + roomUser.getRoomId(), roomUser);
     }
-
-
-    @MessageMapping("/enterRoom") // 클라이언트에서 보내는 메세지 매핑
-    public void enter(@Payload RoomUser roomUser) {
-        log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomUser.getRoomId());
-//        roomTemplate.convertAndSend("/topic/room/" + roomUser.getRoomId(), roomUser);
-    }
-
 }

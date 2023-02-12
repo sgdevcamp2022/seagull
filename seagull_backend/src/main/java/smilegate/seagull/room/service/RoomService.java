@@ -45,7 +45,7 @@ public class RoomService {
 //        Room room = new Room();
 //        room.setRoomLink(roomLink);
 //        room.setHostId(userId);
-//        roomMap.put(userId, room);
+//        roomMap.put(roomLink, room);
         Room saveRoom = roomRedisRepository.save(room);
         redisDao.setValues(userId, roomLink);
         return saveRoom;
