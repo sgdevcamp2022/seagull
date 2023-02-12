@@ -72,10 +72,14 @@ public class RoomService {
     }
 
     public Optional<Room> findRoomLink(String roomLink) {
-        Iterable<Room> all = roomRedisRepository.findAll();
-        for (Room room : all) {
-            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
-        }
-        return null;
+//        Iterable<Room> all = roomRedisRepository.findAll();
+//        for (Room room : all) {
+//            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
+//        }
+//        return null;
+        Optional<Room> byRoomLink = roomRedisRepository.findByRoomLink(roomLink);
+        if(byRoomLink.isPresent()) return byRoomLink;
+        return Optional.empty();
     }
+
 }
