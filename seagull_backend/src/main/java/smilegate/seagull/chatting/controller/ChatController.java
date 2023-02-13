@@ -1,4 +1,4 @@
-package smilegate.seagull.controller;
+package smilegate.seagull.chatting.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,10 @@ import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @RestController
-@RequestMapping("/kafka")
+@RequestMapping("/chatting")
 @CrossOrigin(origins = "http://localhost:5500, http://localhost:3000", allowedHeaders = "*")
 public class ChatController {
+
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
@@ -34,7 +35,7 @@ public class ChatController {
     public ChatMessage broadcastGroupMessage(@DestinationVariable(value = "roomLink") String roomLink, @Payload ChatMessage chatMessage) {
         chatMessage.setTimestamp(LocalDateTime.now().toString());
         log.info("time : {}", LocalDateTime.now());
-        messagingTemplate.convertAndSend("/topic/group/" + roomLink, chatMessage);
+        messagingTemplate.convertAndSend("/subscribe/group/" + roomLink, chatMessage);
         return chatMessage;
     }
 }

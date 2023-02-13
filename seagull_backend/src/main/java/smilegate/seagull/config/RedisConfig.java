@@ -46,37 +46,3 @@ public class RedisConfig {
     }
 
 }
-//    private final RedisProperties properties;
-//
-//
-//    @Bean
-//    public RedisConnectionFactory redisConnectionFactory() {
-//        properties.setHost(host);
-//        properties.setPort(port);
-//        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(properties.getHost(), properties.getPort());
-//        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(config);
-//        jedisConnectionFactory.setPoolConfig(jedisPoolConfig());
-//        return jedisConnectionFactory;
-//    }
-//
-//    private JedisPoolConfig jedisPoolConfig() {
-//        final JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-//        jedisPoolConfig.setMaxTotal(128);
-//        jedisPoolConfig.setMaxIdle(128);
-//        jedisPoolConfig.setMinIdle(36);
-//        jedisPoolConfig.setTestOnBorrow(true);
-//        jedisPoolConfig.setTestOnReturn(true);
-//        jedisPoolConfig.setTestWhileIdle(true);
-//        jedisPoolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
-//        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
-//        jedisPoolConfig.setNumTestsPerEvictionRun(3);
-//        jedisPoolConfig.setBlockWhenExhausted(true);
-//        return jedisPoolConfig;
-//    }
-
-//    @Bean
-//    public RedisTemplate<?, ?> redisTemplate() {
-//        RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory());
-//        return redisTemplate;
-//    }

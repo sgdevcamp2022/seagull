@@ -14,9 +14,6 @@ import java.util.*;
 @Service
 public class RoomService {
 
-    @Value("${client.room-url}")
-    private String url;
-
     @Autowired
     private RoomRedisRepository roomRedisRepository;
 
@@ -26,8 +23,6 @@ public class RoomService {
     public RoomService(RedisDao redisDao) {
         this.redisDao = redisDao;
     }
-
-    private Map<String, Room> roomMap = new HashMap<>();
 
     @PostConstruct
     public void init() { // 테스트용 더미 데이터
@@ -52,27 +47,13 @@ public class RoomService {
         return encodedString;
     }
 
-//    public void deleteRoom(Long roomId) {
-//        Optional<Room> room = roomRedisRepository.findById(roomId);
-//        if(room.isPresent()) roomRedisRepository.delete(room.get());
-//    }
-
-    public Optional<Room> findRoom(String roomLink) {
-        Iterable<Room> all = roomRedisRepository.findAll();
-        Iterator<Room> iterator = all.iterator();
-        for (Iterator<Room> iter = iterator; iter.hasNext(); ) {
-            Room room = iter.next();
-            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
-        }
-        return null;
+    public Optional<Room> deleteRoom(Long roomId) {
+        Optional<Room> room = roomRedisRepository.findById(roomId);
+        if(room.isPresent()) roomRedisRepository.delete(room.get());
+        return Optional.empty();
     }
 
     public Optional<Room> findRoomLink(String roomLink) {
-//        Iterable<Room> all = roomRedisRepository.findAll();
-//        for (Room room : all) {
-//            if(room.getRoomLink().equals(roomLink)) return Optional.of(room);
-//        }
-//        return null;
         Optional<Room> byRoomLink = roomRedisRepository.findByRoomLink(roomLink);
         if(byRoomLink.isPresent()) return byRoomLink;
         return Optional.empty();
