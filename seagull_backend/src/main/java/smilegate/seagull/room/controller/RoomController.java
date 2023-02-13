@@ -56,9 +56,9 @@ public class RoomController {
         Optional<Room> room = roomService.findRoomLink(roomLink);
         if(room.isPresent()){
             headerAccessor.getSessionAttributes().put("username", roomUser.getUserId()); // Session에 유저를 추가해줍니다.
-            roomTemplate.convertAndSend("/topic/room/" + roomUser.getRoomId(), roomUser);
+            roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomId(), roomUser);
         }
-        roomTemplate.convertAndSend("/topic/room/" + roomUser.getRoomId(), "");
+        roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomId(), "");
     }
 
     @GetMapping("{roomLink}")
