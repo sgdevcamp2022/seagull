@@ -9,7 +9,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import smilegate.seagull.model.ChatMessage;
+import smilegate.seagull.chatting.domain.ChatMessage;
 
 import java.time.LocalDateTime;
 
@@ -38,8 +38,7 @@ public class WebSocketEventListener {
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setAuthor(username);
             chatMessage.setTimestamp(LocalDateTime.now().toString());
-
-            messagingTemplate.convertAndSend("/topic/group", chatMessage);
+            messagingTemplate.convertAndSend("/topic/group/" + chatMessage.getRoomLink(), chatMessage);
         }
     }
 }

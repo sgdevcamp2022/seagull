@@ -1,4 +1,4 @@
-package smilegate.seagull.model;
+package smilegate.seagull.chatting.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ChatMessage implements Serializable {
+    private String roomLink;
     private MessageType type;
     private String content;
     private String author;
@@ -16,6 +17,7 @@ public class ChatMessage implements Serializable {
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        VIDEO
     }
 }

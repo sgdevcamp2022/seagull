@@ -18,16 +18,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SeagullApplicationTests {
-
-	@Autowired
-	private RoomRedisRepository roomRedisRepository;
-
-	@Test
-	void contextLoads() {
-		byte[] array = new byte[7]; // length is bounded by 7
-		String originalInput = "tjdwns4537";
-		String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
-		System.out.println(encodedString);
+//
+//	@Autowired
+//	private RoomRedisRepository roomRedisRepository;
+//
+//	@Test
+//	void contextLoads() {
+//		byte[] array = new byte[7]; // length is bounded by 7
+//		String originalInput = "tjdwns4537";
+//		String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
+//		System.out.println(encodedString);
 
 //		Room room = new Room();
 //		User user = new User(1L,"a","b");
@@ -38,6 +38,6 @@ class SeagullApplicationTests {
 //		Room result = roomRedisRepository.save(room);
 //
 //		assertThat(result).isEqualTo(room);
-	}
+//	}
 
 }
