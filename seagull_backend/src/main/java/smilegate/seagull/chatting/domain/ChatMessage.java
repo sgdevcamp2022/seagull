@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ChatMessage implements Serializable {
-    private String chatRoomId;
+    private String roomLink;
     private MessageType type;
     private String content;
     private String author;
@@ -17,6 +17,7 @@ public class ChatMessage implements Serializable {
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        VIDEO
     }
 }

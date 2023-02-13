@@ -38,8 +38,7 @@ public class WebSocketEventListener {
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setAuthor(username);
             chatMessage.setTimestamp(LocalDateTime.now().toString());
-
-            messagingTemplate.convertAndSend("/topic/group", chatMessage);
+            messagingTemplate.convertAndSend("/topic/group/" + chatMessage.getRoomLink(), chatMessage);
         }
     }
 }
