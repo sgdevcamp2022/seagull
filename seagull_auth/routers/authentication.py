@@ -6,6 +6,10 @@ from jose import JWTError, ExpiredSignatureError, jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from sqlalchemy.orm import Session
 from schemas import UserInfo, LoginUserInfo, RegisterUserInfo, EmailSendingInfo
 from seagull_auth.database.database_connection import get_database, Redis
@@ -18,7 +22,6 @@ import random
 import requests
 
 from dotenv import load_dotenv
-import os
 
 
 router = APIRouter(

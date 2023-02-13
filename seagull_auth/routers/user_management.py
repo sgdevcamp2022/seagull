@@ -2,6 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from sqlalchemy.orm import Session
 
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from seagull_auth.database.database_connection import get_database
 from seagull_auth.database.database_process import get_user, get_all_user, change_user_status, change_user_password, delete_user
 
