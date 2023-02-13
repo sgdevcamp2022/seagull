@@ -38,8 +38,8 @@ public class RoomController {
     private SimpMessageSendingOperations roomTemplate;
 
     @PostMapping("/create/{user_id}")
-    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId, @RequestBody String user) {
-//        try{
+    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
+//        try{ , @RequestBody String user
 //            ObjectMapper objectMapper = new ObjectMapper();
 //            User userData = objectMapper.readValue(user, User.class);
 //            String userId = userData.getUser_id();
