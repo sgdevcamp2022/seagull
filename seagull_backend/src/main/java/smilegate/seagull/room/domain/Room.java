@@ -23,17 +23,6 @@ public class Room {
     private String hostId;
     private String roomLink;
 
-    public Room(Long id, String hostId, String roomLink) {
-        this.id = id;
-        this.hostId = hostId;
-        this.roomLink = roomLink;
-    }
-
-    public Room(String hostId, String roomLink) {
-        this.hostId = hostId;
-        this.roomLink = roomLink;
-    }
-
     public Room() {
     }
 
