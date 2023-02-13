@@ -1,5 +1,8 @@
 package smilegate.seagull.room.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.domain.RoomUser;
 import smilegate.seagull.room.service.RoomService;
+import smilegate.seagull.user.domain.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
@@ -33,11 +38,18 @@ public class RoomController {
     private SimpMessageSendingOperations roomTemplate;
 
     @PostMapping("/create/{user_id}")
-    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
-        /**
-         *  TODO
-         *   - user api 완성되면 그 데이터를 받아와 user에 할당
-         * **/
+    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId, @RequestBody String user) {
+//        try{
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            User userData = objectMapper.readValue(user, User.class);
+//            String userId = userData.getUser_id();
+//        } catch (JsonMappingException e) {
+//            e.printStackTrace();
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+
+
         Room room = roomService.createRoom(userId);
         log.info("roomHost : {}",room.getHostId());
         log.info("roomLink : {}",room.getRoomLink());
