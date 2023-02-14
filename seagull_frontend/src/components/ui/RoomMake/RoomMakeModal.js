@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import webSocketAPI from '../../../apis/webSocketAPI';
 import { useRef } from 'react';
+import * as SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 const RoomMakeModal = ({ setModalOpen }) => {
   const testuserRef = useRef();
@@ -9,6 +11,8 @@ const RoomMakeModal = ({ setModalOpen }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  let stompClient = null;
 
   const navigate = useNavigate();
 

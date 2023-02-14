@@ -4,12 +4,12 @@ import userAPI from '../../../apis/userAPI';
 import EmailAuthInput from './EmailAuthInput';
 
 const AuthNumberInput = ({ emailAuthNumRef, showTimer, emailAddress }) => {
-  console.log(emailAddress);
+  // console.log(emailAddress);
   const checkEmailAuth = async () => {
     const authNum = emailAuthNumRef.current.value;
     const email = emailAddress.current.value;
     await userAPI
-      .post(`/email_auth/verify_email_code/${authNum}`, { email: email })
+      .post(`auth/email_auth/verify_email_code/${authNum}`, { email: email })
       .then((res) => {
         console.log(res);
         window.alert('인증되었습니다!');

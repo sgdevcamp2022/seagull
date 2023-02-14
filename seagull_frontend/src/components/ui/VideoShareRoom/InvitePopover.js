@@ -24,7 +24,7 @@ const InvitePopover = ({ onOpenerClick }) => {
 
   const clipboardCopy = async () => {
     await navigator.clipboard.writeText(window.location.href);
-    alert('url 복사 완료!');
+    alert('링크 복사 완료!');
   };
 
   return (

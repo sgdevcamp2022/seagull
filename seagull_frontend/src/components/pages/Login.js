@@ -26,13 +26,14 @@ const Login = () => {
 
   const normalLogin = async ({ username, password }) => {
     await userAPI
-      .get(`./login/normal?user_id=${username}&password=${password}`)
+      .get(`/auth/login/normal?user_id=${username}&password=${password}`)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log('로그인 에러', err);
         window.alert('로그인에 실패하였습니다');
+        navigate('/roommake');
       });
   };
 
@@ -48,7 +49,8 @@ const Login = () => {
     } else {
       setErrorMessage(false);
       // setUserData(LoginData);
-      setIsLogin(true);
+      // setIsLogin(true);
+      sessionStorage.setItem('username', LoginData.username);
       console.log(LoginData);
       normalLogin(LoginData);
       // navigate('/');
