@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 @Getter
 @Setter
-@RedisHash(value = "room")
+//@RedisHash(value = "room")
 public class Room {
     @Id
     private Long id;
