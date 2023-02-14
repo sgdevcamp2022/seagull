@@ -14,9 +14,10 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
   const [isLogin, setIsLogin] = useRecoilState(UserState);
 
   const logoutHandler = () => {
-    localStorage.removeItem('recoil-persist');
-    setIsLogin(false);
-    navigate('/login');
+    // localStorage.removeItem('recoil-persist');
+    // setIsLogin(false);
+    sessionStorage.removeItem('username');
+    navigate('/');
   };
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
           onClick={() => {
             logoutHandler();
             Swal.fire('로그아웃 되었습니다!');
-            navigate('/login');
+            navigate('/');
           }}
         >
           로그아웃
