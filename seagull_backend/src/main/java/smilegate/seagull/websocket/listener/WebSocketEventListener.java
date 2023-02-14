@@ -34,17 +34,17 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        RoomUser roomUser = (RoomUser) headerAccessor.getSessionAttributes().get("roomUser");
-        if(roomUser != null) {
-            log.info("User Disconnected : " + roomUser.getUserId());
-            Set<String> userList = enterUserService.deleteUser(roomUser);
-
-//            ChatMessage chatMessage = new ChatMessage();
-//            chatMessage.setType(ChatMessage.MessageType.LEAVE);
-//            chatMessage.setAuthor(username);
-//            chatMessage.setTimestamp(LocalDateTime.now().toString());
-            messagingTemplate.convertAndSend("/subscribe/room/delete/" + roomUser.getRoomLink(), userList);
-        }
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = headerAccessor.getSessionId();
+//        String userId = enterUserService.findBySession(sessionId);
+//        log.info("User Disconnected : " + userId);
+//
+//        enterUserService.deleteUser();
+//
+////            ChatMessage chatMessage = new ChatMessage();
+////            chatMessage.setType(ChatMessage.MessageType.LEAVE);
+////            chatMessage.setAuthor(username);
+////            chatMessage.setTimestamp(LocalDateTime.now().toString());
+//        messagingTemplate.convertAndSend("/subscribe/room/delete/" + roomUser.getRoomLink(), userList);
     }
 }

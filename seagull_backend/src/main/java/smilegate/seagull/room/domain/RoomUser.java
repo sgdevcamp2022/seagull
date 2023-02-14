@@ -8,6 +8,7 @@ import lombok.Setter;
 public class RoomUser {
     private String roomLink;
     private String userId;
+    private String session;
 
     public RoomUser(String roomLink, String userId) {
         this.roomLink = roomLink;

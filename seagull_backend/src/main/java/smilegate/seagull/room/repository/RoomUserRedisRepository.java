@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
+import smilegate.seagull.room.domain.RoomUser;
 
 import java.util.Set;
 
@@ -14,16 +16,25 @@ public class RoomUserRedisRepository {
 
     private final RedisTemplate<String, String> redisTemplate;
     private static SetOperations<String, String> setData;
+    private static ValueOperations stringData;
 
     @Autowired
     public RoomUserRedisRepository(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
         setData = redisTemplate.opsForSet();
+        stringData = redisTemplate.opsForValue();
+    }
+
+    public void setValues(RoomUser roomUser) {
+        stringData.set(roomUser.getSession(), roomUser.getUserId());
+    }
+
+    public String getValues(String session) {
+        return (String) stringData.get(session);
     }
 
     public void setSets(String roomLink, String userId){
         setData.add(roomLink, userId);
-//        log.info("setSets userId {} : {}",roomLink,setData.pop(roomLink));
     }
 
     public Long getSetSize(String roomLink){
