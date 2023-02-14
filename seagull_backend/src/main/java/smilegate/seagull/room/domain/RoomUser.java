@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class RoomUser {
     private Long id;
-    private String roomId;
+    private String roomLink;
     private String userId;
 }
