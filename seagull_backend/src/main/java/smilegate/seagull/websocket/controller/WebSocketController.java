@@ -40,8 +40,9 @@ public class WebSocketController {
         log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
 //        Optional<Room> room = roomService.findRoomLink(roomLink);
         if(enterUserService.isExistRoom(roomLink)){
-            headerAccessor.getSessionAttributes().put("roomUser", roomUser); // Session에 유저를 추가해줍니다.
+            roomUser.setSession(headerAccessor.getSessionId());
             enterUserService.enter(roomUser);
+            enterUserService.saveSession(roomUser);
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
             roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), allUser);
         }

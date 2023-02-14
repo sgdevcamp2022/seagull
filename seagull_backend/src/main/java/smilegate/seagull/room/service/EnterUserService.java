@@ -38,6 +38,14 @@ public class EnterUserService {
         roomUserRedisRepository.setSets(roomUser.getRoomLink(), roomUser.getUserId());
     }
 
+    public void saveSession(RoomUser roomUser) {
+        roomUserRedisRepository.setValues(roomUser);
+    }
+
+    public String findBySession(String session) {
+        return roomUserRedisRepository.getValues(session);
+    }
+
     public Set<String> getAllUser(String roomLink) {
         Set<String> allSets = roomUserRedisRepository.getAllSets(roomLink);
         for(String i : allSets){
