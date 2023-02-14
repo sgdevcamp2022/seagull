@@ -7,6 +7,7 @@ import smilegate.seagull.room.domain.RoomUser;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -16,6 +17,7 @@ public class EnterUserService {
      * TODO
      *  - 참여자 목록 관리
      *  - 레디스에 세션을 저장함으로써 참여자를 관리
+     *  - host는 무조건 set하고 get 해줘서 빈 set이 나오지 않게 해야됨
      * **/
 
     private RedisDao redisDao;
