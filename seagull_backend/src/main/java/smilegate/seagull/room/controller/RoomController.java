@@ -33,7 +33,7 @@ public class RoomController {
     }
 
     @PostMapping("/create/{user_id}")
-    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
+    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId, @RequestBody RoomUser roomUser) {
 //        try{ , @RequestBody String user
 //            ObjectMapper objectMapper = new ObjectMapper();
 //            User userData = objectMapper.readValue(user, User.class);
@@ -46,6 +46,7 @@ public class RoomController {
 
 
         Room room = roomService.createRoom(userId);
+        enterUserService.enter(roomUser);
         log.info("roomHost : {}",room.getHostId());
         log.info("roomLink : {}",room.getRoomLink());
         HttpHeaders headers= new HttpHeaders();
@@ -55,11 +56,12 @@ public class RoomController {
     }
 
     @PostMapping("{roomLink}")
-    public ResponseEntity<HttpHeaders> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
+    public ResponseEntity<Set<String>> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
         enterUserService.enter(roomUser);
+        Set<String> allUser = enterUserService.getAllUser(roomLink);
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(allUser, headers, HttpStatus.OK);
     }
 
     @GetMapping("/list/{roomLink}")
