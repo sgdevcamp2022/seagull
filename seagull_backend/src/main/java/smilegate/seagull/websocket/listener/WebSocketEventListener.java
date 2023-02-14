@@ -1,4 +1,4 @@
-package smilegate.seagull.listener;
+package smilegate.seagull.websocket.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
