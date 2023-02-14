@@ -17,7 +17,7 @@ const Signup = () => {
   const receiveEmail = async (email) => {
     console.log(email);
     await userAPI
-      .post('/email_auth/sending_email', { email: email })
+      .post('/auth/email_auth/sending_email', { email: email })
       .then((res) => {
         console.log(res);
         Swal.fire({
@@ -36,7 +36,7 @@ const Signup = () => {
 
   const completeSignUp = async (SignupData) => {
     await userAPI
-      .post('/lregister', SignupData)
+      .post('auth/register', SignupData)
       .then((res) => {
         console.log(res);
         window.alert('회원가입 성공!');

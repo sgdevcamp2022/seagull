@@ -9,10 +9,11 @@ import SendUnitChat from '../ui/VideoShareRoom/SendUnitChat';
 
 const ChatForm = ({ messageInputRef, sendMessage }) => {
   const chatMessage = useRecoilValue(ChatMessageState);
-  const testUserName = useRecoilValue(UserName);
+  // const testUserName = useRecoilValue(UserName);
+  const username = sessionStorage.getItem('username');
   const [message, setMessage] = useState([]);
   console.log(chatMessage);
-  console.log(testUserName);
+  // console.log(testUserName);
 
   useEffect(() => {
     setMessage([...message, chatMessage]);
@@ -28,7 +29,7 @@ const ChatForm = ({ messageInputRef, sendMessage }) => {
       <Content>
         {message &&
           message.map((msg, idx) =>
-            testUserName === msg.author ? (
+            username === msg.author ? (
               <SendUnitChat
                 key={idx}
                 time={msg.timestamp}
