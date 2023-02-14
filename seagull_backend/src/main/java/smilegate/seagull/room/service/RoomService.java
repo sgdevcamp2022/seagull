@@ -1,26 +1,32 @@
 package smilegate.seagull.room.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import smilegate.seagull.redis.RedisDao;
 import smilegate.seagull.room.domain.Room;
+import smilegate.seagull.room.domain.RoomUser;
 import smilegate.seagull.room.repository.RoomRedisRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
 public class RoomService {
 
+
+    private final RoomRedisRepository roomRedisRepository;
+    private final EnterUserService enterUserService;
+
     @Autowired
-    private RoomRedisRepository roomRedisRepository;
+    public RoomService(RoomRedisRepository roomRedisRepository, EnterUserService enterUserService) {
+        this.roomRedisRepository = roomRedisRepository;
+        this.enterUserService = enterUserService;
+    }
 
     public Room createRoom(String userId) {
         String roomLink = generateRoomLink(userId);
         Room room = Room.create(userId, roomLink);
         Room saveRoom = roomRedisRepository.save(room);
+        RoomUser roomUser = new RoomUser(roomLink,userId);
+        enterUserService.enter(roomUser);
         return saveRoom;
     }
 

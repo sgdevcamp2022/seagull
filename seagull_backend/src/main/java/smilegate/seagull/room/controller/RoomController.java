@@ -33,20 +33,8 @@ public class RoomController {
     }
 
     @PostMapping("/create/{user_id}")
-    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId, @RequestBody RoomUser roomUser) {
-//        try{ , @RequestBody String user
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            User userData = objectMapper.readValue(user, User.class);
-//            String userId = userData.getUser_id();
-//        } catch (JsonMappingException e) {
-//            e.printStackTrace();
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-
-
+    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
         Room room = roomService.createRoom(userId);
-        enterUserService.enter(roomUser);
         log.info("roomHost : {}",room.getHostId());
         log.info("roomLink : {}",room.getRoomLink());
         HttpHeaders headers= new HttpHeaders();
