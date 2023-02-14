@@ -1,8 +1,10 @@
 package smilegate.seagull.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import smilegate.seagull.room.domain.RoomUser;
 
 import java.util.Set;
 
@@ -12,6 +14,16 @@ public class RedisDao {
 
     public RedisDao(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
+    }
+
+    public void setSets(String key, String userId){
+        SetOperations<String, String> setData = redisTemplate.opsForSet();
+        setData.add(key, userId);
+    }
+
+    public Set<String> getAllSets(String key) {
+        SetOperations<String, String> setData = redisTemplate.opsForSet();
+        return setData.members(key);
     }
 
     public void setValues(String key, String value) {
@@ -26,7 +38,6 @@ public class RedisDao {
 
     public void deleteValues(String pattern) {
         Set<String> keys = redisTemplate.keys(pattern);
-
         if(keys != null) {
             redisTemplate.delete(keys);
         }

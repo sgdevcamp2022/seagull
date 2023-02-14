@@ -1,8 +1,5 @@
 package smilegate.seagull.room.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.domain.RoomUser;
+import smilegate.seagull.room.service.EnterUserService;
 import smilegate.seagull.room.service.RoomService;
-import smilegate.seagull.user.domain.User;
 
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
@@ -31,11 +27,16 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 public class RoomController {
 
-    @Autowired
-    private RoomService roomService;
+    private final RoomService roomService;
+    private final SimpMessageSendingOperations roomTemplate;
+    private final EnterUserService enterUserService;
 
     @Autowired
-    private SimpMessageSendingOperations roomTemplate;
+    public RoomController(RoomService roomService, SimpMessageSendingOperations roomTemplate, EnterUserService enterUserService) {
+        this.roomService = roomService;
+        this.roomTemplate = roomTemplate;
+        this.enterUserService = enterUserService;
+    }
 
     @PostMapping("/create/{user_id}")
     public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
@@ -67,14 +68,17 @@ public class RoomController {
         log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
         Optional<Room> room = roomService.findRoomLink(roomLink);
         if(room.isPresent()){
+            String sessionId = headerAccessor.getSessionId();
             headerAccessor.getSessionAttributes().put("username", roomUser.getUserId()); // Session에 유저를 추가해줍니다.
-            roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomId(), roomUser);
+            roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), roomUser);
         }
-        roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomId(), "");
+        roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), "");
     }
 
-    @GetMapping("{roomLink}")
-    public ResponseEntity<?> enterRoom(@PathVariable(value = "roomLink") String roomLink) {
+    @PostMapping("{roomLink}")
+    public ResponseEntity<?> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
+        enterUserService.enter(roomUser);
+
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         return new ResponseEntity<>(headers, HttpStatus.OK);
