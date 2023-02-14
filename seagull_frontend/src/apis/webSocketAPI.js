@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const webSocketAPI = axios.create({
-  baseURL: 'http://3.34.161.56:8084',
+  baseURL: 'http://3.34.161.56:8085',
   headers: { 'Content-Type': 'application/json' },
 });
 
