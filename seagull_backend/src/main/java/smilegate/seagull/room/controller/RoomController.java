@@ -32,25 +32,24 @@ public class RoomController {
         this.enterUserService = enterUserService;
     }
 
-    @PostMapping("/create/{user_id}")
-    public ResponseEntity<Room> createRoom(@PathVariable(value = "user_id") String userId) {
-        Room room = roomService.createRoom(userId);
-        log.info("roomHost : {}",room.getHostId());
-        log.info("roomLink : {}",room.getRoomLink());
+    @PostMapping("/create/{user_id}") //ROOM -> ROOMUSER 수정
+    public ResponseEntity<RoomUser> createRoom(@PathVariable(value = "user_id") String userId) {
+//        RoomUser roomUser = roomService.createRoom(userId);
+        RoomUser roomUser = enterUserService.enter(userId);
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        return new ResponseEntity<>(room, headers, HttpStatus.OK);
+        return new ResponseEntity<>(roomUser, headers, HttpStatus.OK);
     }
 
-    @PostMapping("{roomLink}")
-    public ResponseEntity<Set<String>> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
-        enterUserService.enter(roomUser);
-        Set<String> allUser = enterUserService.getAllUser(roomLink);
-        HttpHeaders headers= new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        return new ResponseEntity<>(allUser, headers, HttpStatus.OK);
-    }
+//    @PostMapping("{roomLink}")
+//    public ResponseEntity<Set<String>> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
+//        enterUserService.enter(roomUser);
+//        Set<String> allUser = enterUserService.getAllUser(roomLink);
+//        HttpHeaders headers= new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//        return new ResponseEntity<>(allUser, headers, HttpStatus.OK);
+//    }
 
     @GetMapping("/list/{roomLink}")
     public ResponseEntity<Set<String>> getRoomList(@PathVariable(value = "roomLink") String roomLink) {

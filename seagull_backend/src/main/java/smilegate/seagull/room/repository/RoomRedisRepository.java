@@ -6,7 +6,7 @@ import smilegate.seagull.room.domain.Room;
 
 import java.util.Optional;
 
-@Repository
+//@Repository
 public interface RoomRedisRepository extends CrudRepository<Room, Long> {
 
     Optional<Room> findByRoomLink(String roomLink);
