@@ -33,18 +33,29 @@ public class WebSocketController {
     }
 
     @MessageMapping("/enterRoom/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
-    public void enterRoom(@DestinationVariable(value = "roomLink") String roomLink,
-                          @Payload RoomUser roomUser,
-                          SimpMessageHeaderAccessor headerAccessor
-    ) {
+    public void enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomUser roomUser) {
         log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
-//        Optional<Room> room = roomService.findRoomLink(roomLink);
-        if(enterUserService.isExistRoom(roomLink)){
-            roomUser.setSession(headerAccessor.getSessionId());
-            enterUserService.enter(roomUser);
-            enterUserService.saveSession(roomUser);
+        if(roomService.isExistRoom(roomLink)){
+            enterUserService.saveUser(roomUser);
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
             roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), allUser);
+        }
+    }
+
+    @MessageMapping("/exit/{roomLink}")
+    public void exitRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomUser roomUser) {
+        log.info("User Disconnected roomId : {}, roomLink : {}", roomUser.getUserId(), roomUser.getRoomLink());
+
+        if (roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())) {
+            enterUserService.deleteUserAll(roomLink);
+            roomService.deleteRoom(roomLink);
+            roomTemplate.convertAndSend("/subscribe/room/exit/" + roomLink, "exit");
+        }
+        if (!roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())){
+            log.info("user 삭제 : {}", roomUser.getUserId());
+            enterUserService.deleteUser(roomUser);
+            Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
+            roomTemplate.convertAndSend("/subscribe/room/exit/" + roomLink, allUser);
         }
     }
 }

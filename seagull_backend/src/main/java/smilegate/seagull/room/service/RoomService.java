@@ -3,8 +3,9 @@ package smilegate.seagull.room.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import smilegate.seagull.room.domain.Room;
 import smilegate.seagull.room.domain.RoomUser;
+import smilegate.seagull.room.repository.RoomRedisRepository;
+import smilegate.seagull.room.repository.RoomUserRedisRepository;
 
 import java.util.*;
 
@@ -12,42 +13,36 @@ import java.util.*;
 @Service
 public class RoomService {
 
-//
-////    private final RoomUserRedisRepository roomUserRedisRepository;
-//    private final EnterUserService enterUserService;
-//
-//    @Autowired
-//    public RoomService(EnterUserService enterUserService) {
-//        this.enterUserService = enterUserService;
-//    }
-//
-//
-//    public RoomUser createRoom(String userId) {
-////        Room room = Room.create(userId, roomLink);
-////        Room saveRoom = roomRedisRepository.save(room);
-//        String roomLink = generateRoomLink(userId);
-//        RoomUser roomUser = new RoomUser(roomLink,userId);
-////        enterUserService.enter(roomUser);
-//        return roomUser;
-//    }
-//
+    private final RoomRedisRepository roomRedisRepository;
+
+    @Autowired
+    public RoomService(RoomRedisRepository roomRedisRepository) {
+        this.roomRedisRepository = roomRedisRepository;
+    }
+
     public static String generateRoomLink(String userId) {
         String encodedString = Base64.getEncoder().encodeToString(userId.getBytes());
         return encodedString;
     }
-//
-//    public Optional<Room> deleteRoom(Long roomId) {
-//
-//    }
-//
-//    public String findRoomLink(String roomLink) {
-//        String user = enterUserService.getUser(roomLink);
-//        log.info("findByLink userId : {}",user);
-//        return user;
-////        Optional<Room> byRoomLink = roomRedisRepository.findByRoomLink(roomLink);
-////        log.info("room : {}",byRoomLink.get());
-////        if(byRoomLink.isPresent()) return byRoomLink;
-////        return Optional.empty();
-//    }
 
+    public RoomUser createRoom(String userId) {
+        String roomLink = RoomService.generateRoomLink(userId);
+        RoomUser roomUser = new RoomUser(roomLink,userId);
+        roomRedisRepository.setRoom(roomUser.getRoomLink(),roomUser.getUserId());
+        return roomUser;
+    }
+
+    public Boolean isExistRoom(String roomLink) {
+        Long setSize = roomRedisRepository.getRoomCount(roomLink);
+        if(setSize == 0L) return false;
+        return true;
+    }
+
+    public void deleteRoom(String roomLink) {
+        roomRedisRepository.deleteRoom(roomLink);
+    }
+
+    public Boolean findByHost(String roomLink, String userId) {
+        return roomRedisRepository.hostCheck(roomLink, userId);
+    }
 }
