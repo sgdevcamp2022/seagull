@@ -1,9 +1,9 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { HiUsers } from 'react-icons/hi';
 
-const MenuIconBox = ({ isActive , menu, number }) => {
+const MenuIconBox = ({ isActive, menu, user }) => {
   return (
     <Wrap isActive={isActive}>
       <Icon>
@@ -13,26 +13,27 @@ const MenuIconBox = ({ isActive , menu, number }) => {
           <HiUsers size={20} />
         )}
       </Icon>
-      <MenuName>{menu} {number}</MenuName>
+      <MenuName>
+        {menu} {user}
+      </MenuName>
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
-  ${({isActive}) => {
+  ${({ isActive }) => {
     return css`
       width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: ${isActive?"2px solid black":""} ;
-  color: ${isActive?"black":"grey"};
-  padding: 0 10px;
-  box-sizing: border-box;
-    `
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: ${isActive ? '2px solid black' : ''};
+      color: ${isActive ? 'black' : 'grey'};
+      padding: 0 10px;
+      box-sizing: border-box;
+    `;
   }}
-
 `;
 
 const Icon = styled.div`
@@ -50,7 +51,7 @@ const MenuName = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size:13px;
+  font-size: 13px;
 `;
 
 export default MenuIconBox;

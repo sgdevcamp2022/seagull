@@ -27,7 +27,7 @@ const VideoShareRoom = () => {
   );
   const [client, setClient] = useState();
 
-  const [userCount, setUserCount] = useState();
+  const [user, setUser] = useState();
 
   const { roomlink } = useParams();
   const userRef = useRef();
@@ -74,7 +74,7 @@ const VideoShareRoom = () => {
     console.log('참여자', JSON.parse(payload.body));
     console.log('참여자 수', JSON.parse(payload.body).length);
 
-    setUserCount(JSON.parse(payload.body).length);
+    setUser(JSON.parse(payload.body));
   };
 
   const onError = (error) => {
@@ -222,9 +222,29 @@ const VideoShareRoom = () => {
     }
   };
 
-  // const sync = () => {
-  //   sendVideo('Control:sync', ref.current.getCurrentTime());
-  // };
+  const handleLeaveRoom = () => {
+    console.log('방나가기');
+
+    const username = sessionStorage.getItem('username');
+
+    // client.subscribe(`/subscribe/room/${roomlink}`).unsubscribe();
+    let userInfo = {
+      roomLink: roomlink,
+      userId: username,
+    };
+
+    client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
+
+    client.subscribe(`/subscribe/room/exit/${roomlink}`, handleDisconnection);
+  };
+
+  const handleDisconnection = (payload) => {
+    console.log(payload);
+    // host 인사람이 나가면 exit
+    // host 아닌 사람이 나가면 Set줌
+
+    client.disconnect();
+  };
 
   return (
     <Container>
@@ -286,31 +306,33 @@ const VideoShareRoom = () => {
               </VideoPlayWrap>
             </Wrap>
             <ToolBarWrap>
-              <ShareVideoInput>
-                <VideoIcon onClick={setHost}>
-                  <MdVideoCall size={30} color="#0e72ed" />
-                </VideoIcon>
-                <VideoUrlInput
-                  placeholder="영상 url을 입력하세요"
-                  ref={urlRef}
-                ></VideoUrlInput>
-                <InputButton
-                  onClick={(e) => {
-                    sendVideo('URL', urlRef.current.value);
-                    e.preventDefault();
-                  }}
-                >
-                  <MdOutlineInput size={25} color="grey" />
-                </InputButton>
-              </ShareVideoInput>
-              <LeaveButton />
+              <ToolBarContainer>
+                <ShareVideoInput>
+                  <VideoIcon onClick={setHost}>
+                    <MdVideoCall size={30} color="#0e72ed" />
+                  </VideoIcon>
+                  <VideoUrlInput
+                    placeholder="영상 url을 입력하세요"
+                    ref={urlRef}
+                  ></VideoUrlInput>
+                  <InputButton
+                    onClick={(e) => {
+                      sendVideo('URL', urlRef.current.value);
+                      e.preventDefault();
+                    }}
+                  >
+                    <MdOutlineInput size={25} color="grey" />
+                  </InputButton>
+                </ShareVideoInput>
+                <LeaveButton handleLeaveRoom={handleLeaveRoom} />
+              </ToolBarContainer>
             </ToolBarWrap>
           </VideoWrap>
           <ChatWrap>
             <ChatRoomUserContainer
               messageInputRef={messageInputRef}
               sendMessage={sendMessage}
-              userCount={userCount}
+              user={user}
             />
           </ChatWrap>
         </>
@@ -381,17 +403,25 @@ const VideoChatWrap = styled.div`
 `;
 
 const ToolBarWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 80px;
   width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+const ToolBarContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 100%;
 `;
 
 const ShareVideoInput = styled.div`
   width: 400px;
   height: 50%;
-  margin-right: 200px;
+  /* margin-left: 0px; */
   background-color: #ffffff;
   display: flex;
   border-radius: 10px;

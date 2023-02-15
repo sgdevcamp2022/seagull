@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { RxExit } from 'react-icons/rx';
 
-const LeavePopover = ({ onOpenerClick }) => {
+const LeavePopover = ({ onOpenerClick, handleLeaveRoom }) => {
   const settingsWindowRef = useRef(null);
   const navigate = useNavigate();
 
@@ -24,13 +24,14 @@ const LeavePopover = ({ onOpenerClick }) => {
 
   return (
     <Wrapper ref={settingsWindowRef}>
-      
       <LogoutBox>
         <RxExit />
         <Logout
           onClick={() => {
             Swal.fire('메인페이지로 이동합니다');
-            navigate('/');
+
+            handleLeaveRoom();
+            navigate('/roommake');
           }}
         >
           방에서 나가기
