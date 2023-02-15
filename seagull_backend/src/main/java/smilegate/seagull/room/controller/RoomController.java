@@ -34,37 +34,10 @@ public class RoomController {
 
     @PostMapping("/create/{user_id}") //ROOM -> ROOMUSER 수정
     public ResponseEntity<RoomUser> createRoom(@PathVariable(value = "user_id") String userId) {
-//        RoomUser roomUser = roomService.createRoom(userId);
-        RoomUser roomUser = enterUserService.enter(userId);
+        RoomUser roomUser = roomService.createRoom(userId);
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         return new ResponseEntity<>(roomUser, headers, HttpStatus.OK);
-    }
-
-//    @PostMapping("{roomLink}")
-//    public ResponseEntity<Set<String>> enterRoom(@PathVariable(value = "roomLink") String roomLink, @RequestBody RoomUser roomUser) {
-//        enterUserService.enter(roomUser);
-//        Set<String> allUser = enterUserService.getAllUser(roomLink);
-//        HttpHeaders headers= new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//        return new ResponseEntity<>(allUser, headers, HttpStatus.OK);
-//    }
-
-    @GetMapping("/list/{roomLink}")
-    public ResponseEntity<Set<String>> getRoomList(@PathVariable(value = "roomLink") String roomLink) {
-        Set<String> allUser = enterUserService.getAllUser(roomLink);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        if(!allUser.isEmpty()) return new ResponseEntity<>(allUser, headers, HttpStatus.OK);
-        return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/count/{roomLink}")
-    public ResponseEntity<Integer> getRoomCount(@PathVariable(value = "roomLink") String roomLink) {
-        Integer userNum = enterUserService.countUser(roomLink);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        return new ResponseEntity<>(userNum, headers, HttpStatus.OK);
     }
 }

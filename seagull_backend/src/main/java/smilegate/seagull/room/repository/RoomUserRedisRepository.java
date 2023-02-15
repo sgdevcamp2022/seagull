@@ -2,51 +2,48 @@ package smilegate.seagull.room.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import smilegate.seagull.room.domain.RoomUser;
 
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @Repository
 public class RoomUserRedisRepository {
 
+    private final static String ROOMUSER = "ROOM_USER:";
+
     private final RedisTemplate<String, String> redisTemplate;
-    private static SetOperations<String, String> setData;
-    private static ValueOperations stringData;
+    private static SetOperations<String, String> setData; // 참가자 리스트
 
     @Autowired
     public RoomUserRedisRepository(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
         setData = redisTemplate.opsForSet();
-        stringData = redisTemplate.opsForValue();
     }
 
-    public void setValues(RoomUser roomUser) {
-        stringData.set(roomUser.getSession(), roomUser.getUserId());
+
+
+    public void setUser(String roomLink, String userId){
+        setData.add(ROOMUSER+roomLink, userId);
     }
 
-    public String getValues(String session) {
-        return (String) stringData.get(session);
+    public Set<String> getUserAll(String roomLink) {
+        return setData.members(ROOMUSER+roomLink);
     }
 
-    public void setSets(String roomLink, String userId){
-        setData.add(roomLink, userId);
+    public void deleteUser(String roomLink, String userId) {
+        log.info("setData : {}", setData.members(roomLink));
+        setData.remove(ROOMUSER+roomLink, userId);
+        log.info("setData : {}", setData.members(roomLink));
     }
 
-    public Long getSetSize(String roomLink){
-        return setData.size(roomLink);
-    }
-
-    public Set<String> getAllSets(String key) {
-        return setData.members(key);
-    }
-
-    public Set<String> deleteSets(String key, String userId) {
-        setData.remove(key, userId);
-        return setData.members(key);
+    public void deleteUserAll(String roomLink) {
+        setData.remove(ROOMUSER+roomLink);
     }
 }

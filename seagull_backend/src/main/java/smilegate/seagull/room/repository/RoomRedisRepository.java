@@ -1,13 +1,37 @@
 package smilegate.seagull.room.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Repository;
-import smilegate.seagull.room.domain.Room;
 
-import java.util.Optional;
+@Repository
+public class RoomRedisRepository {
 
-//@Repository
-public interface RoomRedisRepository extends CrudRepository<Room, Long> {
+    private final static String ROOM = "ROOM:";
 
-    Optional<Room> findByRoomLink(String roomLink);
+    private final RedisTemplate<String, String> redisTemplate;
+    private static SetOperations<String, String> setDataRoom; // 방 리스트
+
+    @Autowired
+    public RoomRedisRepository(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        setDataRoom = redisTemplate.opsForSet();
+    }
+
+    public void setRoom(String roomLink, String userId) {
+        setDataRoom.add(ROOM+roomLink, userId);
+    }
+
+    public void deleteRoom(String roomLink) {
+        setDataRoom.remove(ROOM+roomLink);
+    }
+
+    public Long getRoomCount(String roomLink) {
+        return setDataRoom.size(ROOM+roomLink);
+    }
+
+    public Boolean hostCheck(String roomLink, String userId) {
+        return setDataRoom.isMember(ROOM+roomLink, userId);
+    }
 }
