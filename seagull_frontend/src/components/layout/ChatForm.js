@@ -12,11 +12,13 @@ const ChatForm = ({ messageInputRef, sendMessage }) => {
   // const testUserName = useRecoilValue(UserName);
   const username = sessionStorage.getItem('username');
   const [message, setMessage] = useState([]);
-  console.log(chatMessage);
+  console.log(chatMessage ? true : false);
   // console.log(testUserName);
 
   useEffect(() => {
-    setMessage([...message, chatMessage]);
+    if (chatMessage) {
+      setMessage([...message, chatMessage]);
+    }
   }, [chatMessage.timestamp]);
 
   useEffect(() => {
