@@ -27,8 +27,6 @@ public class RoomUserRedisRepository {
         setData = redisTemplate.opsForSet();
     }
 
-
-
     public void setUser(String roomLink, String userId){
         setData.add(ROOMUSER+roomLink, userId);
     }
@@ -38,9 +36,7 @@ public class RoomUserRedisRepository {
     }
 
     public void deleteUser(String roomLink, String userId) {
-        log.info("setData : {}", setData.members(roomLink));
-        setData.remove(ROOMUSER+roomLink, userId);
-        log.info("setData : {}", setData.members(roomLink));
+        setData.remove(ROOMUSER + roomLink, userId);
     }
 
     public void deleteUserAll(String roomLink) {
