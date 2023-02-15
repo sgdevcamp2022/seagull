@@ -28,7 +28,7 @@ const RoomMake = () => {
       .post(`/room/create/${username}`)
       .then((res) => {
         console.log(res);
-        // navigate(`/videoshare/${res.data.roomLink}`);
+        navigate(`/videoshare/${res.data.roomLink}`);
       })
       .catch((err) => {
         console.log('방만들기 에러', err);
