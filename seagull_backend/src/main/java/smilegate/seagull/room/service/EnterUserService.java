@@ -26,7 +26,6 @@ public class EnterUserService {
         return roomUserRedisRepository.getUserAll(roomLink);
     }
 
-
     public void deleteUser(RoomUser roomUser) {
         roomUserRedisRepository.deleteUser(roomUser.getRoomLink(), roomUser.getUserId());
     }

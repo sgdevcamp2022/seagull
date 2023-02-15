@@ -48,14 +48,15 @@ public class WebSocketController {
 
         if (roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())) {
             enterUserService.deleteUserAll(roomLink);
+            log.info("4");
             roomService.deleteRoom(roomLink);
-            roomTemplate.convertAndSend("/subscribe/room/exit/" + roomLink, "exit");
+            log.info("5");
+            roomTemplate.convertAndSend("/subscribe/room/" + roomLink, "exit");
         }
         if (!roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())){
-            log.info("user 삭제 : {}", roomUser.getUserId());
             enterUserService.deleteUser(roomUser);
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-            roomTemplate.convertAndSend("/subscribe/room/exit/" + roomLink, allUser);
+            roomTemplate.convertAndSend("/subscribe/room/" + roomLink, allUser);
         }
     }
 }
