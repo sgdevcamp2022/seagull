@@ -8,7 +8,12 @@ import { useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { ChatMessageState, UserName } from '../../state/UserAtom';
+import {
+  ChatMessageState,
+  UserName,
+  HostState,
+  VideoState,
+} from '../../state/UserAtom';
 // import { UserState } from '../../state/UserAtom';
 
 //components
@@ -21,6 +26,8 @@ const VideoShareRoom = () => {
     sessionStorage.getItem('username') ? true : false
   );
   const [client, setClient] = useState();
+
+  const [userCount, setUserCount] = useState();
 
   const { roomlink } = useParams();
   const userRef = useRef();
@@ -63,7 +70,11 @@ const VideoShareRoom = () => {
   };
 
   const message = (payload) => {
-    console.log(payload);
+    console.log(payload.body);
+    console.log('참여자', JSON.parse(payload.body));
+    console.log('참여자 수', JSON.parse(payload.body).length);
+
+    setUserCount(JSON.parse(payload.body).length);
   };
 
   const onError = (error) => {
@@ -126,6 +137,7 @@ const VideoShareRoom = () => {
       } else if (message.author === 'Control:play') {
         if (!hostState) {
           setVideoState({ ...videoState, playing: !videoState.playing });
+          console.log(videoState);
         }
       } else if (message.author === 'Control:sync') {
         if (!hostState) {
@@ -150,28 +162,31 @@ const VideoShareRoom = () => {
   var videoRef = useRef();
   const urlRef = useRef();
 
-  const [hostState, setHostState] = useState(false);
+  const [hostState, setHostState] = useRecoilState(HostState);
+  console.log('ffff');
+  // const [hostState, setHostState] = useState(false);
+  const [videoState, setVideoState] = useRecoilState(VideoState);
 
-  const [videoState, setVideoState] = useState({
-    url: null,
-    pip: false,
-    playing: false,
-    controls: false,
-    light: false,
-    volume: 0.8,
-    muted: true,
-    played: 0,
-    loaded: 0,
-    duration: 0,
-    playbackRate: 1.0,
-    loop: false,
-    progressInterval: 1000,
-    style: { pointerEvents: 'none' },
-  });
+  // const [videoState, setVideoState] = useState({
+  //   url: null,
+  //   pip: false,
+  //   playing: false,
+  //   controls: true,
+  //   light: false,
+  //   volume: 0.8,
+  //   muted: true,
+  //   played: 0,
+  //   loaded: 0,
+  //   duration: 0,
+  //   playbackRate: 1.0,
+  //   loop: false,
+  //   progressInterval: 1000,
+  //   style: {},
+  // });
 
   const setHost = () => {
     setHostState(true);
-    setVideoState({ ...videoState, controls: true, style: {} });
+    // setVideoState({ ...videoState, controls: true, style: {} });
   };
 
   useEffect(() => {
@@ -241,16 +256,16 @@ const VideoShareRoom = () => {
                   playing={videoState.playing}
                   progressInterval={videoState.progressInterval}
                   style={videoState.style}
-                  onProgress={() => {
-                    // e.preventDefault();
-                    console.log(hostState);
-                    if (hostState) {
-                      sendVideo(
-                        'Control:sync',
-                        videoRef.current.getCurrentTime()
-                      );
-                    }
-                  }}
+                  // onProgress={() => {
+                  //   // e.preventDefault();
+                  //   console.log(hostState);
+                  //   if (hostState) {
+                  //     sendVideo(
+                  //       'Control:sync',
+                  //       videoRef.current.getCurrentTime()
+                  //     );
+                  //   }
+                  // }}
                   onPause={(e) => {
                     e.preventDefault();
                     console.log(hostState);
@@ -259,11 +274,13 @@ const VideoShareRoom = () => {
                     }
                   }}
                   onPlay={(e) => {
-                    e.preventDefault();
                     console.log('테스트', hostState);
+
                     if (hostState) {
+                      console.log('나오나');
                       sendVideo('Control:play', 'false');
                     }
+                    e.preventDefault();
                   }}
                 />
               </VideoPlayWrap>
@@ -278,7 +295,10 @@ const VideoShareRoom = () => {
                   ref={urlRef}
                 ></VideoUrlInput>
                 <InputButton
-                  onClick={() => sendVideo('URL', urlRef.current.value)}
+                  onClick={(e) => {
+                    sendVideo('URL', urlRef.current.value);
+                    e.preventDefault();
+                  }}
                 >
                   <MdOutlineInput size={25} color="grey" />
                 </InputButton>
@@ -290,6 +310,7 @@ const VideoShareRoom = () => {
             <ChatRoomUserContainer
               messageInputRef={messageInputRef}
               sendMessage={sendMessage}
+              userCount={userCount}
             />
           </ChatWrap>
         </>

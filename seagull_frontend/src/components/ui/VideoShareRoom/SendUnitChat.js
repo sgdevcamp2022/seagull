@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SendUnitChat = ({ key, time, content, author }) => {
+const SendUnitChat = ({ time, content, author }) => {
   const chatTime = time && new Date(time).getHours();
   const chatMin = time && new Date(time).getMinutes();
   return (
