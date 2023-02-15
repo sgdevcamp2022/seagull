@@ -47,6 +47,21 @@ const Signup = () => {
       });
   };
 
+  const duplicateId = async () => {
+    await userAPI
+      .get(
+        `/auth/id_duplicate_check?user_type=${usernameRef.current.value}&user_id=${usernameRef.current.value}`
+      )
+      .then((res) => {
+        console.log(res);
+        window.alert('사용 가능한 아이디 입니다');
+      })
+      .catch((err) => {
+        console.log('중복 오류', err);
+        window.alert('중복된 아이디가 있습니다!');
+      });
+  };
+
   //timer
   let PlAYTIME;
   let timerAuth;
@@ -141,9 +156,16 @@ const Signup = () => {
           />
 
           <SignupInputTitle title="아이디" />
-          <LoginSignupInputForm
+          {/* <LoginSignupInputForm
             inputRef={usernameRef}
             text="아이디를 입력해주세요."
+            buttonText="중복확인"
+          /> */}
+          <EmailAuthInput
+            inputRef={usernameRef}
+            OnClickCallback={duplicateId}
+            title="중복확인"
+            placeholder="아이디를 입력해주세요."
           />
 
           <SignupInputTitle title="닉네임" />
