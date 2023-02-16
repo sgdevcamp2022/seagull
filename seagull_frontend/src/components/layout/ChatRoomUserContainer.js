@@ -6,7 +6,7 @@ import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
 import ChatForm from './ChatForm';
 import RoomUserForm from './RoomUserForm';
 
-const ChatRoomUserContainer = ({ messageInputRef, sendMessage, userCount }) => {
+const ChatRoomUserContainer = ({ messageInputRef, sendMessage, user }) => {
   const [isViewChat, setIsViewChat] = useState(true);
 
   return (
@@ -19,7 +19,7 @@ const ChatRoomUserContainer = ({ messageInputRef, sendMessage, userCount }) => {
           <MenuIconBox
             isActive={isViewChat ? false : true}
             menu="참여자"
-            number={userCount}
+            user={user?.length}
           />
         </TabWrap>
       </MenuWrap>
@@ -30,7 +30,7 @@ const ChatRoomUserContainer = ({ messageInputRef, sendMessage, userCount }) => {
             sendMessage={sendMessage}
           />
         ) : (
-          <RoomUserForm number={userCount} />
+          <RoomUserForm user={user} />
         )}
       </ContentWrap>
     </div>
@@ -52,7 +52,7 @@ const TabWrap = styled.div`
 `;
 
 const ContentWrap = styled.div`
-  height: calc(100vh - 40px);
+  /* height: calc(100vh - 40px); */
   width: 100%;
   /* background-color: blue; */
 `;

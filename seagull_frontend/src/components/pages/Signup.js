@@ -50,15 +50,18 @@ const Signup = () => {
   const duplicateId = async () => {
     await userAPI
       .get(
-        `/auth/id_duplicate_check?user_type=${usernameRef.current.value}&user_id=${usernameRef.current.value}`
+        `/auth/id_duplicate_check?user_type=normal&user_id=${usernameRef.current.value}`
       )
       .then((res) => {
-        console.log(res);
+        console.log(res.data.duplicate);
+        if (res.data.duplicate) {
+          return window.alert('이미 존재하는 아이디 입니다.');
+        }
         window.alert('사용 가능한 아이디 입니다');
       })
       .catch((err) => {
-        console.log('중복 오류', err);
-        window.alert('중복된 아이디가 있습니다!');
+        console.log('중복확인 오류', err);
+        window.alert('중복확인 오류!');
       });
   };
 
@@ -133,6 +136,10 @@ const Signup = () => {
       nickname: nickNameRef.current.value,
       email: emailRef.current.value,
     };
+
+    if (SignupData.password !== SignupData.password_check) {
+      return window.alert('비밀번호가 일치하지 않습니다');
+    }
     console.log(SignupData);
     completeSignUp(SignupData);
   };
