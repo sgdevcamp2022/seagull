@@ -8,18 +8,14 @@ import { useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import {
-  ChatMessageState,
-  UserName,
-  HostState,
-  VideoState,
-} from '../../state/UserAtom';
-// import { UserState } from '../../state/UserAtom';
+import { ChatMessageState, UserName } from '../../state/UserAtom';
 
 //components
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
+
+var isHost = false;
 
 const VideoShareRoom = () => {
   const [isConnect, setIsConnect] = useState(
@@ -50,6 +46,12 @@ const VideoShareRoom = () => {
     stompClient.connect({}, onConnected, onError);
 
     setClient(stompClient);
+    console.log(sessionStorage.getItem('host'));
+    if (sessionStorage.getItem('host')) {
+      isHost = true;
+      setControls(true);
+      setStyle({});
+    }
   };
 
   const onConnected = () => {
@@ -63,7 +65,7 @@ const VideoShareRoom = () => {
       JSON.stringify(userInfo)
     );
     stompClient.subscribe(`/subscribe/room/${roomlink}`, message);
-    console.log('호스트?', hostState);
+    console.log('호스트?', isHost);
     console.log(stompClient);
     stompClient.subscribe(`/subscribe/group/${roomlink}`, onMessageReceived);
     console.log(client);
@@ -71,6 +73,11 @@ const VideoShareRoom = () => {
 
   const message = (payload) => {
     console.log(payload.body);
+
+    if (payload.body === 'exit') {
+      console.log(stompClient);
+      return stompClient.disconnect();
+    }
     console.log('참여자', JSON.parse(payload.body));
     console.log('참여자 수', JSON.parse(payload.body).length);
 
@@ -120,7 +127,7 @@ const VideoShareRoom = () => {
   const onMessageReceived = (payload) => {
     console.log(payload.body);
     var message = JSON.parse(payload.body);
-    console.log('호스트맞놔', hostState);
+    console.log('호스트맞놔', isHost);
 
     if (message.type === 'CHAT') {
       setChatMessage(message);
@@ -131,16 +138,17 @@ const VideoShareRoom = () => {
       //   setVideoState({ ...videoState, controls: true });
       // } else
       if (message.author === 'URL') {
-        if (videoState.url !== message.content) {
-          setVideoState({ ...videoState, url: message.content });
+        if (url !== message.content) {
+          setUrl(message.content);
         }
       } else if (message.author === 'Control:play') {
-        if (!hostState) {
-          setVideoState({ ...videoState, playing: !videoState.playing });
-          console.log(videoState);
+        if (!isHost) {
+          console.log(!JSON.parse(message.content));
+          setPlaying(!JSON.parse(message.content));
+          console.log(playing);
         }
       } else if (message.author === 'Control:sync') {
-        if (!hostState) {
+        if (!isHost) {
           console.log(Number(message.content));
           setTime(Number(message.content));
         }
@@ -162,36 +170,16 @@ const VideoShareRoom = () => {
   var videoRef = useRef();
   const urlRef = useRef();
 
-  const [hostState, setHostState] = useRecoilState(HostState);
-  console.log('ffff');
-  // const [hostState, setHostState] = useState(false);
-  const [videoState, setVideoState] = useRecoilState(VideoState);
+  const [url, setUrl] = useState(null);
+  const [controls, setControls] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [style, setStyle] = useState({ pointerEvents: 'none' });
 
-  // const [videoState, setVideoState] = useState({
-  //   url: null,
-  //   pip: false,
-  //   playing: false,
-  //   controls: true,
-  //   light: false,
-  //   volume: 0.8,
-  //   muted: true,
-  //   played: 0,
-  //   loaded: 0,
-  //   duration: 0,
-  //   playbackRate: 1.0,
-  //   loop: false,
-  //   progressInterval: 1000,
-  //   style: {},
-  // });
-
-  const setHost = () => {
-    setHostState(true);
-    // setVideoState({ ...videoState, controls: true, style: {} });
-  };
-
-  useEffect(() => {
-    console.log(hostState);
-  }, [hostState]);
+  // const setHost = () => {
+  //   isHost = true;
+  //   setControls(true);
+  //   setStyle({});
+  // };
 
   const setTime = (time) => {
     if (Math.abs(videoRef.current.getCurrentTime() - time) > 0.25) {
@@ -204,7 +192,7 @@ const VideoShareRoom = () => {
     var videoContent = msg;
 
     console.log(videoContent);
-    console.log(hostState);
+    console.log(isHost);
 
     if (videoContent && client) {
       var chatMessage = {
@@ -226,24 +214,16 @@ const VideoShareRoom = () => {
     console.log('방나가기');
 
     const username = sessionStorage.getItem('username');
-
-    // client.subscribe(`/subscribe/room/${roomlink}`).unsubscribe();
     let userInfo = {
       roomLink: roomlink,
       userId: username,
     };
 
     client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
-
-    client.subscribe(`/subscribe/room/exit/${roomlink}`, handleDisconnection);
   };
 
-  const handleDisconnection = (payload) => {
-    console.log(payload);
-    // host 인사람이 나가면 exit
-    // host 아닌 사람이 나가면 Set줌
-
-    client.disconnect();
+  const setTestState = () => {
+    setPlaying(!playing);
   };
 
   return (
@@ -266,41 +246,41 @@ const VideoShareRoom = () => {
             <Wrap>
               <VideoPlayWrap>
                 <ReactPlayer
+                  key={url}
                   ref={videoRef}
                   className="react-player"
-                  url={videoState.url}
+                  url={url}
                   width="100%"
                   height="100%"
-                  controls={videoState.controls}
-                  muted={videoState.muted}
-                  playing={videoState.playing}
-                  progressInterval={videoState.progressInterval}
-                  style={videoState.style}
-                  // onProgress={() => {
-                  //   // e.preventDefault();
-                  //   console.log(hostState);
-                  //   if (hostState) {
-                  //     sendVideo(
-                  //       'Control:sync',
-                  //       videoRef.current.getCurrentTime()
-                  //     );
-                  //   }
-                  // }}
-                  onPause={(e) => {
-                    e.preventDefault();
-                    console.log(hostState);
-                    if (hostState) {
+                  controls={controls}
+                  muted={false}
+                  playing={playing}
+                  progressInterval={1000}
+                  style={style}
+                  onProgress={() => {
+                    // e.preventDefault();
+                    // console.log(hostState);
+                    if (isHost) {
+                      sendVideo(
+                        'Control:sync',
+                        videoRef.current.getCurrentTime()
+                      );
+                    }
+                  }}
+                  onPause={() => {
+                    console.log(isHost);
+                    if (isHost) {
                       sendVideo('Control:play', 'true');
                     }
                   }}
-                  onPlay={(e) => {
-                    console.log('테스트', hostState);
+                  onPlay={() => {
+                    console.log('테스트', isHost);
+                    // setPlaying(true);
 
-                    if (hostState) {
+                    if (isHost) {
                       console.log('나오나');
                       sendVideo('Control:play', 'false');
                     }
-                    e.preventDefault();
                   }}
                 />
               </VideoPlayWrap>
@@ -308,7 +288,7 @@ const VideoShareRoom = () => {
             <ToolBarWrap>
               <ToolBarContainer>
                 <ShareVideoInput>
-                  <VideoIcon onClick={setHost}>
+                  <VideoIcon>
                     <MdVideoCall size={30} color="#0e72ed" />
                   </VideoIcon>
                   <VideoUrlInput
@@ -362,20 +342,20 @@ const VideoWrap = styled.div`
   background-color: #f4f4f4;
 `;
 
-const ChatWrap = styled.div`
-  width: calc(100vw - 75%);
-  height: 100%;
-  box-shadow: -15px 0px 30px -30px gray;
-`;
-
 const RoomInfoWrap = styled.div`
   height: 40px;
-  width: 100%;
-  padding-left: 55px;
+  width: 90%;
   align-items: center;
   box-sizing: border-box;
   font-size: 15px;
   display: flex;
+  margin: auto;
+`;
+
+const ChatWrap = styled.div`
+  width: calc(100vw - 75%);
+  height: 100%;
+  box-shadow: -15px 0px 30px -30px gray;
 `;
 
 const InfoIcon = styled.div`
@@ -419,12 +399,14 @@ const ToolBarContainer = styled.div`
 `;
 
 const ShareVideoInput = styled.div`
-  width: 400px;
+  width: 55%;
+  min-width: 200px;
   height: 50%;
   /* margin-left: 0px; */
   background-color: #ffffff;
   display: flex;
   border-radius: 10px;
+  position: relative;
 `;
 
 const VideoIcon = styled.div`
@@ -448,6 +430,9 @@ const InputButton = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  position: absolute;
+  height: 100%;
+  right: 5px;
 `;
 
 const Wrap = styled.div`
