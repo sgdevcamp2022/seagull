@@ -29,11 +29,12 @@ const Login = () => {
       .get(`/auth/login/normal?user_id=${username}&password=${password}`)
       .then((res) => {
         console.log(res);
+        window.alert('로그인 성공!');
+        navigate('/roommake');
       })
       .catch((err) => {
         console.log('로그인 에러', err);
         window.alert('로그인에 실패하였습니다');
-        navigate('/roommake');
       });
   };
 

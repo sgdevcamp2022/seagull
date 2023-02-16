@@ -29,7 +29,7 @@ const Wrap = styled.div`
       align-items: center;
       justify-content: center;
       border-bottom: ${isActive ? '2px solid black' : ''};
-      color: ${isActive ? 'black' : 'grey'};
+      color: ${isActive ? 'white' : 'grey'};
       padding: 0 10px;
       box-sizing: border-box;
     `;

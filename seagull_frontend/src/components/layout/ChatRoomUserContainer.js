@@ -6,7 +6,12 @@ import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
 import ChatForm from './ChatForm';
 import RoomUserForm from './RoomUserForm';
 
-const ChatRoomUserContainer = ({ messageInputRef, sendMessage, user }) => {
+const ChatRoomUserContainer = ({
+  messageInputRef,
+  sendMessage,
+  user,
+  infoMe,
+}) => {
   const [isViewChat, setIsViewChat] = useState(true);
 
   return (
@@ -30,7 +35,7 @@ const ChatRoomUserContainer = ({ messageInputRef, sendMessage, user }) => {
             sendMessage={sendMessage}
           />
         ) : (
-          <RoomUserForm user={user} />
+          <RoomUserForm user={user} infoMe={infoMe} />
         )}
       </ContentWrap>
     </div>

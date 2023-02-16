@@ -75,6 +75,7 @@ const Title = styled.div`
   /* background-color: aliceblue; */
   box-sizing: border-box;
   font-size: 20px;
+  color: white;
 `;
 const Content = styled.div`
   width: 100%;
@@ -93,14 +94,14 @@ const InputWrap = styled.div`
 `;
 
 const InputBox = styled.form`
-  /* background-color: aliceblue; */
+  background-color: grey;
   width: 95%;
   height: 50px;
   border-radius: 23px;
   padding: 5px 15px;
   box-sizing: border-box;
   display: flex;
-  border: 1.5px solid #f4f4f4;
+  /* border: 1.5px solid #f4f4f4; */
 `;
 
 const Input = styled.input`
@@ -111,6 +112,7 @@ const Input = styled.input`
   border: none;
   margin-right: 10px;
   box-sizing: border-box;
+  /* color: black; */
 `;
 
 const SendButton = styled.button`
