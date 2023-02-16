@@ -4,8 +4,10 @@ import { useState } from 'react';
 import RoomUserUnit from '../ui/VideoShareRoom/\bRoomUserUnit';
 import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 
-const RoomUserForm = ({ number }) => {
+const RoomUserForm = ({ user }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
+
+  console.log(user);
 
   const onOpenerClick = (e) => {
     e.stopPropagation();
@@ -19,9 +21,10 @@ const RoomUserForm = ({ number }) => {
         <InviteButton onClick={onOpenerClick}>초대</InviteButton>
         {isPopperShown && <InvitePopover onOpenerClick={onOpenerClick} />}
       </>
-      <Title>참여자 ({number})</Title>
+      <Title>참여자 ({user.length})</Title>
       <Content>
-        <RoomUserUnit />
+        {user &&
+          user.map((name, idx) => <RoomUserUnit key={idx} username={name} />)}
       </Content>
     </Wrap>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { ChatMessageState, UserName } from '../../state/UserAtom';
@@ -9,11 +9,14 @@ import SendUnitChat from '../ui/VideoShareRoom/SendUnitChat';
 
 const ChatForm = ({ messageInputRef, sendMessage }) => {
   const chatMessage = useRecoilValue(ChatMessageState);
-  // const testUserName = useRecoilValue(UserName);
   const username = sessionStorage.getItem('username');
   const [message, setMessage] = useState([]);
-  console.log(chatMessage ? true : false);
-  // console.log(testUserName);
+
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  });
 
   useEffect(() => {
     if (chatMessage) {
@@ -28,7 +31,7 @@ const ChatForm = ({ messageInputRef, sendMessage }) => {
   return (
     <Wrap>
       <Title>채팅</Title>
-      <Content>
+      <Content ref={scrollRef}>
         {message &&
           message.map((msg, idx) =>
             username === msg.author ? (
