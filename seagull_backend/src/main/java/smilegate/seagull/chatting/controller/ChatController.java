@@ -34,7 +34,6 @@ public class ChatController {
     @MessageMapping("/sendMessage/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
     public ChatMessage broadcastGroupMessage(@DestinationVariable(value = "roomLink") String roomLink, @Payload ChatMessage chatMessage) {
         chatMessage.setTimestamp(LocalDateTime.now().toString());
-        log.info("time : {}", LocalDateTime.now());
         messagingTemplate.convertAndSend("/subscribe/group/" + roomLink, chatMessage);
         return chatMessage;
     }

@@ -6,7 +6,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomUser {
-    private Long id;
-    private String roomId;
+    private String roomLink;
     private String userId;
+
+    public RoomUser(String roomLink, String userId) {
+        this.roomLink = roomLink;
+        this.userId = userId;
+    }
+
+    public RoomUser() {
+    }
 }
