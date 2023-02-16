@@ -40,6 +40,6 @@ public class RoomUserRedisRepository {
     }
 
     public void deleteUserAll(String roomLink) {
-        setData.remove(ROOMUSER+roomLink);
+        redisTemplate.delete(ROOMUSER + roomLink);
     }
 }

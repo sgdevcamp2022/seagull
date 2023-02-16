@@ -24,7 +24,9 @@ public class RoomRedisRepository {
     }
 
     public void deleteRoom(String roomLink) {
-        setDataRoom.remove(ROOM+roomLink);
+        redisTemplate.delete(ROOM+roomLink);
+//        redisTemplate.expire()
+//        setDataRoom.remove(ROOM+roomLink);
     }
 
     public Long getRoomCount(String roomLink) {
