@@ -55,6 +55,7 @@ const Nickname = styled.div`
   font-size: 16px;
   /* font-weight: bold; */
   margin-bottom: 7px;
+  color: white;
 `;
 
 const UserInfo = styled.div`

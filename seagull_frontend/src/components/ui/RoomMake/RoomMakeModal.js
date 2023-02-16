@@ -36,14 +36,16 @@ const RoomMakeModal = ({ setModalOpen }) => {
     <>
       <Container>
         <CloseBtn onClick={closeModal}>X</CloseBtn>
-        <Title>방만들기</Title>
+        <Title>참여하기</Title>
 
         <ContentWrap>
-          <Wrap>
-            <RoomName>방 제목</RoomName>
+          <WrapInput>
+            <RoomName>입장링크</RoomName>
             <InputRoomName ref={testuserRef}></InputRoomName>
-          </Wrap>
-
+          </WrapInput>
+          <WrapInput>
+            <RoomName>입장링크를 입력하세요.</RoomName>
+          </WrapInput>
           <Wrap>
             <CancelBtn onClick={closeModal}>취소</CancelBtn>
             <RoomMakeBtn onClick={makeRoom}>만들기</RoomMakeBtn>
@@ -55,8 +57,8 @@ const RoomMakeModal = ({ setModalOpen }) => {
 };
 
 const Container = styled.div`
-  width: 400px;
-  height: 190px;
+  width: 500px;
+  height: 250px;
   background-color: white;
   position: relative;
   box-sizing: border-box;
@@ -74,9 +76,10 @@ const CloseBtn = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   height: 30px;
+  margin-bottom: 10px;
   border-bottom: 1px solid lightgray;
 `;
 
@@ -84,10 +87,17 @@ const ContentWrap = styled.div`
   height: 50px;
 `;
 
+const WrapInput = styled.div`
+  height: 50px;
+  display: flex;
+  /* margin-top: 10px; */
+`;
+
 const Wrap = styled.div`
   height: 50px;
   display: flex;
-  margin-bottom: 20px;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 const RoomName = styled.div`
@@ -97,7 +107,7 @@ const RoomName = styled.div`
 
 const InputRoomName = styled.input`
   margin: 11px auto auto 0;
-  width: 280px;
+  width: 380px;
   height: 28px;
   border: 0.5px solid grey;
   border-radius: 5px;

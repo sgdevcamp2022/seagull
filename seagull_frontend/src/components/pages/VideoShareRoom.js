@@ -9,11 +9,13 @@ import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { ChatMessageState, UserName } from '../../state/UserAtom';
+import axios from 'axios';
 
 //components
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
+import webSocketAPI from '../../apis/webSocketAPI';
 
 var isHost = false;
 
@@ -78,10 +80,15 @@ const VideoShareRoom = () => {
       console.log(stompClient);
       return stompClient.disconnect();
     }
-    console.log('참여자', JSON.parse(payload.body));
-    console.log('참여자 수', JSON.parse(payload.body).length);
+    if (JSON.parse(payload.body).url) {
+      setUrl(JSON.parse(payload.body).url);
+    }
 
-    setUser(JSON.parse(payload.body));
+    console.log('참여자', JSON.parse(payload.body).users);
+    console.log('참여자 수', JSON.parse(payload.body).users.length);
+    console.log('url', JSON.parse(payload.body).url);
+
+    setUser(JSON.parse(payload.body).users);
   };
 
   const onError = (error) => {
@@ -226,6 +233,19 @@ const VideoShareRoom = () => {
     setPlaying(!playing);
   };
 
+  console.log('나', sessionStorage.getItem('username'));
+
+  const sendUrl = async (url) => {
+    await webSocketAPI
+      .post(`/room/video/${roomlink}`, { url: url })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log('url전송 에러', err);
+      });
+  };
+
   return (
     <Container>
       {!isConnect ? (
@@ -253,13 +273,11 @@ const VideoShareRoom = () => {
                   width="100%"
                   height="100%"
                   controls={controls}
-                  muted={false}
+                  muted={true}
                   playing={playing}
                   progressInterval={1000}
                   style={style}
                   onProgress={() => {
-                    // e.preventDefault();
-                    // console.log(hostState);
                     if (isHost) {
                       sendVideo(
                         'Control:sync',
@@ -297,6 +315,7 @@ const VideoShareRoom = () => {
                   ></VideoUrlInput>
                   <InputButton
                     onClick={(e) => {
+                      sendUrl(urlRef.current.value);
                       sendVideo('URL', urlRef.current.value);
                       e.preventDefault();
                     }}
@@ -313,6 +332,7 @@ const VideoShareRoom = () => {
               messageInputRef={messageInputRef}
               sendMessage={sendMessage}
               user={user}
+              infoMe={sessionStorage.getItem('username')}
             />
           </ChatWrap>
         </>
@@ -339,7 +359,7 @@ const Container = styled.div`
 const VideoWrap = styled.div`
   width: 75%;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-color: #191919;
 `;
 
 const RoomInfoWrap = styled.div`
@@ -356,6 +376,7 @@ const ChatWrap = styled.div`
   width: calc(100vw - 75%);
   height: 100%;
   box-shadow: -15px 0px 30px -30px gray;
+  background-color: #262626;
 `;
 
 const InfoIcon = styled.div`
@@ -371,6 +392,7 @@ const RoomName = styled.div`
   align-items: center;
   height: 20px;
   margin: 15px auto 0 2px;
+  color: white;
 `;
 
 const VideoChatWrap = styled.div`
@@ -403,7 +425,7 @@ const ShareVideoInput = styled.div`
   min-width: 200px;
   height: 50%;
   /* margin-left: 0px; */
-  background-color: #ffffff;
+  background-color: #262626;
   display: flex;
   border-radius: 10px;
   position: relative;
@@ -421,6 +443,7 @@ const VideoUrlInput = styled.input`
   border: none;
   background-color: transparent;
   outline: none;
+  color: white;
 `;
 
 const InputButton = styled.div`
@@ -446,6 +469,6 @@ const Wrap = styled.div`
 const VideoPlayWrap = styled.div`
   width: 90%;
   height: calc(100vh - 120px);
-  background-color: white;
+  background-color: black;
 `;
 export default VideoShareRoom;

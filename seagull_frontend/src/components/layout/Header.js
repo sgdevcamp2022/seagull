@@ -32,14 +32,14 @@ const Header = () => {
 
 const NavBarWrap = styled.div`
   width: 100%;
-  height: 70px;
+  height: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
   box-sizing: border-box;
   user-select: none;
-  border-bottom: 0.5px solid slategray;
+  /* border-bottom: 0.5px solid slategray; */
 `;
 
 const Wrap = styled.div`
@@ -57,7 +57,9 @@ const Logo = styled.a`
   height: 44px;
   margin-right: 40px;
   text-decoration: none;
-  color: black;
+  color: #01031f;
+  font-weight: bolder;
+  font-size: 30px;
   overflow: hidden;
   font-size: large;
 `;

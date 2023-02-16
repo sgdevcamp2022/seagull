@@ -4,10 +4,10 @@ import { useState } from 'react';
 import RoomUserUnit from '../ui/VideoShareRoom/\bRoomUserUnit';
 import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 
-const RoomUserForm = ({ user }) => {
+const RoomUserForm = ({ user, infoMe }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
 
-  console.log(user);
+  console.log('ddd', infoMe);
 
   const onOpenerClick = (e) => {
     e.stopPropagation();
@@ -52,6 +52,7 @@ const InviteButton = styled.div`
 `;
 
 const Title = styled.div`
+  color: white;
   display: flex;
   padding-left: 22px;
   /* justify-content: flex-start; */
