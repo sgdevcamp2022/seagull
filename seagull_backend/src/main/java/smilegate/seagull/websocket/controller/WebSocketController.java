@@ -48,9 +48,7 @@ public class WebSocketController {
 
         if (roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())) {
             enterUserService.deleteUserAll(roomLink);
-            log.info("4");
             roomService.deleteRoom(roomLink);
-            log.info("5");
             roomTemplate.convertAndSend("/subscribe/room/" + roomLink, "exit");
         }
         if (!roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())){
