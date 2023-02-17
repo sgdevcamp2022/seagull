@@ -4,18 +4,18 @@ import ReactPlayer from 'react-player';
 import styled from 'styled-components';
 import { RxCopy } from 'react-icons/rx';
 import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { ChatMessageState, UserName } from '../../state/UserAtom';
-import axios from 'axios';
 
 //components
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 import webSocketAPI from '../../apis/webSocketAPI';
+import Swal from 'sweetalert2';
 
 var isHost = false;
 
@@ -26,6 +26,7 @@ const VideoShareRoom = () => {
   const [client, setClient] = useState();
 
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   const { roomlink } = useParams();
   const userRef = useRef();
@@ -78,6 +79,11 @@ const VideoShareRoom = () => {
 
     if (payload.body === 'exit') {
       console.log(stompClient);
+      navigate('/roommake');
+      if (!isHost) {
+        Swal.fire('호스트가 나가게 되어 방이 종료 되었습니다!');
+      }
+
       return stompClient.disconnect();
     }
     if (JSON.parse(payload.body).url) {
@@ -227,6 +233,9 @@ const VideoShareRoom = () => {
     };
 
     client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
+
+    Swal.fire('메인페이지로 이동합니다');
+    navigate('/roommake');
   };
 
   const setTestState = () => {
