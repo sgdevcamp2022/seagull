@@ -37,7 +37,15 @@ public class RoomVideoRepository {
     }
 
     public String findByRoomLink(String roomLink) {
-        return setData.pop(roomLink);
+        Boolean check = redisTemplate.hasKey(ROOMVIDEO + roomLink);
+        if(!check) return "";
+        String popData = setData.pop(ROOMVIDEO+roomLink);
+        setData.add(ROOMVIDEO+roomLink, popData);
+        return popData;
+    }
+
+    public Boolean existVideo(String roomLink) {
+        return redisTemplate.hasKey(ROOMVIDEO+roomLink);
     }
 }
 
