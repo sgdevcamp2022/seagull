@@ -21,7 +21,6 @@ const Signup = () => {
       .then((res) => {
         console.log(res);
         Swal.fire({
-          // icon: 'success',
           title: '인증메일이 발송되었습니다',
           text: `인증메일이 오지 않을 경우, 스팸함 또는 스팸설정을 확인해주세요`,
           width: 420,
@@ -74,7 +73,6 @@ const Signup = () => {
   const [alertSent, setAlertSent] = useState(false);
   const [alertcomment, setAlertcomment] = useState('');
   const [sentAuth, setSentAuth] = useState(false);
-  const [sentAuthCount, setSentAuthCount] = useState(3);
   const [authData, setAuthData] = useState();
 
   const playNumber = useRef(null);
@@ -163,11 +161,6 @@ const Signup = () => {
           />
 
           <SignupInputTitle title="아이디" />
-          {/* <LoginSignupInputForm
-            inputRef={usernameRef}
-            text="아이디를 입력해주세요."
-            buttonText="중복확인"
-          /> */}
           <EmailAuthInput
             inputRef={usernameRef}
             OnClickCallback={duplicateId}
@@ -209,16 +202,12 @@ const SignupContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: aliceblue; */
 `;
 
 const Wrap = styled.div`
-  /* height: 1000px; */
   width: 500px;
   max-width: 500px;
-  /* max-height: 1000px; */
   min-width: 500px;
-  /* min-height: 1000px; */
   background-color: white;
   border: 1px solid #f4f4f4;
   display: flex;
