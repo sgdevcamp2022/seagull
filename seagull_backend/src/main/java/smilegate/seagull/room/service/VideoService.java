@@ -29,4 +29,8 @@ public class VideoService {
     public String getURL(String roomLink) {
         return roomVideoRepository.findByRoomLink(roomLink);
     }
+
+    public Boolean existURL(String roomLink) {
+        return roomVideoRepository.existVideo(roomLink);
+    }
 }

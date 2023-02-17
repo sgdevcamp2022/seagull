@@ -40,19 +40,14 @@ public class WebSocketController {
         log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
 
         if(roomService.isExistRoom(roomLink)){
-            if(!videoService.getURL(roomLink).isEmpty()){
-                enterUserService.saveUser(roomUser);
-                Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-                List<String> users = new ArrayList<>(allUser);
-                String url = videoService.getURL(roomLink);
-                EnterUserResponse userResponse = EnterUserResponse.of(users, url);
-                roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), userResponse);
-            }
-            if(videoService.getURL(roomLink).isEmpty()){
-                enterUserService.saveUser(roomUser);
-                Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-                roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), allUser);
-            }
+            enterUserService.saveUser(roomUser);
+            Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
+            List<String> users = new ArrayList<>(allUser);
+            String url = videoService.getURL(roomLink);
+            EnterUserResponse userResponse = EnterUserResponse.of(users, url);
+            log.info("URL : {}", url);
+            log.info("Response JSON : {}",userResponse);
+            roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), userResponse);
         }
     }
 
@@ -69,7 +64,10 @@ public class WebSocketController {
         if (!roomService.findByHost(roomUser.getRoomLink(), roomUser.getUserId())){
             enterUserService.deleteUser(roomUser);
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-            roomTemplate.convertAndSend("/subscribe/room/" + roomLink, allUser);
+            List<String> users = new ArrayList<>(allUser);
+            String url = videoService.getURL(roomLink);
+            EnterUserResponse userResponse = EnterUserResponse.of(users, url);
+            roomTemplate.convertAndSend("/subscribe/room/" + roomLink, userResponse);
         }
     }
 }
