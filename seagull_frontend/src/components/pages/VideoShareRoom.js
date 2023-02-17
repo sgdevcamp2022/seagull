@@ -4,18 +4,18 @@ import ReactPlayer from 'react-player';
 import styled from 'styled-components';
 import { RxCopy } from 'react-icons/rx';
 import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { ChatMessageState, UserName } from '../../state/UserAtom';
-import axios from 'axios';
 
 //components
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 import webSocketAPI from '../../apis/webSocketAPI';
+import Swal from 'sweetalert2';
 
 var isHost = false;
 
@@ -26,6 +26,7 @@ const VideoShareRoom = () => {
   const [client, setClient] = useState();
 
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   const { roomlink } = useParams();
   const userRef = useRef();
@@ -78,12 +79,17 @@ const VideoShareRoom = () => {
 
     if (payload.body === 'exit') {
       console.log(stompClient);
+      navigate('/roommake');
+      if (!isHost) {
+        Swal.fire('호스트에 의해 방이 종료 되었습니다!');
+      }
+
       return stompClient.disconnect();
     }
     if (JSON.parse(payload.body).url) {
+      handleTimer();
       setUrl(JSON.parse(payload.body).url);
     }
-
     console.log('참여자', JSON.parse(payload.body).users);
     console.log('참여자 수', JSON.parse(payload.body).users.length);
     console.log('url', JSON.parse(payload.body).url);
@@ -130,6 +136,24 @@ const VideoShareRoom = () => {
     }
   };
 
+  let PlAYTIME;
+  let sec = 0.5;
+
+  const playNumber = useRef(null);
+
+  const handleTimer = () => {
+    PlAYTIME = setInterval(function () {
+      sec = sec - 0.5;
+      if (sec < 0) {
+        setPlaying(false);
+        console.log('중ㅈㅣ');
+        clearInterval(PlAYTIME);
+      }
+      console.log(sec + 1 + '초');
+    }, 500);
+    playNumber.current = PlAYTIME;
+  };
+
   //이벤트에 따라 받아오는 값 처리
   const onMessageReceived = (payload) => {
     console.log(payload.body);
@@ -139,11 +163,6 @@ const VideoShareRoom = () => {
     if (message.type === 'CHAT') {
       setChatMessage(message);
     } else if (message.type === 'VIDEO') {
-      // if (message.author === 'sys:host') {
-      //   console.log(message.content);
-      //   setHostState(true);
-      //   setVideoState({ ...videoState, controls: true });
-      // } else
       if (message.author === 'URL') {
         if (url !== message.content) {
           setUrl(message.content);
@@ -158,6 +177,7 @@ const VideoShareRoom = () => {
         if (!isHost) {
           console.log(Number(message.content));
           setTime(Number(message.content));
+          clearInterval(PlAYTIME);
         }
       }
     }
@@ -179,14 +199,8 @@ const VideoShareRoom = () => {
 
   const [url, setUrl] = useState(null);
   const [controls, setControls] = useState(false);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [style, setStyle] = useState({ pointerEvents: 'none' });
-
-  // const setHost = () => {
-  //   isHost = true;
-  //   setControls(true);
-  //   setStyle({});
-  // };
 
   const setTime = (time) => {
     if (Math.abs(videoRef.current.getCurrentTime() - time) > 0.25) {
@@ -227,10 +241,9 @@ const VideoShareRoom = () => {
     };
 
     client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
-  };
 
-  const setTestState = () => {
-    setPlaying(!playing);
+    Swal.fire('메인페이지로 이동합니다');
+    navigate('/roommake');
   };
 
   console.log('나', sessionStorage.getItem('username'));
@@ -279,10 +292,18 @@ const VideoShareRoom = () => {
                   style={style}
                   onProgress={() => {
                     if (isHost) {
-                      sendVideo(
-                        'Control:sync',
-                        videoRef.current.getCurrentTime()
-                      );
+                      if (playing) {
+                        sendVideo(
+                          'Control:syncPause',
+
+                          videoRef.current.getCurrentTime()
+                        );
+                      } else {
+                        sendVideo(
+                          'Control:sync',
+                          videoRef.current.getCurrentTime()
+                        );
+                      }
                     }
                   }}
                   onPause={() => {
@@ -293,8 +314,6 @@ const VideoShareRoom = () => {
                   }}
                   onPlay={() => {
                     console.log('테스트', isHost);
-                    // setPlaying(true);
-
                     if (isHost) {
                       console.log('나오나');
                       sendVideo('Control:play', 'false');
