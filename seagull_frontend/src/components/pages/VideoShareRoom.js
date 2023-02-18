@@ -86,7 +86,7 @@ const VideoShareRoom = () => {
 
       return stompClient.disconnect();
     }
-    if (JSON.parse(payload.body).url) {
+    if (JSON.parse(payload.body).url && !isHost) {
       handleTimer();
       setUrl(JSON.parse(payload.body).url);
     }
@@ -137,20 +137,20 @@ const VideoShareRoom = () => {
   };
 
   let PlAYTIME;
-  let sec = 0.5;
+  let sec = 1;
 
   const playNumber = useRef(null);
 
   const handleTimer = () => {
     PlAYTIME = setInterval(function () {
-      sec = sec - 0.5;
+      sec = sec - 1;
       if (sec < 0) {
         setPlaying(false);
         console.log('중ㅈㅣ');
         clearInterval(PlAYTIME);
       }
       console.log(sec + 1 + '초');
-    }, 500);
+    }, 1000);
     playNumber.current = PlAYTIME;
   };
 
@@ -244,6 +244,7 @@ const VideoShareRoom = () => {
 
     Swal.fire('메인페이지로 이동합니다');
     navigate('/roommake');
+    client.disconnect();
   };
 
   console.log('나', sessionStorage.getItem('username'));
@@ -294,7 +295,7 @@ const VideoShareRoom = () => {
                     if (isHost) {
                       if (playing) {
                         sendVideo(
-                          'Control:syncPause',
+                          'Control:sync',
 
                           videoRef.current.getCurrentTime()
                         );

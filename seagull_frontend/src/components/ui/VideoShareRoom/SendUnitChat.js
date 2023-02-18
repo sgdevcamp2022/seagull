@@ -56,6 +56,7 @@ const ChatTitle = styled.div`
 `;
 
 const Nickname = styled.div`
+  color: white;
   margin-top: 5px;
   height: 15px;
   font-size: 16px;
@@ -73,6 +74,7 @@ const Time = styled.div`
 `;
 
 const ChatMessage = styled.div`
+  color: white;
   font-size: 12px;
   line-height: 150%;
   text-align: right;

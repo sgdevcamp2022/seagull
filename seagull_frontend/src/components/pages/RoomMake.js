@@ -58,7 +58,7 @@ const RoomMake = () => {
               <IconWrap>
                 <SiWechat size={21} color="#0D2140" />
               </IconWrap>
-              <FuctionText>영상 공유 방 내 채팅</FuctionText>
+              <FuctionText> 실시간 채팅</FuctionText>
             </PlatformFunction>
           </FunctionWrap>
         </TitleWrap>
