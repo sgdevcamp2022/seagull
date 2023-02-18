@@ -55,7 +55,7 @@ const ChatForm = ({ messageInputRef, sendMessage }) => {
         <InputBox>
           <Input ref={messageInputRef} placeholder="메시지를 입력하세요" />
           <SendButton onClick={sendMessage}>
-            <FiSend size={21} />
+            <FiSend size={21} color="lightgrey" />
           </SendButton>
         </InputBox>
       </InputWrap>
@@ -116,10 +116,11 @@ const Input = styled.input`
 `;
 
 const SendButton = styled.button`
+  border: none;
   width: 13%;
   height: 100%;
-  border-radius: 25px;
-  background-color: #f4f4f4;
+  /* border-radius: 25px; */
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
