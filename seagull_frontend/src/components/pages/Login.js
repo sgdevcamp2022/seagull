@@ -30,7 +30,7 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         window.alert('로그인 성공!');
-        navigate('/roommake');
+        navigate('/');
       })
       .catch((err) => {
         console.log('로그인 에러', err);

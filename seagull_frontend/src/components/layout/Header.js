@@ -15,7 +15,9 @@ const Header = () => {
   return (
     <NavBarWrap>
       <Wrap>
-        <Logo href="/">LOGO</Logo>
+        <Logo href="/">
+          <img src="/images/eGuBa_logo.png" alt="" />
+        </Logo>
 
         <AfterLoginBox>
           <ProfileImg isPopperShown={isPopperShown} onClick={onOpenerClick}>
@@ -45,7 +47,7 @@ const NavBarWrap = styled.div`
 const Wrap = styled.div`
   display: flex;
   align-items: center;
-  width: 1280px;
+  width: 1300px;
 `;
 
 const Logo = styled.a`
@@ -53,8 +55,8 @@ const Logo = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90px;
-  height: 44px;
+  width: 120px;
+  height: 60px;
   margin-right: 40px;
   text-decoration: none;
   color: #01031f;
@@ -62,6 +64,11 @@ const Logo = styled.a`
   font-size: 30px;
   overflow: hidden;
   font-size: large;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const AfterLoginBox = styled.div`
