@@ -45,4 +45,8 @@ public class RoomService {
     public Boolean findByHost(String roomLink, String userId) {
         return roomRedisRepository.hostCheck(roomLink, userId);
     }
+
+    public String findHost(String roomLink) {
+        return roomRedisRepository.getRoomHost(roomLink);
+    }
 }

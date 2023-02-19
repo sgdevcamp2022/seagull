@@ -42,9 +42,10 @@ public class WebSocketController {
         if(roomService.isExistRoom(roomLink)){
             enterUserService.saveUser(roomUser);
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-            List<String> users = new ArrayList<>(allUser);
+            List<String> users = new ArrayList<>(allUser); // set -> list
             String url = videoService.getURL(roomLink);
-            EnterUserResponse userResponse = EnterUserResponse.of(users, url);
+            String hostName = roomService.findHost(roomLink);
+            EnterUserResponse userResponse = EnterUserResponse.of(users, url, hostName);
             log.info("URL : {}", url);
             log.info("Response JSON : {}",userResponse);
             roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), userResponse);
@@ -66,7 +67,8 @@ public class WebSocketController {
             Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
             List<String> users = new ArrayList<>(allUser);
             String url = videoService.getURL(roomLink);
-            EnterUserResponse userResponse = EnterUserResponse.of(users, url);
+            String hostName = roomService.findHost(roomLink);
+            EnterUserResponse userResponse = EnterUserResponse.of(users, url,hostName);
             roomTemplate.convertAndSend("/subscribe/room/" + roomLink, userResponse);
         }
     }
