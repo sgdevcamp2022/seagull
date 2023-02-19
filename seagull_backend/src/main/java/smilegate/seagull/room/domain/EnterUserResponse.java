@@ -10,17 +10,19 @@ import java.util.List;
 public class EnterUserResponse {
     private List<String> users = new ArrayList<String>();
     private String url;
+    private String hostName;
 
     public EnterUserResponse() {
 
     }
 
-    public EnterUserResponse(List<String> users, String url) {
+    public EnterUserResponse(List<String> users, String url, String hostName) {
         this.users = users;
         this.url = url;
+        this.hostName = hostName;
     }
 
-    public static EnterUserResponse of(List<String> users, String url) {
-        return new EnterUserResponse(users, url);
+    public static EnterUserResponse of(List<String> users, String url, String hostName) {
+        return new EnterUserResponse(users, url, hostName);
     }
 }
