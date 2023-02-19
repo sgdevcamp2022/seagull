@@ -20,8 +20,8 @@ public class RoomRedisRepository {
     }
 
     public String getRoomHost(String roomLink) {
-        String pop = setDataRoom.pop(roomLink);
-        setDataRoom.add(roomLink, pop);
+        String pop = setDataRoom.pop(ROOM+roomLink);
+        setDataRoom.add(ROOM+roomLink, pop);
         return pop;
     }
 
