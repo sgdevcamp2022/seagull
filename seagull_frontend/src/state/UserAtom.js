@@ -29,7 +29,7 @@ export const ChatMessageState = atom({
 //video_share
 export const HostState = atom({
   key: 'HostState',
-  default: false,
+  default: '',
 });
 
 export const VideoState = atom({
