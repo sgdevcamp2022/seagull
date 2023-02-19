@@ -81,25 +81,31 @@ const VideoShareRoom = () => {
   const message = (payload) => {
     console.log(payload.body);
     console.log(payload.body === 'exit' ? true : false);
-    console.log(JSON.parse(payload.body).hostName);
-    setHostName(JSON.parse(payload.body).hostName);
+    // console.log(JSON.parse(payload.body).hostName);
 
     if (payload.body === 'exit') {
+      console.log('여기 못와,?');
       console.log(stompClient);
-      navigate('/');
+
       if (!isHost) {
         Swal.fire({
           title: '호스트에 의해 방이 종료 되었습니다!',
           confirmButtonColor: '#0e72ed',
         });
+        navigate('/');
       }
-
       return stompClient.disconnect();
     }
+
+    if (JSON.parse(payload.body).hostName) {
+      setHostName(JSON.parse(payload.body).hostName);
+    }
+
     if (JSON.parse(payload.body).url && !isHost) {
       handleTimer();
       setUrl(JSON.parse(payload.body).url);
     }
+
     console.log('참여자', JSON.parse(payload.body).users);
     console.log('참여자 수', JSON.parse(payload.body).users.length);
     console.log('url', JSON.parse(payload.body).url);
