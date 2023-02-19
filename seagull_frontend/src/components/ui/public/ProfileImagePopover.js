@@ -51,7 +51,7 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
           onClick={() => {
             logoutHandler();
             Swal.fire('로그아웃 되었습니다!');
-            navigate('/');
+            navigate('/login');
           }}
         >
           로그아웃

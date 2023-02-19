@@ -12,8 +12,10 @@ import AuthNumberInput from '../ui/Signup/AuthNumberInput';
 import EmailAuthInput from '../ui/Signup/EmailAuthInput';
 import SignupInputTitle from '../ui/Signup/SignupInputTitle';
 import userAPI from '../../apis/userAPI';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const receiveEmail = async (email) => {
     console.log(email);
     await userAPI
@@ -39,6 +41,7 @@ const Signup = () => {
       .then((res) => {
         console.log(res);
         window.alert('회원가입 성공!');
+        navigate('/login');
       })
       .catch((err) => {
         console.log('회원가입 오류', err);
