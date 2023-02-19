@@ -19,14 +19,18 @@ public class RoomRedisRepository {
         setDataRoom = redisTemplate.opsForSet();
     }
 
+    public String getRoomHost(String roomLink) {
+        String pop = setDataRoom.pop(ROOM+roomLink);
+        setDataRoom.add(ROOM+roomLink, pop);
+        return pop;
+    }
+
     public void setRoom(String roomLink, String userId) {
         setDataRoom.add(ROOM+roomLink, userId);
     }
 
     public void deleteRoom(String roomLink) {
         redisTemplate.delete(ROOM+roomLink);
-//        redisTemplate.expire()
-//        setDataRoom.remove(ROOM+roomLink);
     }
 
     public Long getRoomCount(String roomLink) {
