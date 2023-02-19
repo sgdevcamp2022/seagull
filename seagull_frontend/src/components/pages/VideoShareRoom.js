@@ -18,7 +18,6 @@ import webSocketAPI from '../../apis/webSocketAPI';
 import Swal from 'sweetalert2';
 
 //pages
-import RequestLogin from './RequestLogin';
 import Login from './Login';
 
 var isHost = false;

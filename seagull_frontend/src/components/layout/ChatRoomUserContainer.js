@@ -10,7 +10,7 @@ const ChatRoomUserContainer = ({
   messageInputRef,
   sendMessage,
   user,
-  infoMe,
+  hostName,
 }) => {
   const [isViewChat, setIsViewChat] = useState(true);
 
@@ -35,7 +35,7 @@ const ChatRoomUserContainer = ({
             sendMessage={sendMessage}
           />
         ) : (
-          <RoomUserForm user={user} infoMe={infoMe} />
+          <RoomUserForm user={user} hostName={hostName} />
         )}
       </ContentWrap>
     </div>
