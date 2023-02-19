@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import { FaVideo } from 'react-icons/fa';
 import { SiWechat } from 'react-icons/si';
+import Swal from 'sweetalert2';
 
 import webSocketAPI from '../../apis/webSocketAPI';
 
@@ -35,7 +36,10 @@ const RoomMake = () => {
       })
       .catch((err) => {
         console.log('방만들기 에러', err);
-        window.alert('방만들기에 실패하였습니다');
+        Swal.fire({
+          title: '방만들기 오류',
+          confirmButtonColor: '#0e72ed',
+        });
       });
   };
 

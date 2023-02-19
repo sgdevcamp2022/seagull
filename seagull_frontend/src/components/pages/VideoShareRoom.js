@@ -17,15 +17,19 @@ import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 import webSocketAPI from '../../apis/webSocketAPI';
 import Swal from 'sweetalert2';
 
+//pages
+import Login from './Login';
+
 var isHost = false;
 
 const VideoShareRoom = () => {
-  const [isConnect, setIsConnect] = useState(
+  const [isLogin, setIsLogin] = useState(
     sessionStorage.getItem('username') ? true : false
   );
   const [client, setClient] = useState();
 
   const [user, setUser] = useState();
+  const [hostName, setHostName] = useState();
   const navigate = useNavigate();
 
   const { roomlink } = useParams();
@@ -76,12 +80,18 @@ const VideoShareRoom = () => {
 
   const message = (payload) => {
     console.log(payload.body);
+    console.log(payload.body === 'exit' ? true : false);
+    console.log(JSON.parse(payload.body).hostName);
+    setHostName(JSON.parse(payload.body).hostName);
 
     if (payload.body === 'exit') {
       console.log(stompClient);
-      navigate('/roommake');
+      navigate('/');
       if (!isHost) {
-        Swal.fire('호스트에 의해 방이 종료 되었습니다!');
+        Swal.fire({
+          title: '호스트에 의해 방이 종료 되었습니다!',
+          confirmButtonColor: '#0e72ed',
+        });
       }
 
       return stompClient.disconnect();
@@ -188,10 +198,10 @@ const VideoShareRoom = () => {
   };
 
   useEffect(() => {
-    if (isConnect) {
+    if (isLogin) {
       entryRoomSocket();
     }
-  }, [isConnect]);
+  }, [isLogin]);
 
   //
   var videoRef = useRef();
@@ -214,20 +224,23 @@ const VideoShareRoom = () => {
 
     console.log(videoContent);
     console.log(isHost);
+    if (isHost) {
+      if (videoContent && client) {
+        var chatMessage = {
+          roomLink: roomlink,
+          author: type,
+          content: videoContent,
+          type: 'VIDEO',
+        };
 
-    if (videoContent && client) {
-      var chatMessage = {
-        roomLink: roomlink,
-        author: type,
-        content: videoContent,
-        type: 'VIDEO',
-      };
-
-      client.send(
-        `/publish/sendMessage/${roomlink}`,
-        {},
-        JSON.stringify(chatMessage)
-      );
+        client.send(
+          `/publish/sendMessage/${roomlink}`,
+          {},
+          JSON.stringify(chatMessage)
+        );
+      }
+    } else {
+      window.alert('호스트 권한이 없습니다!');
     }
   };
 
@@ -242,31 +255,48 @@ const VideoShareRoom = () => {
 
     client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
 
-    Swal.fire('메인페이지로 이동합니다');
-    navigate('/roommake');
+    Swal.fire({
+      title: '메인페이지로 이동합니다',
+      confirmButtonColor: '#0e72ed',
+    });
+    navigate('/');
+    sessionStorage.removeItem('host');
     client.disconnect();
   };
 
   console.log('나', sessionStorage.getItem('username'));
 
   const sendUrl = async (url) => {
-    await webSocketAPI
-      .post(`/room/video/${roomlink}`, { url: url })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log('url전송 에러', err);
-      });
+    if (isHost) {
+      await webSocketAPI
+        .post(`/room/video/${roomlink}`, { url: url })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log('url전송 에러', err);
+        });
+    }
+  };
+
+  const requestLogin = () => {
+    Swal.fire({
+      title: '로그인 후 이용가능한 서비스입니다!',
+      confirmButtonColor: '#0e72ed',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/login');
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info');
+      }
+    });
   };
 
   return (
     <Container>
-      {!isConnect ? (
-        <>
-          <InputUser ref={userRef}></InputUser>
-          <Button onClick={entryRoomSocket}>들어가기</Button>
-        </>
+      {!isLogin ? (
+        // <RequestLogin />
+        requestLogin()
       ) : (
         <>
           <VideoWrap>
@@ -279,48 +309,52 @@ const VideoShareRoom = () => {
             {/* <VideoShareForm /> */}
             <Wrap>
               <VideoPlayWrap>
-                <ReactPlayer
-                  key={url}
-                  ref={videoRef}
-                  className="react-player"
-                  url={url}
-                  width="100%"
-                  height="100%"
-                  controls={controls}
-                  muted={true}
-                  playing={playing}
-                  progressInterval={1000}
-                  style={style}
-                  onProgress={() => {
-                    if (isHost) {
-                      if (playing) {
-                        sendVideo(
-                          'Control:sync',
+                {url ? (
+                  <ReactPlayer
+                    key={url}
+                    ref={videoRef}
+                    className="react-player"
+                    url={url}
+                    width="100%"
+                    height="100%"
+                    controls={controls}
+                    muted={true}
+                    playing={playing}
+                    progressInterval={1000}
+                    style={style}
+                    onProgress={() => {
+                      if (isHost) {
+                        if (playing) {
+                          sendVideo(
+                            'Control:sync',
 
-                          videoRef.current.getCurrentTime()
-                        );
-                      } else {
-                        sendVideo(
-                          'Control:sync',
-                          videoRef.current.getCurrentTime()
-                        );
+                            videoRef.current.getCurrentTime()
+                          );
+                        } else {
+                          sendVideo(
+                            'Control:sync',
+                            videoRef.current.getCurrentTime()
+                          );
+                        }
                       }
-                    }
-                  }}
-                  onPause={() => {
-                    console.log(isHost);
-                    if (isHost) {
-                      sendVideo('Control:play', 'true');
-                    }
-                  }}
-                  onPlay={() => {
-                    console.log('테스트', isHost);
-                    if (isHost) {
-                      console.log('나오나');
-                      sendVideo('Control:play', 'false');
-                    }
-                  }}
-                />
+                    }}
+                    onPause={() => {
+                      console.log(isHost);
+                      if (isHost) {
+                        sendVideo('Control:play', 'true');
+                      }
+                    }}
+                    onPlay={() => {
+                      console.log('테스트', isHost);
+                      if (isHost) {
+                        console.log('나오나');
+                        sendVideo('Control:play', 'false');
+                      }
+                    }}
+                  />
+                ) : (
+                  'No Video'
+                )}
               </VideoPlayWrap>
             </Wrap>
             <ToolBarWrap>
@@ -352,7 +386,7 @@ const VideoShareRoom = () => {
               messageInputRef={messageInputRef}
               sendMessage={sendMessage}
               user={user}
-              infoMe={sessionStorage.getItem('username')}
+              hostName={hostName}
             />
           </ChatWrap>
         </>
@@ -490,5 +524,10 @@ const VideoPlayWrap = styled.div`
   width: 90%;
   height: calc(100vh - 120px);
   background-color: black;
+  color: grey;
+  font-size: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export default VideoShareRoom;

@@ -12,8 +12,10 @@ import AuthNumberInput from '../ui/Signup/AuthNumberInput';
 import EmailAuthInput from '../ui/Signup/EmailAuthInput';
 import SignupInputTitle from '../ui/Signup/SignupInputTitle';
 import userAPI from '../../apis/userAPI';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const receiveEmail = async (email) => {
     console.log(email);
     await userAPI
@@ -38,7 +40,11 @@ const Signup = () => {
       .post('auth/register', SignupData)
       .then((res) => {
         console.log(res);
-        window.alert('회원가입 성공!');
+        Swal.fire({
+          title: '회원가입 성공하셨습니다!',
+          confirmButtonColor: '#0e72ed',
+        });
+        navigate('/login');
       })
       .catch((err) => {
         console.log('회원가입 오류', err);
@@ -54,9 +60,15 @@ const Signup = () => {
       .then((res) => {
         console.log(res.data.duplicate);
         if (res.data.duplicate) {
-          return window.alert('이미 존재하는 아이디 입니다.');
+          return Swal.fire({
+            title: '이미 존재하는 아이디 입니다!',
+            confirmButtonColor: '#0e72ed',
+          });
         }
-        window.alert('사용 가능한 아이디 입니다');
+        Swal.fire({
+          title: '사용 가능한 아이디 입니다!',
+          confirmButtonColor: '#0e72ed',
+        });
       })
       .catch((err) => {
         console.log('중복확인 오류', err);
@@ -136,7 +148,10 @@ const Signup = () => {
     };
 
     if (SignupData.password !== SignupData.password_check) {
-      return window.alert('비밀번호가 일치하지 않습니다');
+      return Swal.fire({
+        title: '비밀번호가 일치하지 않습니다',
+        confirmButtonColor: '#0e72ed',
+      });
     }
     console.log(SignupData);
     completeSignUp(SignupData);
