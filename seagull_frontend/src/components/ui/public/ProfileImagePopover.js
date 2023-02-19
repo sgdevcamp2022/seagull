@@ -50,8 +50,11 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
         <Logout
           onClick={() => {
             logoutHandler();
-            Swal.fire('로그아웃 되었습니다!');
-            navigate('/');
+            Swal.fire({
+              title: '로그아웃 되었습니다!',
+              confirmButtonColor: '#0e72ed',
+            });
+            navigate('/login');
           }}
         >
           로그아웃

@@ -4,10 +4,10 @@ import { useState } from 'react';
 import RoomUserUnit from '../ui/VideoShareRoom/\bRoomUserUnit';
 import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 
-const RoomUserForm = ({ user, infoMe }) => {
+const RoomUserForm = ({ user, hostName }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
 
-  console.log('ddd', infoMe);
+  console.log('호스트가 누구닝', hostName);
 
   const onOpenerClick = (e) => {
     e.stopPropagation();
@@ -24,7 +24,11 @@ const RoomUserForm = ({ user, infoMe }) => {
       <Title>참여자 ({user.length})</Title>
       <Content>
         {user &&
-          user.map((name, idx) => <RoomUserUnit key={idx} username={name} />)}
+          user
+            .reverse()
+            .map((name, idx) => (
+              <RoomUserUnit key={idx} username={name} hostName={hostName} />
+            ))}
       </Content>
     </Wrap>
   );

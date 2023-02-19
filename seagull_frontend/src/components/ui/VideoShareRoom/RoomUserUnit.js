@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RoomUserUnit = ({ username }) => {
+const RoomUserUnit = ({ username, hostName }) => {
+  const infoMe = sessionStorage.getItem('username');
   console.log(username);
   return (
     <Wrap>
@@ -10,10 +11,12 @@ const RoomUserUnit = ({ username }) => {
       </ProfileImage>
       <UserForm>
         <Title>
-          <Nickname>{username}</Nickname>
+          <UserInfo>
+            <Nickname>{username} </Nickname>
+            {infoMe === username ? <Nickname>(나)</Nickname> : ''}
+          </UserInfo>
+          {hostName === username ? <InfoMe>👑 호스트</InfoMe> : ''}
         </Title>
-
-        <UserInfo></UserInfo>
       </UserForm>
     </Wrap>
   );
@@ -46,22 +49,26 @@ const UserForm = styled.div`
 `;
 
 const Title = styled.div`
-  display: flex;
+  /* display: flex; */
 `;
 
 const Nickname = styled.div`
   margin-top: 5px;
-  height: 15px;
-  font-size: 16px;
+  /* height: 15px; */
+  font-size: 18px;
   /* font-weight: bold; */
-  margin-bottom: 7px;
+  margin-bottom: 3px;
   color: white;
 `;
 
+const InfoMe = styled.div`
+  color: lightgrey;
+  /* margin-top: 5px; */
+  font-size: 12px;
+`;
+
 const UserInfo = styled.div`
-  font-size: 11px;
-  line-height: 150%;
-  color: #0e72ed;
+  display: flex;
 `;
 
 export default RoomUserUnit;
