@@ -81,7 +81,10 @@ const VideoShareRoom = () => {
       console.log(stompClient);
       navigate('/roommake');
       if (!isHost) {
-        Swal.fire('호스트에 의해 방이 종료 되었습니다!');
+        Swal.fire({
+          title: '호스트에 의해 방이 종료 되었습니다!',
+          confirmButtonColor: '#0e72ed',
+        });
       }
 
       return stompClient.disconnect();
@@ -242,7 +245,10 @@ const VideoShareRoom = () => {
 
     client.send(`/publish/exit/${roomlink}`, {}, JSON.stringify(userInfo));
 
-    Swal.fire('메인페이지로 이동합니다');
+    Swal.fire({
+      title: '메인페이지로 이동합니다',
+      confirmButtonColor: '#0e72ed',
+    });
     navigate('/roommake');
     client.disconnect();
   };

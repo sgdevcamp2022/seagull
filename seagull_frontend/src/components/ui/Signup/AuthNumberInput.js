@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import userAPI from '../../../apis/userAPI';
 import EmailAuthInput from './EmailAuthInput';
 
+import Swal from 'sweetalert2';
+
 const AuthNumberInput = ({ emailAuthNumRef, showTimer, emailAddress }) => {
   // console.log(emailAddress);
   const checkEmailAuth = async () => {
@@ -12,11 +14,17 @@ const AuthNumberInput = ({ emailAuthNumRef, showTimer, emailAddress }) => {
       .post(`auth/email_auth/verify_email_code/${authNum}`, { email: email })
       .then((res) => {
         console.log(res);
-        window.alert('인증되었습니다!');
+        Swal.fire({
+          title: '인증되었습니다!',
+          confirmButtonColor: '#0e72ed',
+        });
       })
       .catch((err) => {
         console.log('인증번호 확인 에러', err);
-        window.alert('인증번호가 일치하지 않습니다!');
+        Swal.fire({
+          title: '인증번호가 일치하지 않습니다!!',
+          confirmButtonColor: '#0e72ed',
+        });
       });
   };
   return (

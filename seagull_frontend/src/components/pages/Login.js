@@ -7,6 +7,8 @@ import { LoginState, UserState } from '../../state/UserAtom';
 
 import userAPI from '../../apis/userAPI';
 
+import Swal from 'sweetalert2';
+
 import LoginErrorMessage from '../ui/Login/LoginErrorMessage';
 import LoginSignupButton from '../ui/public/LoginSignupButton';
 import LoginSignupInputForm from '../ui/public/LoginSignupInputForm';
@@ -29,12 +31,18 @@ const Login = () => {
       .get(`/auth/login/normal?user_id=${username}&password=${password}`)
       .then((res) => {
         console.log(res);
-        window.alert('로그인 성공!');
+        Swal.fire({
+          title: `${username}님 반갑습니다!`,
+          confirmButtonColor: '#0e72ed',
+        });
         navigate('/');
       })
       .catch((err) => {
         console.log('로그인 에러', err);
-        window.alert('로그인에 실패하였습니다');
+        Swal.fire({
+          title: '로그인 정보를 다시 확인해주세요!',
+          confirmButtonColor: '#0e72ed',
+        });
       });
   };
 
