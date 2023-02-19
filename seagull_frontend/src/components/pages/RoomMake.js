@@ -10,37 +10,56 @@ import webSocketAPI from '../../apis/webSocketAPI';
 import Header from '../layout/Header';
 import RoomMakeModal from '../ui/RoomMake/RoomMakeModal';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { LoginState } from '../../state/UserAtom';
 
 const RoomMake = () => {
   // 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState(false);
+  const isLogin = useRecoilValue(LoginState);
 
   // 모달창 노출
   const showModal = () => {
-    setModalOpen(true);
+    if (isLogin) {
+      setModalOpen(true);
+    } else {
+      Swal.fire({
+        title: '로그인 후 이용해주세요!',
+        confirmButtonColor: '#0e72ed',
+      });
+      navigate('/login');
+    }
   };
 
   const navigate = useNavigate();
 
+  const username = sessionStorage.getItem('username');
+
   //방만들기
   const makeRoom = async () => {
-    const username = sessionStorage.getItem('username');
     console.log(username);
-
-    await webSocketAPI
-      .post(`/room/create/${username}`)
-      .then((res) => {
-        console.log(res);
-        navigate(`/videoshare/${res.data.roomLink}`);
-        sessionStorage.setItem('host', username);
-      })
-      .catch((err) => {
-        console.log('방만들기 에러', err);
-        Swal.fire({
-          title: '방만들기 오류',
-          confirmButtonColor: '#0e72ed',
+    if (isLogin) {
+      await webSocketAPI
+        .post(`/room/create/${username}`)
+        .then((res) => {
+          console.log(res);
+          navigate(`/videoshare/${res.data.roomLink}`);
+          sessionStorage.setItem('host', username);
+        })
+        .catch((err) => {
+          console.log('방만들기 에러', err);
+          Swal.fire({
+            title: '방만들기 오류',
+            confirmButtonColor: '#0e72ed',
+          });
         });
+    } else {
+      Swal.fire({
+        title: '로그인 후 이용해주세요!',
+        confirmButtonColor: '#0e72ed',
       });
+      navigate('/login');
+    }
   };
 
   return (
