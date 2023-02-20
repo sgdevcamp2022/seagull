@@ -30,6 +30,7 @@ public class RoomVideoRepository {
     }
 
     public String findByRoomLink(String roomLink) {
+        if(!redisTemplate.hasKey(ROOMVIDEO + roomLink)) return "";
         String popData = listData.leftPop(ROOMVIDEO+roomLink);
         listData.leftPush(ROOMVIDEO+roomLink, popData);
         return popData;
