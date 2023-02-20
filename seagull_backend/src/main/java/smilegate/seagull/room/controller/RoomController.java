@@ -58,7 +58,7 @@ public class RoomController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/room/{roomLink}")
+    @GetMapping("/{roomLink}")
     public ResponseEntity<HttpStatus> enterRoom(
             @PathVariable(value = "roomLink") String roomLink
     ) {
