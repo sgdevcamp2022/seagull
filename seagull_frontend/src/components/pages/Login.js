@@ -25,10 +25,9 @@ const Login = () => {
 
   const [userData, setUserData] = useRecoilState(UserState);
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  // const [isLogin, setIsLogin] = useState(false);
 
   const normalLogin = async ({ username, password }) => {
-    sessionStorage.setItem('username', username);
-    setIsLogin(true);
     await userAPI
       .get(`/auth/login/normal?user_id=${username}&password=${password}`)
       .then((res) => {
@@ -37,7 +36,8 @@ const Login = () => {
           title: `${username}님 반갑습니다!`,
           confirmButtonColor: '#0e72ed',
         });
-
+        sessionStorage.setItem('username', username);
+        setIsLogin(true);
         navigate('/');
       })
       .catch((err) => {

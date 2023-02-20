@@ -11,6 +11,7 @@ import { RxExit } from 'react-icons/rx';
 
 const Header = () => {
   const [isPopperShown, setIsPopperShown] = useState(false);
+
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
 
   const navigate = useNavigate();
