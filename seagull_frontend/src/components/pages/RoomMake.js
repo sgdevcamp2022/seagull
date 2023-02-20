@@ -277,7 +277,7 @@ const Container = styled.div`
       bottom: 0;
       left: 0;
       z-index: ${modalOpen ? 1 : -1};
-      background: ${modalOpen ? 'rgba(0, 0, 0, 0.4)' : 'transparent'};
+      background: ${modalOpen ? 'rgba(0, 0, 0, 0.6)' : 'transparent'};
     `;
   }}
 `;
