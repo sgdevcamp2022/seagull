@@ -38,18 +38,15 @@ public class WebSocketController {
     @MessageMapping("/enterRoom/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
     public void enterRoom(@DestinationVariable(value = "roomLink") String roomLink, @Payload RoomUser roomUser) {
         log.info("{} 가 {} 방에 들어옴", roomUser.getUserId(), roomLink);
-
-        if(roomService.isExistRoom(roomLink)){
-            enterUserService.saveUser(roomUser);
-            Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
-            List<String> users = new ArrayList<>(allUser); // set -> list
-            String url = videoService.getURL(roomLink);
-            String hostName = roomService.findHost(roomLink);
-            EnterUserResponse userResponse = EnterUserResponse.of(users, url, hostName);
-            log.info("URL : {}", url);
-            log.info("Response JSON : {}",userResponse);
-            roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), userResponse);
-        }
+        enterUserService.saveUser(roomUser);
+        Set<String> allUser = enterUserService.getAllUser(roomUser.getRoomLink());
+        List<String> users = new ArrayList<>(allUser); // set -> list
+        String url = videoService.getURL(roomLink);
+        String hostName = roomService.findHost(roomLink);
+        EnterUserResponse userResponse = EnterUserResponse.of(users, url, hostName);
+        log.info("URL : {}", url);
+        log.info("Response JSON : {}",userResponse);
+        roomTemplate.convertAndSend("/subscribe/room/" + roomUser.getRoomLink(), userResponse);
     }
 
     @MessageMapping("/exit/{roomLink}")

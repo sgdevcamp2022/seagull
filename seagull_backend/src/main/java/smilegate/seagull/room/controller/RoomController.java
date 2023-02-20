@@ -15,6 +15,7 @@ import smilegate.seagull.room.service.EnterUserService;
 import smilegate.seagull.room.service.RoomService;
 import smilegate.seagull.room.service.VideoService;
 
+import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 
 @Slf4j
@@ -55,5 +56,15 @@ public class RoomController {
         UrlJsonParsingObject urlParse = objectMapper.readValue(url, UrlJsonParsingObject.class);
         videoService.saveUrl(roomLink,urlParse.getUrl());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/room/{roomLink}")
+    public ResponseEntity<HttpStatus> enterRoom(
+            @PathVariable(value = "roomLink") String roomLink
+    ) {
+        if (roomService.isExistRoom(roomLink)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
