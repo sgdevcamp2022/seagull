@@ -54,27 +54,31 @@ const Signup = () => {
   };
 
   const duplicateId = async () => {
-    await userAPI
-      .get(
-        `/auth/id_duplicate_check?user_type=normal&user_id=${usernameRef.current.value}`
-      )
-      .then((res) => {
-        console.log(res.data.duplicate);
-        if (res.data.duplicate) {
-          return Swal.fire({
-            title: '이미 존재하는 아이디 입니다!',
+    if (usernameRef.current.value) {
+      await userAPI
+        .get(
+          `/auth/id_duplicate_check?user_type=normal&user_id=${usernameRef.current.value}`
+        )
+        .then((res) => {
+          console.log(res.data.duplicate);
+          if (res.data.duplicate) {
+            return Swal.fire({
+              title: '이미 존재하는 아이디 입니다!',
+              confirmButtonColor: '#0e72ed',
+            });
+          }
+          Swal.fire({
+            title: '사용 가능한 아이디 입니다!',
             confirmButtonColor: '#0e72ed',
           });
-        }
-        Swal.fire({
-          title: '사용 가능한 아이디 입니다!',
-          confirmButtonColor: '#0e72ed',
+        })
+        .catch((err) => {
+          console.log('중복확인 오류', err);
+          window.alert('중복확인 오류!');
         });
-      })
-      .catch((err) => {
-        console.log('중복확인 오류', err);
-        window.alert('중복확인 오류!');
-      });
+    } else {
+      window.alert('아이디를 입력해주세요');
+    }
   };
 
   //timer
@@ -114,10 +118,14 @@ const Signup = () => {
 
   const ReceiveEmail = () => {
     const email = emailRef.current.value;
-    receiveEmail(email);
+    if (email) {
+      receiveEmail(email);
 
-    timerAuth = setTimeout(() => SentAuthOverTime(), time); //3분이 되면 타이머를 삭제한다.
-    timerNumber.current = timerAuth;
+      timerAuth = setTimeout(() => SentAuthOverTime(), time);
+      timerNumber.current = timerAuth;
+    } else {
+      window.alert('이메일을 입력해주세요!');
+    }
   };
 
   const SentAuthOverTime = () => {
@@ -153,8 +161,19 @@ const Signup = () => {
         confirmButtonColor: '#0e72ed',
       });
     }
-    console.log(SignupData);
-    completeSignUp(SignupData);
+
+    if (
+      !SignupData.email ||
+      !SignupData.user_id ||
+      !SignupData.nickname ||
+      !SignupData.password ||
+      !SignupData.password_check
+    ) {
+      window.alert('필수입력값을 입력해주세요!');
+    } else {
+      console.log(SignupData);
+      completeSignUp(SignupData);
+    }
   };
 
   return (
