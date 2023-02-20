@@ -28,6 +28,7 @@ const Signup = () => {
           width: 420,
           confirmButtonColor: '#0e72ed',
         });
+        TIMER();
       })
       .catch((err) => {
         console.log('인증번호 전송 에러', err);
@@ -80,7 +81,7 @@ const Signup = () => {
   let PlAYTIME;
   let timerAuth;
   let sec = 60;
-  var time = 60000 * 3;
+  var time = 60000 * 5;
 
   const [alertSent, setAlertSent] = useState(false);
   const [alertcomment, setAlertcomment] = useState('');
@@ -115,7 +116,6 @@ const Signup = () => {
     const email = emailRef.current.value;
     receiveEmail(email);
 
-    TIMER();
     timerAuth = setTimeout(() => SentAuthOverTime(), time); //3분이 되면 타이머를 삭제한다.
     timerNumber.current = timerAuth;
   };
