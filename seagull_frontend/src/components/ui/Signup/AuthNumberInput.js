@@ -10,22 +10,26 @@ const AuthNumberInput = ({ emailAuthNumRef, showTimer, emailAddress }) => {
   const checkEmailAuth = async () => {
     const authNum = emailAuthNumRef.current.value;
     const email = emailAddress.current.value;
-    await userAPI
-      .post(`auth/email_auth/verify_email_code/${authNum}`, { email: email })
-      .then((res) => {
-        console.log(res);
-        Swal.fire({
-          title: '인증되었습니다!',
-          confirmButtonColor: '#0e72ed',
+    if (authNum) {
+      await userAPI
+        .post(`auth/email_auth/verify_email_code/${authNum}`, { email: email })
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            title: '인증되었습니다!',
+            confirmButtonColor: '#0e72ed',
+          });
+        })
+        .catch((err) => {
+          console.log('인증번호 확인 에러', err);
+          Swal.fire({
+            title: '인증번호가 일치하지 않습니다!!',
+            confirmButtonColor: '#0e72ed',
+          });
         });
-      })
-      .catch((err) => {
-        console.log('인증번호 확인 에러', err);
-        Swal.fire({
-          title: '인증번호가 일치하지 않습니다!!',
-          confirmButtonColor: '#0e72ed',
-        });
-      });
+    } else {
+      window.alert('인증번호를 입력해주세요!');
+    }
   };
   return (
     <Container>

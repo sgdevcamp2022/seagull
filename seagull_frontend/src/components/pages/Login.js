@@ -25,6 +25,7 @@ const Login = () => {
 
   const [userData, setUserData] = useRecoilState(UserState);
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  // const [isLogin, setIsLogin] = useState(false);
 
   const normalLogin = async ({ username, password }) => {
     await userAPI

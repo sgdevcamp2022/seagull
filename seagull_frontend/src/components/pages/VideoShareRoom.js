@@ -79,8 +79,6 @@ const VideoShareRoom = () => {
 
   const message = (payload) => {
     console.log(payload.body);
-    // console.log(payload.body === 'exit' ? true : false);
-    // console.log(JSON.parse(payload.body).hostName);
 
     if (payload.body === 'exit') {
       console.log('여기 못와,?');
