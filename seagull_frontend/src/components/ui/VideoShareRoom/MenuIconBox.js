@@ -28,7 +28,7 @@ const Wrap = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      border-bottom: ${isActive ? '2px solid black' : ''};
+      border-bottom: ${isActive ? '2px solid grey' : ''};
       color: ${isActive ? 'white' : 'grey'};
       padding: 0 10px;
       box-sizing: border-box;

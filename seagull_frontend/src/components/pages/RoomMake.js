@@ -154,15 +154,15 @@ const ImageWrap = styled.div`
 `;
 
 const ProjectImageWrap = styled.div`
-  width: 600px;
+  width: calc(100vw - 870px);
   height: 100%;
   /* background-color: aqua; */
 `;
 
 const ProjectImage = styled.div`
-  margin: 150px auto auto 50px;
-  width: 520px;
-  height: 350px;
+  margin: 150px 20px auto 40px;
+  /* width: 500px; */
+  height: 330px;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -176,7 +176,7 @@ const ProjectImage = styled.div`
 `;
 
 const RoomMakeWrap = styled.div`
-  width: 100%;
+  width: 600px;
   padding: 50px;
   box-sizing: border-box;
 `;

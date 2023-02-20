@@ -75,12 +75,11 @@ const VideoShareRoom = () => {
     console.log('호스트?', isHost);
     console.log(stompClient);
     stompClient.subscribe(`/subscribe/group/${roomlink}`, onMessageReceived);
-    console.log(client);
   };
 
   const message = (payload) => {
     console.log(payload.body);
-    console.log(payload.body === 'exit' ? true : false);
+    // console.log(payload.body === 'exit' ? true : false);
     // console.log(JSON.parse(payload.body).hostName);
 
     if (payload.body === 'exit') {
@@ -412,14 +411,16 @@ const Button = styled.div`
 `;
 
 const Container = styled.div`
+  overflow: hidden;
   width: 100%;
   height: 100vh;
   display: flex;
 `;
 const VideoWrap = styled.div`
-  width: 75%;
+  width: calc(100vw - 300px);
   height: 100vh;
   background-color: #191919;
+  overflow: hidden;
 `;
 
 const RoomInfoWrap = styled.div`
@@ -433,7 +434,7 @@ const RoomInfoWrap = styled.div`
 `;
 
 const ChatWrap = styled.div`
-  width: calc(100vw - 75%);
+  width: 300px;
   height: 100%;
   box-shadow: -15px 0px 30px -30px gray;
   background-color: #262626;

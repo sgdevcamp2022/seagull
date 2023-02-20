@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { ChatMessageState, UserName } from '../../state/UserAtom';
 
@@ -7,7 +7,7 @@ import { FiSend } from 'react-icons/fi';
 import ReceiveUnitChat from '../ui/VideoShareRoom/ReceiveUnitChat';
 import SendUnitChat from '../ui/VideoShareRoom/SendUnitChat';
 
-const ChatForm = ({ messageInputRef, sendMessage }) => {
+const ChatForm = ({ messageInputRef, sendMessage, color }) => {
   const chatMessage = useRecoilValue(ChatMessageState);
   const username = sessionStorage.getItem('username');
   const [message, setMessage] = useState([]);
@@ -55,7 +55,7 @@ const ChatForm = ({ messageInputRef, sendMessage }) => {
         <InputBox>
           <Input ref={messageInputRef} placeholder="메시지를 입력하세요" />
           <SendButton onClick={sendMessage}>
-            <FiSend size={21} color="lightgrey" />
+            <FiSend size={21} color="darkgrey" />
           </SendButton>
         </InputBox>
       </InputWrap>
@@ -83,6 +83,20 @@ const Content = styled.div`
   padding: 5px 20px;
   box-sizing: border-box;
   overflow: scroll;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #262626;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    border-radius: 10px;
+  }
+  ::-moz-scrollbar-button,
+  ::-webkit-scrollbar-button {
+    width: 0px;
+  }
 `;
 const InputWrap = styled.div`
   height: 80px;
@@ -90,11 +104,11 @@ const InputWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid lightgrey;
+  border-top: 1px solid grey;
 `;
 
 const InputBox = styled.form`
-  background-color: grey;
+  background-color: lightgrey;
   width: 95%;
   height: 50px;
   border-radius: 23px;
