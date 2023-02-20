@@ -47,8 +47,8 @@ const InvitePopover = ({ onOpenerClick }) => {
 const Wrapper = styled.div`
   position: absolute;
   background-color: white;
-  width: 280px;
-  right: 55px;
+  width: 260px;
+  right: 20px;
   top: 38px;
   border-radius: 10px;
   z-index: 2;

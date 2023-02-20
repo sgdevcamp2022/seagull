@@ -1,11 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const LoginSignupTitle = () => {
+  const navigate = useNavigate();
   return (
     <LoginText
       onClick={() => {
-        window.location.reload();
+        navigate('/');
       }}
     >
       <img src="/images/eGuBa_logo.png" alt="" />

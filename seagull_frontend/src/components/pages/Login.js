@@ -35,14 +35,13 @@ const Login = () => {
           title: `${username}님 반갑습니다!`,
           confirmButtonColor: '#0e72ed',
         });
+        sessionStorage.setItem('username', username);
+        setIsLogin(true);
         navigate('/');
       })
       .catch((err) => {
         console.log('로그인 에러', err);
-        Swal.fire({
-          title: '로그인 정보를 다시 확인해주세요!',
-          confirmButtonColor: '#0e72ed',
-        });
+        setErrorMessage(true);
       });
   };
 
@@ -57,12 +56,9 @@ const Login = () => {
       return;
     } else {
       setErrorMessage(false);
-      // setUserData(LoginData);
-      // setIsLogin(true);
-      sessionStorage.setItem('username', LoginData.username);
+
       console.log(LoginData);
       normalLogin(LoginData);
-      // navigate('/');
     }
   };
 
