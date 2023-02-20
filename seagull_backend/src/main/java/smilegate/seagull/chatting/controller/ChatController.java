@@ -20,6 +20,7 @@ import smilegate.seagull.room.domain.Room;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
@@ -33,7 +34,7 @@ public class ChatController {
 
     @MessageMapping("/sendMessage/{roomLink}") // 클라이언트에서 보내는 메세지 매핑
     public ChatMessage broadcastGroupMessage(@DestinationVariable(value = "roomLink") String roomLink, @Payload ChatMessage chatMessage) {
-        chatMessage.setTimestamp(LocalDateTime.now().toString());
+        chatMessage.setTimestamp(LocalDateTime.now(ZoneId.of("Asia/Seoul")).toString());
         messagingTemplate.convertAndSend("/subscribe/group/" + roomLink, chatMessage);
         return chatMessage;
     }

@@ -13,14 +13,11 @@ public class RoomVideoRepository {
     private final static String ROOMVIDEO = "ROOM_VIDEO:";
 
     private final RedisTemplate<String, String> redisTemplate;
-    private static SetOperations<String, String> setData; // 참가자 리스트
-
     private static ListOperations<String, String> listData;
 
     @Autowired
     public RoomVideoRepository(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
-        setData = redisTemplate.opsForSet();
         listData = redisTemplate.opsForList();
     }
 
@@ -28,28 +25,15 @@ public class RoomVideoRepository {
         listData.leftPush(ROOMVIDEO+roomLink, userId);
     }
 
-    public Set<String> getUrlAll(String roomLink) {
-        return setData.members(ROOMVIDEO+roomLink);
-    }
-
-    public void deleteUrl(String roomLink, String userId) {
-        setData.remove(ROOMVIDEO + roomLink, userId);
-    }
-
     public void deleteUrlAll(String roomLink) {
         redisTemplate.delete(ROOMVIDEO + roomLink);
     }
 
     public String findByRoomLink(String roomLink) {
-        Boolean check = redisTemplate.hasKey(ROOMVIDEO + roomLink);
-        if(!check) return "";
+        if(!redisTemplate.hasKey(ROOMVIDEO + roomLink)) return "";
         String popData = listData.leftPop(ROOMVIDEO+roomLink);
         listData.leftPush(ROOMVIDEO+roomLink, popData);
         return popData;
-    }
-
-    public Boolean existVideo(String roomLink) {
-        return redisTemplate.hasKey(ROOMVIDEO+roomLink);
     }
 }
 

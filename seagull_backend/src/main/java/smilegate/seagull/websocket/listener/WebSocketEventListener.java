@@ -21,16 +21,6 @@ import java.util.Set;
 @Component
 public class WebSocketEventListener {
 
-    private final SimpMessageSendingOperations messagingTemplate;
-    private final EnterUserService enterUserService;
-
-    @Autowired
-    public WebSocketEventListener(SimpMessageSendingOperations messagingTemplate, EnterUserService enterUserService) {
-        this.messagingTemplate = messagingTemplate;
-        this.enterUserService = enterUserService;
-    }
-
-
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         log.info("Received a new web socket connection");
@@ -39,12 +29,5 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         log.info("disconnect socket connection: {}",event.getMessage());
-
-//
-////            ChatMessage chatMessage = new ChatMessage();
-////            chatMessage.setType(ChatMessage.MessageType.LEAVE);
-////            chatMessage.setAuthor(username);
-////            chatMessage.setTimestamp(LocalDateTime.now().toString());
-//        messagingTemplate.convertAndSend("/subscribe/room/delete/" + roomUser.getRoomLink(), userList);
     }
 }
