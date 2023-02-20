@@ -13,26 +13,30 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
 
   const [isLogin, setIsLogin] = useRecoilState(UserState);
 
-  const logoutHandler = () => {
-    // localStorage.removeItem('recoil-persist');
-    // setIsLogin(false);
-    sessionStorage.removeItem('username');
-    navigate('/');
-  };
+  // const logoutHandler = () => {
+  //   // localStorage.removeItem('recoil-persist');
+  //   // setIsLogin(false);
+  //   sessionStorage.removeItem('username');
+  //   setIsLogin(false);
+  //   Swal.fire({
+  //     title: '로그아웃 되었습니다!',
+  //     confirmButtonColor: '#0e72ed',
+  //   });
+  // };
 
-  useEffect(() => {
-    const pageClickEvent = (e) => {
-      if (!settingsWindowRef.current.contains(e.target)) {
-        onOpenerClick(e);
-      }
-    };
+  // useEffect(() => {
+  //   const pageClickEvent = (e) => {
+  //     if (!settingsWindowRef.current.contains(e.target)) {
+  //       onOpenerClick(e);
+  //     }
+  //   };
 
-    window.addEventListener('click', pageClickEvent, true);
+  //   window.addEventListener('click', pageClickEvent, true);
 
-    return () => {
-      window.removeEventListener('click', pageClickEvent, true);
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener('click', pageClickEvent, true);
+  //   };
+  // });
 
   return (
     <Wrapper ref={settingsWindowRef}>
@@ -49,12 +53,12 @@ const ProfileImagePopover = ({ onOpenerClick }) => {
         <RxExit />
         <Logout
           onClick={() => {
-            logoutHandler();
+            sessionStorage.removeItem('username');
+            setIsLogin(false);
             Swal.fire({
               title: '로그아웃 되었습니다!',
               confirmButtonColor: '#0e72ed',
             });
-            navigate('/login');
           }}
         >
           로그아웃

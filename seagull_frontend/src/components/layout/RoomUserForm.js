@@ -4,7 +4,7 @@ import { useState } from 'react';
 import RoomUserUnit from '../ui/VideoShareRoom/\bRoomUserUnit';
 import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 
-const RoomUserForm = ({ user, hostName }) => {
+const RoomUserForm = ({ user, hostName, color }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
 
   console.log('호스트가 누구닝', hostName);
@@ -27,7 +27,12 @@ const RoomUserForm = ({ user, hostName }) => {
           user
             .reverse()
             .map((name, idx) => (
-              <RoomUserUnit key={idx} username={name} hostName={hostName} />
+              <RoomUserUnit
+                key={idx}
+                username={name}
+                hostName={hostName}
+                color={color}
+              />
             ))}
       </Content>
     </Wrap>
@@ -51,8 +56,11 @@ const InviteButton = styled.div`
   margin-left: 20px;
   margin-top: 20px;
   color: white;
-  background-color: #0e72ed;
+  background-color: #224c80;
   cursor: pointer;
+  :hover {
+    background-color: #0e72ed;
+  }
 `;
 
 const Title = styled.div`
@@ -67,7 +75,7 @@ const Title = styled.div`
   /* background-color: aliceblue; */
   box-sizing: border-box;
   font-size: 13px;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid grey;
 `;
 
 const Content = styled.div`

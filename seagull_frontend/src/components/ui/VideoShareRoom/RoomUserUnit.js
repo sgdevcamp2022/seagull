@@ -1,13 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BsPersonFill } from 'react-icons/bs';
 
-const RoomUserUnit = ({ username, hostName }) => {
+const RoomUserUnit = ({ username, hostName, color }) => {
   const infoMe = sessionStorage.getItem('username');
-  console.log(username);
+
+  // let colors = [
+  //   '#5e86a6',
+  //   '#32c787',
+  //   '#00BCD4',
+  //   '#ff5652',
+  //   '#ffc107',
+  //   '#ff85af',
+  //   '#FF9800',
+  //   '#39bbb0',
+  // ];
+
+  // const getColor = (username) => {
+  //   let hash = 0;
+  //   for (let i = 0; i < username.length; i++) {
+  //     hash = 31 * hash + username.charCodeAt(i);
+  //   }
+
+  //   let index = Math.abs(hash % colors.length);
+  //   return colors[index];
+  // };
+
+  // console.log(getColor(username));
+
+  console.log(username, color);
   return (
     <Wrap>
-      <ProfileImage>
-        <img src={'/images/anonymousProfile.png'} alt="" />
+      <ProfileImage color={color}>
+        <BsPersonFill size={30} color="#f4f4f4" />
       </ProfileImage>
       <UserForm>
         <Title>
@@ -38,6 +63,7 @@ const ProfileImage = styled.div`
   margin-right: 10px;
   justify-content: center;
   align-items: center;
+  background-color: lightgrey;
   img {
     width: 100%;
     height: 100%;

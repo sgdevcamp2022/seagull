@@ -14,6 +14,27 @@ const ChatRoomUserContainer = ({
 }) => {
   const [isViewChat, setIsViewChat] = useState(true);
 
+  let colors = [
+    '#5e86a6',
+    '#32c787',
+    '#00BCD4',
+    '#ff5652',
+    '#ffc107',
+    '#ff85af',
+    '#FF9800',
+    '#39bbb0',
+  ];
+
+  const getColor = () => {
+    return colors[Math.round(Math.random() * colors.length)];
+  };
+
+  // console.log(getColor(user));
+
+  const color = getColor();
+
+  console.log(color);
+
   return (
     <div>
       <MenuWrap>
@@ -33,9 +54,10 @@ const ChatRoomUserContainer = ({
           <ChatForm
             messageInputRef={messageInputRef}
             sendMessage={sendMessage}
+            color={color}
           />
         ) : (
-          <RoomUserForm user={user} hostName={hostName} />
+          <RoomUserForm user={user} hostName={hostName} color={color} />
         )}
       </ContentWrap>
     </div>
@@ -47,7 +69,7 @@ const MenuWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid grey;
   /* background-color: aliceblue; */
 `;
 
