@@ -6,30 +6,23 @@ import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 
 const RoomMakeModal = ({ setModalOpen }) => {
-  const testuserRef = useRef();
+  const linkRef = useRef();
   // 모달 끄기
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  let stompClient = null;
-
   const navigate = useNavigate();
 
-  const makeRoom = async () => {
-    const username = testuserRef.current.value;
-    console.log(username);
-
-    await webSocketAPI
-      .post(`/room/create/${username}`)
-      .then((res) => {
-        console.log(res);
-        // navigate('/videoshare');
-      })
-      .catch((err) => {
-        console.log('방만들기 에러', err);
-        window.alert('방만들기에 실패하였습니다');
-      });
+  const enterRoom = () => {
+    const inputLink = linkRef.current.value;
+    const baseUrl = 'http://localhost:3000/';
+    const requestUrl = inputLink.split(baseUrl)[1];
+    if (!inputLink) {
+      return alert('링크를 입력해주세요!');
+    }
+    navigate(`/${requestUrl}`);
+    console.log(requestUrl);
   };
 
   return (
@@ -41,14 +34,14 @@ const RoomMakeModal = ({ setModalOpen }) => {
         <ContentWrap>
           <WrapInput>
             <RoomName>입장링크</RoomName>
-            <InputRoomName ref={testuserRef}></InputRoomName>
+            <InputRoomName ref={linkRef}></InputRoomName>
           </WrapInput>
           <WrapInput>
             <RoomName>입장링크를 입력하세요.</RoomName>
           </WrapInput>
           <Wrap>
             <CancelBtn onClick={closeModal}>취소</CancelBtn>
-            <RoomMakeBtn onClick={makeRoom}>만들기</RoomMakeBtn>
+            <RoomMakeBtn onClick={enterRoom}>입장하기</RoomMakeBtn>
           </Wrap>
         </ContentWrap>
       </Container>
