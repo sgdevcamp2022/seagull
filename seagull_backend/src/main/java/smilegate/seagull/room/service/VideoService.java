@@ -18,19 +18,11 @@ public class VideoService {
         roomVideoRepository.setURL(roomLink,url);
     }
 
-    public void deleteUrl(String roomLink, String url){
-        roomVideoRepository.deleteUrl(roomLink,url);
-    }
-
     public void deleteUrlAll(String roomLink) {
         roomVideoRepository.deleteUrlAll(roomLink);
     }
 
     public String getURL(String roomLink) {
         return roomVideoRepository.findByRoomLink(roomLink);
-    }
-
-    public Boolean existURL(String roomLink) {
-        return roomVideoRepository.existVideo(roomLink);
     }
 }
