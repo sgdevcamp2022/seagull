@@ -72,7 +72,8 @@
 - 실시간 웹소켓을 위한 테스트 페이지 구현
 - 방마다 구분된 사용자의 실시간 브로드 캐스팅 구현
 - 실시간으로 주고 받는 데이터들을 위한 Redis 환경 및 Redis Repository 구축
-- 비디오 공유방 비지니스 로직 구축
+- 비디오 공유방 생성 및 조회를 위한 API 로직 구현
+- 호스트의 URL 전송, 방 삭제 등을 위한 API 로직 구현
 - 채팅 시스템을 구축해 메세지를 Stomp와 SockJS로 주고받을 수 있는 환경 구축
 - EC2 에 docker-commpose.yml 로 서버를 배포할 수 있게 환경 구성
 ​
@@ -83,12 +84,18 @@
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
 - 배포 서버와 클라이언트 간 CORS 에러: https://github.com/sgdevcamp2022/seagull/wiki/%EC%84%9C%EB%B2%84,-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-CORS-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
 - 방마다 브로드 캐스팅을 다르게 하는 방법:
-  - Client에서 들어오는 publish주소에 roomLink를 붙쳐 해당 룸에 대한 접속 유저를 서로 다른 브로드캐스팅을 하게끔 구성
+  - Client에서 들어오는 publish주소에 roomLink를 붙쳐 해당 룸에 대한 접속 유저를 서로 다른 브로드캐스팅을 하게끔 구성하여 로직 해결
 - Redis Null 에러: 
-  - findById에서 Redis에 저장된 데이터가 Null이라 생기는 문제
+  - findById에서 Redis에 저장된 데이터가 Null이라 생기는 문제임을 확인
   - RedisTemplate로 레디스를 Set형태로 관리하므로써, 레디스 조회/저장/삭제 기능에서 생기는 에러들을 해결
 - Redis 저장 키값이 중복되는 에러:
-  - 해당되는 키값이 중복되어 저장됨으로써 데이터가 합쳐지는 에러 발생
+  - 해당되는 키값이 중복되어 저장됨으로써 데이터가 합쳐지는 에러 발생함을 확인
   - <RoomLink, HostId>, <RoomLink, VideoUrl>, <RoomLink, Users> 에 대한 각각의 RoomLink에 식별될 수 있는 문자를 넣어 구분해서 해결
 - 웹소켓 테스트 환경에 대한 어려움
-  - PostMan, Chrome Extension을 활용한 웹소켓 테스트가 어려워 직접 프론트를 구성해 웹소켓 브로드 캐스팅 테스트 진행
+  - PostMan, Chrome Extension을 활용한 웹소켓 테스트가 어려워 직접 프론트를 구성해 웹소켓 브로드 캐스팅 테스트 진행할 수 있게 해결
+- 방 참여자를 순서대로 오지 않는 문제
+  - 순서를 유지 하기 위해 Redis Set자료형을 List로 파싱하여 데이터 전송하여 문제 해결
+- 호스트가 방 나갈 때 레디스에 데이터가 삭제되지 않는 문제
+  - 방 생성시 HostId에 대한 레디스 레포지토리 로직을 구현해 문제 해결
+
+ㅗ
