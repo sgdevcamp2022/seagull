@@ -51,12 +51,15 @@
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
   <img src="https://img.shields.io/badge/PyCharm-000000?style=for-the-badge&logo=PyCharm&logoColor=white">
 </div>
+
+<br>
 ​
 
 ## ✔️ Architecture
 <img width="929" alt="스크린샷 2023-02-21 오후 11 53 30" src="https://user-images.githubusercontent.com/63576379/220378703-c87866f6-9d26-44d0-aaeb-44cbf3f37272.png">
 <img width="929" alt="스크린샷 2023-02-21 오후 11 54 13" src="https://user-images.githubusercontent.com/63576379/220378845-d0ab3cc5-5c66-4de3-9f89-96503785f66c.png">
 ​
+<br>
 
 ## 🛠 주요 기능
 #### - 링크가 공유된 유저들 간에 영상을 함께 보는 기능    
@@ -79,6 +82,8 @@
 ​
 ​
 ​
+<br>
+<br>
 ## 📌 Trouble Shooting
 ### BE - 박성준
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
@@ -97,5 +102,3 @@
   - 순서를 유지 하기 위해 Redis Set자료형을 List로 파싱하여 데이터 전송하여 문제 해결
 - 호스트가 방 나갈 때 레디스에 데이터가 삭제되지 않는 문제
   - 방 생성시 HostId에 대한 레디스 레포지토리 로직을 구현해 문제 해결
-
-ㅗ
