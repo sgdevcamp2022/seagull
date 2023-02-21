@@ -8,7 +8,7 @@
 ##  🙋🏻 팀원 소개
 | 이름  | 개인 깃허브                                        | 담당 역할 및 기능                                                     |
 |-----|-----------------------------------------------|----------------------------------------------------------------|
-| 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템    |
+| 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템, 실시간 웹소켓 구현, 메인서버 관리, Redis Repository 구성, 화상 채팅방 비지니스 로직 구현   |
 | 박정원 | [@jjjjjeongwon](https://github.com/jjjjjeongwon)    | <img src="https://img.shields.io/badge/-FE-blue"> 프론트 전체  |
 | 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 담당                                              |
 | 이범수 | [@dldks321](https://github.com/dldks321)        | <img src="https://img.shields.io/badge/-BE-red"> 유저 시스템 담당                                                 |
@@ -85,3 +85,5 @@
 - Redis 저장 키값이 중복되는 에러:
   - 해당되는 키값이 중복되어 저장됨으로써 데이터가 합쳐지는 에러 발생
   - <RoomLink, HostId>, <RoomLink, VideoUrl>, <RoomLink, Users> 에 대한 각각의 RoomLink에 식별될 수 있는 문자를 넣어 구분해서 해결
+- 웹소켓 테스트 환경에 대한 어려움
+  - PostMan, Chrome Extension을 활용한 웹소켓 테스트가 어려워 직접 프론트를 구성해 웹소켓 브로드 캐스팅 테스트 진행
