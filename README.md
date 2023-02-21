@@ -61,6 +61,18 @@
 ​
 <br>
 
+## ✔️ PMP 문서
+- PDF : [SeaGull.pdf](https://github.com/sgdevcamp2022/seagull/files/10794913/SeaGull.pdf)
+
+<br>
+
+## ✔️ 회의 기록
+- 링크 : https://devcamp.notion.site/SeaGull-8e479fa843f64b92aa7bf29b67788a2a
+
+<br>
+
+<br>
+
 ## 🛠 주요 기능
 #### - 링크가 공유된 유저들 간에 영상을 함께 보는 기능    
 #### - 함께 영상을 보면서 채팅하는 기능<br/>
@@ -83,6 +95,7 @@
 ​
 ​
 <br>
+
 <br>
 
 ## 📌 Trouble Shooting
