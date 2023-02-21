@@ -54,8 +54,8 @@
 ​
 
 ## ✔️ Architecture
-<img width="951" alt="스크린샷 2023-02-03 오후 10 14 16" src="https://user-images.githubusercontent.com/63576379/216612321-23149f4c-5ac1-43c0-8d06-4f9da5fefbf9.png">
-<img width="951" alt="스크린샷 2023-02-03 오후 10 15 00" src="https://user-images.githubusercontent.com/63576379/216612497-5784630f-9527-46a3-94c9-fc6a0b5ee27c.png">
+<img width="929" alt="스크린샷 2023-02-21 오후 11 53 30" src="https://user-images.githubusercontent.com/63576379/220378703-c87866f6-9d26-44d0-aaeb-44cbf3f37272.png">
+<img width="929" alt="스크린샷 2023-02-21 오후 11 54 13" src="https://user-images.githubusercontent.com/63576379/220378845-d0ab3cc5-5c66-4de3-9f89-96503785f66c.png">
 ​
 
 ## 🛠 주요 기능
@@ -63,7 +63,6 @@
 #### - 함께 영상을 보면서 채팅하는 기능<br/>
 ​
 ## 🛠 작업 내역
-### FE - 박정원
 ​
 ### BE - 박성준
 - ec2 서버 구축 후 카프카 연동: https://github.com/sgdevcamp2022/seagull/wiki/KAFKA-%EC%84%9C%EB%B2%84-%EA%B5%AC%ED%98%84-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4-%EC%A0%95%EB%A6%AC
@@ -71,9 +70,6 @@
 - 도커에 mysql 설치: https://github.com/sgdevcamp2022/seagull/wiki/docker-mysql-%EC%84%A4%EC%B9%98
 - 깃 Rebase 컨벤션 작성: https://github.com/sgdevcamp2022/seagull/wiki/rebase-%EB%B0%A9%EB%B2%95
 ​
-### BE - 이효승
-​
-### BE - 이범수
 ​
 ​
 ​
@@ -81,9 +77,11 @@
 ### BE - 박성준
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
 - 배포 서버와 클라이언트 간 CORS 에러: https://github.com/sgdevcamp2022/seagull/wiki/%EC%84%9C%EB%B2%84,-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-CORS-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
-
-## code review
-
-- 성준
-  - 룸 레포지토리에 findByRoomLink에 null이 들어오는데, crudRepository를 잘못 쓰고있는건지 궁금합니다.
-  - 웹 소켓을 서로 다른 엔드포인트에 접근하게 하려는데, 계속 알아보고있지만 감이 안잡혀서 추천해주시는 방향이 있는지 궁금합니다
+- 방마다 브로드 캐스팅을 다르게 하는 방법:
+  - Client에서 들어오는 publish주소에 roomLink를 붙쳐 해당 룸에 대한 접속 유저를 서로 다른 브로드캐스팅을 하게끔 구성
+- Redis Null 에러: 
+  - findById에서 Redis에 저장된 데이터가 Null이라 생기는 문제
+  - RedisTemplate로 레디스를 Set형태로 관리하므로써, 레디스 조회/저장/삭제 기능에서 생기는 에러들을 해결
+- Redis 저장 키값이 중복되는 에러:
+  - 해당되는 키값이 중복되어 저장됨으로써 데이터가 합쳐지는 에러 발생
+  - <RoomLink, HostId>, <RoomLink, VideoUrl>, <RoomLink, Users> 에 대한 각각의 RoomLink에 식별될 수 있는 문자를 넣어 구분해서 해결
