@@ -298,7 +298,6 @@ const VideoShareRoom = () => {
   return (
     <Container>
       {!isLogin ? (
-        // <RequestLogin />
         requestLogin()
       ) : (
         <>
@@ -364,7 +363,7 @@ const VideoShareRoom = () => {
               <ToolBarContainer>
                 <ShareVideoInput>
                   <VideoIcon>
-                    <MdVideoCall size={30} color="#0e72ed" />
+                    <MdVideoCall size={30} color="grey" />
                   </VideoIcon>
                   <VideoUrlInput
                     placeholder="영상 url을 입력하세요"
@@ -377,7 +376,7 @@ const VideoShareRoom = () => {
                       e.preventDefault();
                     }}
                   >
-                    <MdOutlineInput size={25} color="grey" />
+                    <MdOutlineInput size={25} />
                   </InputButton>
                 </ShareVideoInput>
                 <LeaveButton handleLeaveRoom={handleLeaveRoom} />
@@ -422,7 +421,7 @@ const VideoWrap = styled.div`
 `;
 
 const RoomInfoWrap = styled.div`
-  height: 40px;
+  height: 50px;
   width: 90%;
   align-items: center;
   box-sizing: border-box;
@@ -515,11 +514,17 @@ const InputButton = styled.div`
   position: absolute;
   height: 100%;
   right: 5px;
+  svg {
+    color: #224c80;
+  }
+  svg:hover {
+    color: #0e72ed;
+  }
 `;
 
 const Wrap = styled.div`
   width: 100%;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 130px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -527,7 +532,7 @@ const Wrap = styled.div`
 
 const VideoPlayWrap = styled.div`
   width: 90%;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 130px);
   background-color: black;
   color: grey;
   font-size: 60px;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SendUnitChat = ({ time, content, author }) => {
+  console.log(time);
   const chatTime = time && new Date(time).getHours();
   const chatMin = time && new Date(time).getMinutes();
   return (
@@ -51,13 +52,15 @@ const ChatForm = styled.div`
 `;
 
 const ChatTitle = styled.div`
+  justify-content: flex-end;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 `;
 
 const Nickname = styled.div`
   color: white;
   margin-top: 5px;
+  margin-left: 15px;
   height: 15px;
   font-size: 16px;
   /* font-weight: bold; */
@@ -67,7 +70,7 @@ const Nickname = styled.div`
 const Time = styled.div`
   box-sizing: border-box;
   padding-left: 5px;
-  font-size: 12px;
+  font-size: 11px;
   color: gray;
   display: flex;
   align-items: center;
