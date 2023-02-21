@@ -25,7 +25,7 @@ const LeavePopover = ({ onOpenerClick, handleLeaveRoom }) => {
   return (
     <Wrapper ref={settingsWindowRef}>
       <LogoutBox>
-        <RxExit />
+        <RxExit color="white" />
         <Logout
           onClick={() => {
             handleLeaveRoom();
@@ -40,7 +40,7 @@ const LeavePopover = ({ onOpenerClick, handleLeaveRoom }) => {
 
 const Wrapper = styled.div`
   position: absolute;
-  background-color: white;
+  background-color: #262626;
   width: 150px;
   right: 0px;
   top: -50px;
@@ -60,7 +60,7 @@ const Logout = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  color: #000000;
+  color: white;
   margin-left: 5px;
   font-size: 12px;
 `;

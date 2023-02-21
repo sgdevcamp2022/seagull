@@ -79,7 +79,7 @@ const Title = styled.div`
 `;
 const Content = styled.div`
   width: 100%;
-  height: calc(100vh - 170px);
+  height: calc(100vh - 180px);
   padding: 5px 20px;
   box-sizing: border-box;
   overflow: scroll;

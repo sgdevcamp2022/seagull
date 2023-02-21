@@ -65,7 +65,7 @@ const ChatRoomUserContainer = ({
 };
 
 const MenuWrap = styled.div`
-  height: 40px;
+  height: 50px;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
