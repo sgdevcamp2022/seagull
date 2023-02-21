@@ -8,7 +8,7 @@
 ##  🙋🏻 팀원 소개
 | 이름  | 개인 깃허브                                        | 담당 역할 및 기능                                                     |
 |-----|-----------------------------------------------|----------------------------------------------------------------|
-| 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템, 실시간 웹소켓 구현, 메인서버 관리, Redis Repository 구성, 화상 채팅방 비지니스 로직 구현   |
+| 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템, 실시간 웹소켓 구현, 메인서버 관리, Redis Repository 구성, 비디오 방 비지니스 로직 구현   |
 | 박정원 | [@jjjjjeongwon](https://github.com/jjjjjeongwon)    | <img src="https://img.shields.io/badge/-FE-blue"> 프론트 전체  |
 | 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 담당                                              |
 | 이범수 | [@dldks321](https://github.com/dldks321)        | <img src="https://img.shields.io/badge/-BE-red"> 유저 시스템 담당                                                 |
@@ -69,7 +69,12 @@
 - ec2에 도커 설치: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98
 - 도커에 mysql 설치: https://github.com/sgdevcamp2022/seagull/wiki/docker-mysql-%EC%84%A4%EC%B9%98
 - 깃 Rebase 컨벤션 작성: https://github.com/sgdevcamp2022/seagull/wiki/rebase-%EB%B0%A9%EB%B2%95
-​
+- 실시간 웹소켓을 위한 테스트 페이지 구현
+- 방마다 구분된 사용자의 실시간 브로드 캐스팅 구현
+- 실시간으로 주고 받는 데이터들을 위한 Redis 환경 및 Redis Repository 구축
+- 비디오 공유방 비지니스 로직 구축
+- 채팅 시스템을 구축해 메세지를 Stomp와 SockJS로 주고받을 수 있는 환경 구축
+- EC2 에 docker-commpose.yml 로 서버를 배포할 수 있게 환경 구성
 ​
 ​
 ​
