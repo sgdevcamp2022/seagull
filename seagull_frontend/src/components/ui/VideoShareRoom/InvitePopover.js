@@ -46,7 +46,7 @@ const InvitePopover = ({ onOpenerClick }) => {
 
 const Wrapper = styled.div`
   position: absolute;
-  background-color: white;
+  background-color: grey;
   width: 260px;
   right: 20px;
   top: 38px;
@@ -56,6 +56,7 @@ const Wrapper = styled.div`
 `;
 
 const ProfileBox = styled.div`
+  color: white;
   height: 40px;
   border-bottom: 0.5px solid #f0f0f0;
   padding: 15px;

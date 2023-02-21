@@ -34,7 +34,7 @@ const LeaveBtn = styled.div`
   width: 80px;
   height: 100%;
   color: white;
-  background-color: #693b36;
+  background-color: #db5061;
   align-items: center;
   display: flex;
   justify-content: center;
