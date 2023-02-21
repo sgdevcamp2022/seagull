@@ -84,6 +84,7 @@
 ​
 <br>
 <br>
+
 ## 📌 Trouble Shooting
 ### BE - 박성준
 - EC2 접속 에러: https://github.com/sgdevcamp2022/seagull/wiki/EC2-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85
