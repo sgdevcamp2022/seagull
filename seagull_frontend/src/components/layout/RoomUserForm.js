@@ -7,8 +7,6 @@ import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 const RoomUserForm = ({ user, hostName, color }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
 
-  console.log('호스트가 누구닝', hostName);
-
   const onOpenerClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -48,7 +46,6 @@ const InviteButton = styled.div`
   justify-content: center;
   font-size: 15px;
   border-radius: 10px;
-  /* padding-left: 18px; */
   align-items: center;
   height: 35px;
   width: 75px;

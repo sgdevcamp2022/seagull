@@ -310,7 +310,7 @@ const VideoShareRoom = () => {
           <VideoWrap openChatBox={openChatBox}>
             <RoomInfoWrap>
               <InfoIcon onClick={clipboardCopy}>
-                <RxCopy size={20} color="#0e72ed" />
+                <RxCopy size={20} color=" #224c80" />
               </InfoIcon>
               <RoomName>{window.location.href}</RoomName>
               <ChatButton onClick={() => setOpenChatBox(!openChatBox)}>
@@ -472,7 +472,7 @@ const RoomName = styled.div`
   display: flex;
   align-items: center;
   height: 20px;
-  margin: 15px auto 0 2px;
+  margin: 15px auto 0 4px;
   color: white;
 `;
 
@@ -513,8 +513,8 @@ const ToolBarContainer = styled.div`
 const ShareVideoInput = styled.div`
   width: 70%;
   min-width: 200px;
+  max-width: 520px;
   height: 50%;
-  /* margin-left: 0px; */
   background-color: #262626;
   display: flex;
   border-radius: 10px;

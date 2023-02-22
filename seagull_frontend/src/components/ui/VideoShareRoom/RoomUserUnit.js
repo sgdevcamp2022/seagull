@@ -5,29 +5,6 @@ import { BsPersonFill } from 'react-icons/bs';
 const RoomUserUnit = ({ username, hostName, color }) => {
   const infoMe = sessionStorage.getItem('username');
 
-  // let colors = [
-  //   '#5e86a6',
-  //   '#32c787',
-  //   '#00BCD4',
-  //   '#ff5652',
-  //   '#ffc107',
-  //   '#ff85af',
-  //   '#FF9800',
-  //   '#39bbb0',
-  // ];
-
-  // const getColor = (username) => {
-  //   let hash = 0;
-  //   for (let i = 0; i < username.length; i++) {
-  //     hash = 31 * hash + username.charCodeAt(i);
-  //   }
-
-  //   let index = Math.abs(hash % colors.length);
-  //   return colors[index];
-  // };
-
-  // console.log(getColor(username));
-
   console.log(username, color);
   return (
     <Wrap>
@@ -49,7 +26,6 @@ const RoomUserUnit = ({ username, hostName, color }) => {
 
 const Wrap = styled.div`
   width: 100%;
-  /* background-color: aliceblue; */
   display: flex;
   margin-bottom: 25px;
 `;
