@@ -30,20 +30,19 @@ const Login = () => {
   const normalLogin = async ({ username, password }) => {
     sessionStorage.setItem('username', username);
     setIsLogin(true);
+    Swal.fire({
+      title: `${username}님 반갑습니다!`,
+      confirmButtonColor: '#0e72ed',
+    });
+    navigate('/');
     await userAPI
       .get(`/auth/login/normal?user_id=${username}&password=${password}`)
       .then((res) => {
         console.log(res);
-        Swal.fire({
-          title: `${username}님 반갑습니다!`,
-          confirmButtonColor: '#0e72ed',
-        });
-
-        navigate('/');
       })
       .catch((err) => {
         console.log('로그인 에러', err);
-        setErrorMessage(true);
+        // setErrorMessage(true);
       });
   };
 

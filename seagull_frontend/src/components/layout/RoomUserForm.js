@@ -21,7 +21,7 @@ const RoomUserForm = ({ user, hostName, color }) => {
         <InviteButton onClick={onOpenerClick}>초대</InviteButton>
         {isPopperShown && <InvitePopover onOpenerClick={onOpenerClick} />}
       </>
-      <Title>참여자 ({user.length})</Title>
+      <Title>참여자 ({user?.length})</Title>
       <Content>
         {user &&
           user
