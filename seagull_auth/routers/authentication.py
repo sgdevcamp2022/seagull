@@ -6,6 +6,10 @@ from jose import JWTError, ExpiredSignatureError, jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+
 from sqlalchemy.orm import Session
 from schemas import UserInfo, LoginUserInfo, RegisterUserInfo, EmailSendingInfo
 from seagull_auth.database.database_connection import get_database, Redis
@@ -18,7 +22,6 @@ import random
 import requests
 
 from dotenv import load_dotenv
-import os
 
 
 router = APIRouter(
@@ -261,11 +264,11 @@ async def sending_email(email: EmailSendingInfo):
     length_of_string = 5
     auth_code = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(length_of_string))
     html = """<p>Hi, auth code is : """ + auth_code + """</p>"""
-    Redis.setex(email.dict().get("email"), 300, auth_code)
+    Redis.setex(email.email, 300, auth_code)
 
     message = MessageSchema(
         subject="seagull auth code",
-        recipients=email.dict().get("email"),
+        recipients=[email.email],
         body=html,
         subtype=MessageType.html)
 
@@ -281,7 +284,7 @@ async def verify_email_code(email: EmailSendingInfo, verify_code: str):
         detail="verify code is already expired or invaild",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    saved_verify_code = Redis.get(email.dict().get("email")[0])
+    saved_verify_code = Redis.get(email.email)
     if saved_verify_code == None:
         raise email_exception
     if saved_verify_code.decode('ascii') != verify_code:

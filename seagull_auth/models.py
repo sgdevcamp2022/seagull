@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, PrimaryKeyConstraint
-from seagull_auth.database.database_connection import Base
+from database.database_connection import Base
 
 
 class User(Base):

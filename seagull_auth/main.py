@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from seagull_auth.routers import authentication, user_management
+from routers import authentication, user_management
 
 import models
-from seagull_auth.database.database_connection import engine
+from database import database_connection
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=database_connection.engine)
 
 app = FastAPI()
 
