@@ -18,6 +18,9 @@ const RoomMake = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const isLogin = useRecoilValue(LoginState);
 
+  //로딩스피너
+  const [loading, setLoading] = useState(null);
+
   // 모달창 노출
   const showModal = () => {
     if (isLogin) {
@@ -38,6 +41,7 @@ const RoomMake = () => {
   //방만들기
   const makeRoom = async () => {
     console.log(username);
+    // setLoading(true);
     if (isLogin) {
       await webSocketAPI
         .post(`/room/create/${username}`)
@@ -88,7 +92,7 @@ const RoomMake = () => {
         <ImageWrap>
           <ProjectImageWrap>
             <ProjectImage>
-              <img src={'/images/projectImage.png'} alt="" />
+              <img src={'/images/eguba_project_image.png'} alt="" />
             </ProjectImage>
           </ProjectImageWrap>
           <RoomMakeWrap>
@@ -170,7 +174,7 @@ const ProjectImage = styled.div`
   background-color: white;
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
   img {
-    width: 90%;
+    width: 95%;
     height: 90%;
   }
 `;
