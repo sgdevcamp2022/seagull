@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
@@ -34,13 +34,9 @@ const RoomMakeModal = ({ setModalOpen }) => {
           </CloseBtn>
         </WrapInput>
         <ContentWrap>
-          {/* <WrapInput> */}
           <RoomName>입장링크</RoomName>
           <InputRoomName ref={linkRef}></InputRoomName>
-          {/* </WrapInput> */}
-          {/* <WrapInput> */}
           <RequestRoomName>입장링크를 입력하세요.</RequestRoomName>
-          {/* </WrapInp ut> */}
           <Wrap>
             <CancelBtn onClick={closeModal}>취소</CancelBtn>
             <RoomMakeBtn onClick={enterRoom}>입장하기</RoomMakeBtn>

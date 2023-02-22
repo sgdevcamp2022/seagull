@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useState } from 'react';
 
 import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
@@ -11,6 +11,7 @@ const ChatRoomUserContainer = ({
   sendMessage,
   user,
   hostName,
+  openChatBox,
 }) => {
   const [isViewChat, setIsViewChat] = useState(false);
 
@@ -37,18 +38,23 @@ const ChatRoomUserContainer = ({
 
   return (
     <div>
-      <MenuWrap>
-        <TabWrap onClick={() => setIsViewChat(true)}>
-          <MenuIconBox isActive={isViewChat ? true : false} menu="채팅" />
-        </TabWrap>
-        <TabWrap onClick={() => setIsViewChat(false)}>
-          <MenuIconBox
-            isActive={isViewChat ? false : true}
-            menu="참여자"
-            user={user?.length}
-          />
-        </TabWrap>
-      </MenuWrap>
+      {openChatBox ? (
+        <MenuWrap>
+          <TabWrap onClick={() => setIsViewChat(true)}>
+            <MenuIconBox isActive={isViewChat ? true : false} menu="채팅" />
+          </TabWrap>
+          <TabWrap onClick={() => setIsViewChat(false)}>
+            <MenuIconBox
+              isActive={isViewChat ? false : true}
+              menu="참여자"
+              user={user?.length}
+            />
+          </TabWrap>
+        </MenuWrap>
+      ) : (
+        <></>
+      )}
+
       <ContentWrap>
         {isViewChat ? (
           <ChatForm
@@ -70,7 +76,6 @@ const MenuWrap = styled.div`
   display: flex;
   justify-content: space-evenly;
   border-bottom: 1px solid grey;
-  /* background-color: aliceblue; */
 `;
 
 const TabWrap = styled.div`

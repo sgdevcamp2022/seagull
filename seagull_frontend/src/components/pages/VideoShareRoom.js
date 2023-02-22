@@ -1,9 +1,10 @@
 //packages
 import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { RxCopy } from 'react-icons/rx';
 import { MdVideoCall, MdOutlineInput } from 'react-icons/md';
+import { BiArrowFromRight, BiArrowFromLeft } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
@@ -300,25 +301,25 @@ const VideoShareRoom = () => {
 
   const [openChatBox, setOpenChatBox] = useState(true);
 
-  // useEffect(() => {
-
-  // }, []);
-
   return (
     <Container>
       {!isLogin ? (
         requestLogin()
       ) : (
         <>
-          <VideoWrap>
+          <VideoWrap openChatBox={openChatBox}>
             <RoomInfoWrap>
               <InfoIcon onClick={clipboardCopy}>
                 <RxCopy size={20} color="#0e72ed" />
               </InfoIcon>
               <RoomName>{window.location.href}</RoomName>
-              {/* <ChatButton onClick={() => setOpenChatBox(!openChatBox)}>
-                늘이기
-              </ChatButton> */}
+              <ChatButton onClick={() => setOpenChatBox(!openChatBox)}>
+                {openChatBox ? (
+                  <BiArrowFromLeft color="lightgrey" size={25} />
+                ) : (
+                  <BiArrowFromRight color="lightgrey" size={25} />
+                )}
+              </ChatButton>
             </RoomInfoWrap>
             {/* <VideoShareForm /> */}
             <Wrap>
@@ -395,18 +396,15 @@ const VideoShareRoom = () => {
               </ToolBarContainer>
             </ToolBarWrap>
           </VideoWrap>
-          {openChatBox ? (
-            <ChatWrap>
-              <ChatRoomUserContainer
-                messageInputRef={messageInputRef}
-                sendMessage={sendMessage}
-                user={user}
-                hostName={hostName}
-              />
-            </ChatWrap>
-          ) : (
-            '안녕'
-          )}
+          <ChatWrap openChatBox={openChatBox}>
+            <ChatRoomUserContainer
+              messageInputRef={messageInputRef}
+              sendMessage={sendMessage}
+              user={user}
+              hostName={hostName}
+              openChatBox={openChatBox}
+            />
+          </ChatWrap>
         </>
       )}
     </Container>
@@ -430,27 +428,36 @@ const Container = styled.div`
   display: flex;
 `;
 const VideoWrap = styled.div`
-  width: calc(100vw - 300px);
-  height: 100vh;
-  background-color: #191919;
-  overflow: hidden;
+  ${({ openChatBox }) => {
+    return css`
+      width: ${openChatBox ? 'calc(100vw - 300px)' : '100vw'};
+      height: 100vh;
+      background-color: #191919;
+      overflow: hidden;
+    `;
+  }}
 `;
 
 const RoomInfoWrap = styled.div`
   height: 50px;
-  width: 90%;
+  width: 100%;
   align-items: center;
   box-sizing: border-box;
   font-size: 15px;
   display: flex;
   margin: auto;
+  padding-left: 5%;
 `;
 
 const ChatWrap = styled.div`
-  width: 300px;
-  height: 100%;
-  box-shadow: -15px 0px 30px -30px gray;
-  background-color: #262626;
+  ${({ openChatBox }) => {
+    return css`
+      width: ${openChatBox ? '300px' : '0px'};
+      height: 100%;
+      box-shadow: -15px 0px 30px -30px gray;
+      background-color: #262626;
+    `;
+  }}
 `;
 
 const InfoIcon = styled.div`
@@ -470,10 +477,12 @@ const RoomName = styled.div`
 `;
 
 const ChatButton = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: transparent;
   cursor: pointer;
-  width: 50px;
-  height: 20px;
-  background-color: white;
+  width: 35px;
+  height: 30px;
 `;
 
 const VideoChatWrap = styled.div`
