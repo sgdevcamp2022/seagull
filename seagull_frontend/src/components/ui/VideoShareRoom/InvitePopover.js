@@ -24,7 +24,12 @@ const InvitePopover = ({ onOpenerClick }) => {
 
   const clipboardCopy = async () => {
     await navigator.clipboard.writeText(window.location.href);
-    alert('링크 복사 완료!');
+    Swal.fire({
+      icon: 'success',
+      title: '링크 복사 완료!',
+      showConfirmButton: false,
+      timer: 1000,
+    });
   };
 
   return (
