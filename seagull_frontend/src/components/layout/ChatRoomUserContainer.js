@@ -12,7 +12,7 @@ const ChatRoomUserContainer = ({
   user,
   hostName,
 }) => {
-  const [isViewChat, setIsViewChat] = useState(true);
+  const [isViewChat, setIsViewChat] = useState(false);
 
   let colors = [
     '#5e86a6',

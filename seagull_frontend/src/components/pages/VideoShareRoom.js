@@ -243,7 +243,10 @@ const VideoShareRoom = () => {
         );
       }
     } else {
-      window.alert('호스트 권한이 없습니다!');
+      Swal.fire({
+        title: '호스트 권한이 없습니다!',
+        confirmButtonColor: '#0e72ed',
+      });
     }
   };
 
@@ -295,6 +298,12 @@ const VideoShareRoom = () => {
     });
   };
 
+  const [openChatBox, setOpenChatBox] = useState(true);
+
+  // useEffect(() => {
+
+  // }, []);
+
   return (
     <Container>
       {!isLogin ? (
@@ -307,6 +316,9 @@ const VideoShareRoom = () => {
                 <RxCopy size={20} color="#0e72ed" />
               </InfoIcon>
               <RoomName>{window.location.href}</RoomName>
+              {/* <ChatButton onClick={() => setOpenChatBox(!openChatBox)}>
+                늘이기
+              </ChatButton> */}
             </RoomInfoWrap>
             {/* <VideoShareForm /> */}
             <Wrap>
@@ -383,14 +395,18 @@ const VideoShareRoom = () => {
               </ToolBarContainer>
             </ToolBarWrap>
           </VideoWrap>
-          <ChatWrap>
-            <ChatRoomUserContainer
-              messageInputRef={messageInputRef}
-              sendMessage={sendMessage}
-              user={user}
-              hostName={hostName}
-            />
-          </ChatWrap>
+          {openChatBox ? (
+            <ChatWrap>
+              <ChatRoomUserContainer
+                messageInputRef={messageInputRef}
+                sendMessage={sendMessage}
+                user={user}
+                hostName={hostName}
+              />
+            </ChatWrap>
+          ) : (
+            '안녕'
+          )}
         </>
       )}
     </Container>
@@ -453,6 +469,13 @@ const RoomName = styled.div`
   color: white;
 `;
 
+const ChatButton = styled.div`
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
+  background-color: white;
+`;
+
 const VideoChatWrap = styled.div`
   display: flex;
   height: 560px;
@@ -479,7 +502,7 @@ const ToolBarContainer = styled.div`
 `;
 
 const ShareVideoInput = styled.div`
-  width: 55%;
+  width: 70%;
   min-width: 200px;
   height: 50%;
   /* margin-left: 0px; */
