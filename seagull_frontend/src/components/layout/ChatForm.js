@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { ChatMessageState, UserName } from '../../state/UserAtom';
+import { ChatMessageState } from '../../state/UserAtom';
 
 import { FiSend } from 'react-icons/fi';
 import ReceiveUnitChat from '../ui/VideoShareRoom/ReceiveUnitChat';
 import SendUnitChat from '../ui/VideoShareRoom/SendUnitChat';
 
-const ChatForm = ({ messageInputRef, sendMessage, color }) => {
+const ChatForm = ({ messageInputRef, sendMessage }) => {
   const chatMessage = useRecoilValue(ChatMessageState);
   const username = sessionStorage.getItem('username');
   const [message, setMessage] = useState([]);
@@ -23,10 +23,6 @@ const ChatForm = ({ messageInputRef, sendMessage, color }) => {
       setMessage([...message, chatMessage]);
     }
   }, [chatMessage.timestamp]);
-
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
 
   return (
     <Wrap>
@@ -68,11 +64,9 @@ const Wrap = styled.div``;
 const Title = styled.div`
   display: flex;
   padding-left: 18px;
-  /* justify-content: flex-start; */
   align-items: center;
   height: 50px;
   width: 100%;
-  /* background-color: aliceblue; */
   box-sizing: border-box;
   font-size: 20px;
   color: white;
@@ -116,7 +110,6 @@ const InputBox = styled.form`
   padding: 5px 15px;
   box-sizing: border-box;
   display: flex;
-  /* border: 1.5px solid #f4f4f4; */
 `;
 
 const Input = styled.input`
@@ -127,14 +120,12 @@ const Input = styled.input`
   border: none;
   margin-right: 10px;
   box-sizing: border-box;
-  /* color: black; */
 `;
 
 const SendButton = styled.button`
   border: none;
   width: 13%;
   height: 100%;
-  /* border-radius: 25px; */
   background-color: transparent;
   display: flex;
   align-items: center;

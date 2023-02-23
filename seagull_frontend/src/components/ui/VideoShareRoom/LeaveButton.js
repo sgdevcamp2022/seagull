@@ -40,7 +40,6 @@ const LeaveBtn = styled.div`
   justify-content: center;
   font-weight: bold;
   border-radius: 5px;
-  /* margin: 0 30px auto auto; */
   cursor: pointer;
   transition-duration: 0.2s;
   &:hover {

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const ReceiveUnitChat = ({ time, content, author }) => {
   const chatTime = time && new Date(time).getHours();
   const chatMin = time && new Date(time).getMinutes();
-  //   console.log(chatTime);
   return (
     <Wrap>
       <ProfileImage>

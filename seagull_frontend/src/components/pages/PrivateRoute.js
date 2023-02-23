@@ -7,7 +7,6 @@ import VideoShareRoom from './VideoShareRoom';
 
 const PrivateRoute = () => {
   const roomlink = useParams();
-  console.log(roomlink.roomlink);
   const [loading, setLoading] = useState(null);
 
   const [existLink, setExistLink] = useState();

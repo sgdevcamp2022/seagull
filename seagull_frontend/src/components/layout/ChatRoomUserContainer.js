@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useState } from 'react';
 
 import MenuIconBox from '../ui/VideoShareRoom/MenuIconBox';
@@ -14,27 +14,6 @@ const ChatRoomUserContainer = ({
   openChatBox,
 }) => {
   const [isViewChat, setIsViewChat] = useState(false);
-
-  let colors = [
-    '#5e86a6',
-    '#32c787',
-    '#00BCD4',
-    '#ff5652',
-    '#ffc107',
-    '#ff85af',
-    '#FF9800',
-    '#39bbb0',
-  ];
-
-  const getColor = () => {
-    return colors[Math.round(Math.random() * colors.length)];
-  };
-
-  // console.log(getColor(user));
-
-  const color = getColor();
-
-  console.log(color);
 
   return (
     <div>
@@ -60,10 +39,9 @@ const ChatRoomUserContainer = ({
           <ChatForm
             messageInputRef={messageInputRef}
             sendMessage={sendMessage}
-            color={color}
           />
         ) : (
-          <RoomUserForm user={user} hostName={hostName} color={color} />
+          <RoomUserForm user={user} hostName={hostName} />
         )}
       </ContentWrap>
     </div>
@@ -84,9 +62,7 @@ const TabWrap = styled.div`
 `;
 
 const ContentWrap = styled.div`
-  /* height: calc(100vh - 40px); */
   width: 100%;
-  /* background-color: blue; */
 `;
 
 export default ChatRoomUserContainer;
