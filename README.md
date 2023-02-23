@@ -1,4 +1,4 @@
-# **EGuBa(이거봐)**
+# **eGuBa(이거봐)**
 
 ## 🔎 프로젝트 개요
 #### 친구들과 함께 하는 영상 공유 플랫폼
@@ -10,7 +10,7 @@
 |-----|-----------------------------------------------|----------------------------------------------------------------|
 | 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템, 실시간 웹소켓 구현, 메인서버 관리, Redis Repository 구성, 비디오 방 비지니스 로직 구현   |
 | 박정원 | [@jjjjjeongwon](https://github.com/jjjjjeongwon)    | <img src="https://img.shields.io/badge/-FE-blue"> 프론트 전체  |
-| 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 담당                                              |
+| 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 전체, 웹소켓 통신 담당                                              |
 | 이범수 | [@dldks321](https://github.com/dldks321)        | <img src="https://img.shields.io/badge/-BE-red"> 유저 시스템 담당                                                 |
 <br/>
 
@@ -75,7 +75,8 @@
 
 ## 🛠 주요 기능
 #### - 링크가 공유된 유저들 간에 영상을 함께 보는 기능    
-#### - 함께 영상을 보면서 채팅하는 기능<br/>
+#### - 함께 영상을 보면서 채팅하는 기능
+#### - private한 방을 생성하는 기능 <br/>
 ​
 ## 🛠 작업 내역
 ​
@@ -138,3 +139,9 @@
   - 순서를 유지 하기 위해 Redis Set자료형을 List로 파싱하여 데이터 전송하여 문제 해결
 - 호스트가 방 나갈 때 레디스에 데이터가 삭제되지 않는 문제
   - 방 생성시 HostId에 대한 레디스 레포지토리 로직을 구현해 문제 해결
+
+### BE - 이효승
+- 문제: 영상이 재생중인 방에 새로운 클라이언트가 접속하는 경우 url값이 잘못오는 문제발생
+  - 원인: 서버에서 url에 대해 redis set의 add로 값을 넣고 pop메서드로 값을 꺼내서 보내도록 구현되어있었다. pop은 value에 값이 여러개인경우 랜덤한 값을 꺼내기 때문에 발생한 문제이다.
+  - 해결: 스택처럼 list의 leftpush로 넣고 leftpop으로값을 꺼내도록 변경했다. 가장 마지막으로 들어간 최신 값을 꺼내오도록 동작한다.
+  - 추가로 url값을 계속 저장하도록 한 것은 추후에 추가될 재생목록 기능을 염두하고 한 것이다.
