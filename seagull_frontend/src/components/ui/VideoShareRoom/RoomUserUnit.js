@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsPersonFill } from 'react-icons/bs';
 
-const RoomUserUnit = ({ username, hostName, color }) => {
+const RoomUserUnit = ({ username, hostName }) => {
   const infoMe = sessionStorage.getItem('username');
 
-  console.log(username, color);
   return (
     <Wrap>
-      <ProfileImage color={color}>
+      <ProfileImage>
         <BsPersonFill size={30} color="#f4f4f4" />
       </ProfileImage>
       <UserForm>
@@ -50,22 +49,17 @@ const UserForm = styled.div`
   width: calc(100% - 45px);
 `;
 
-const Title = styled.div`
-  /* display: flex; */
-`;
+const Title = styled.div``;
 
 const Nickname = styled.div`
   margin-top: 5px;
-  /* height: 15px; */
   font-size: 18px;
-  /* font-weight: bold; */
   margin-bottom: 3px;
   color: white;
 `;
 
 const InfoMe = styled.div`
   color: lightgrey;
-  /* margin-top: 5px; */
   font-size: 12px;
 `;
 

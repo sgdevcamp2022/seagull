@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { RxExit } from 'react-icons/rx';
 
 const LeavePopover = ({ onOpenerClick, handleLeaveRoom }) => {
   const settingsWindowRef = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const pageClickEvent = (e) => {

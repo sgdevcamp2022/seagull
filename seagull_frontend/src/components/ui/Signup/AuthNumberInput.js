@@ -6,7 +6,6 @@ import EmailAuthInput from './EmailAuthInput';
 import Swal from 'sweetalert2';
 
 const AuthNumberInput = ({ emailAuthNumRef, showTimer, emailAddress }) => {
-  // console.log(emailAddress);
   const checkEmailAuth = async () => {
     const authNum = emailAuthNumRef.current.value;
     const email = emailAddress.current.value;

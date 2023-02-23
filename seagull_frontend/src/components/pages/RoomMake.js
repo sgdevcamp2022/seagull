@@ -40,8 +40,6 @@ const RoomMake = () => {
 
   //방만들기
   const makeRoom = async () => {
-    console.log(username);
-    // setLoading(true);
     if (isLogin) {
       await webSocketAPI
         .post(`/room/create/${username}`)
@@ -100,7 +98,8 @@ const RoomMake = () => {
               eGuBa는 영상을 다같이 볼 수 있는 플랫폼입니다
             </ProjectTitle>
             <ProjectExplain>
-              관심있는 유튜브 영상을 친구들과 함께 보세요.
+              관심있는 유튜브 영상을 친구들과 함께 시청하고 공유방 내 채팅을
+              통해 실시간으로 소통해 보세요
             </ProjectExplain>
             <ButtonWrap>
               <RoomMakeBtn onClick={makeRoom}>방만들기</RoomMakeBtn>
@@ -112,7 +111,6 @@ const RoomMake = () => {
           </RoomMakeWrap>
         </ImageWrap>
       </ContentWrap>
-      {/* <MakeRoomBtn onClick={showModal}>방만들기</MakeRoomBtn> */}
     </Wrap>
   );
 };
@@ -126,7 +124,6 @@ const Wrap = styled.div`
 `;
 
 const ContentWrap = styled.div`
-  /* margin-top: 50px; */
   height: calc(100vh - 85px);
   display: flex;
 `;
@@ -152,20 +149,16 @@ const FunctionWrap = styled.div``;
 
 const ImageWrap = styled.div`
   width: calc(100vw - 270px);
-  /* background-color: white; */
-  /* border: 1px solid gray; */
   display: flex;
 `;
 
 const ProjectImageWrap = styled.div`
   width: calc(100vw - 870px);
   height: 100%;
-  /* background-color: aqua; */
 `;
 
 const ProjectImage = styled.div`
   margin: 150px 20px auto 40px;
-  /* width: 500px; */
   height: 330px;
   border-radius: 5px;
   display: flex;
@@ -188,12 +181,12 @@ const RoomMakeWrap = styled.div`
 const ProjectTitle = styled.div`
   margin-top: 125px;
   font-size: 38px;
-  /* font-weight: bold; */
 `;
 
 const ProjectExplain = styled.div`
-  font-size: 23px;
+  font-size: 22px;
   margin-top: 20px;
+  line-height: 120%;
   color: grey;
 `;
 
@@ -205,7 +198,6 @@ const ButtonWrap = styled.div`
 
 const PlatformFunction = styled.div`
   height: 40px;
-  /* background-color: white; */
   margin-bottom: 20px;
   margin-left: 30px;
   display: flex;
@@ -284,10 +276,6 @@ const Container = styled.div`
       background: ${modalOpen ? 'rgba(0, 0, 0, 0.6)' : 'transparent'};
     `;
   }}
-`;
-
-const MakeRoomBtn = styled.div`
-  cursor: pointer;
 `;
 
 export default RoomMake;

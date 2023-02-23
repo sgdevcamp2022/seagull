@@ -46,7 +46,6 @@ const Icon = styled.div`
 `;
 
 const MenuName = styled.div`
-  /* width: calc(100% - 40px); */
   height: 100%;
   display: flex;
   justify-content: center;

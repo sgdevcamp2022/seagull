@@ -1,26 +1,16 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { useState } from 'react';
-import ProfileImagePopover from '../ui/public/ProfileImagePopover';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { LoginState } from '../../state/UserAtom';
 
 import Swal from 'sweetalert2';
 import { RxExit } from 'react-icons/rx';
 
 const Header = () => {
-  const [isPopperShown, setIsPopperShown] = useState(false);
-
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
 
   const navigate = useNavigate();
-
-  const onOpenerClick = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setIsPopperShown(!isPopperShown);
-  };
 
   return (
     <NavBarWrap>
@@ -31,12 +21,6 @@ const Header = () => {
 
         {isLogin ? (
           <AfterLoginBox>
-            {/* <ProfileImg isPopperShown={isPopperShown} onClick={onOpenerClick}>
-              <img src={'/images/anonymousProfile.png'} alt="" />
-            </ProfileImg>
-            {isPopperShown && (
-              <ProfileImagePopover onOpenerClick={onOpenerClick} />
-            )} */}
             <UserInfo>
               <User>{sessionStorage.getItem('username')}</User>님 반갑습니다:)
             </UserInfo>
@@ -77,7 +61,6 @@ const NavBarWrap = styled.div`
   background-color: #ffffff;
   box-sizing: border-box;
   user-select: none;
-  /* border-bottom: 0.5px solid slategray; */
 `;
 
 const Wrap = styled.div`
@@ -118,13 +101,11 @@ const BeforeLoginBox = styled.div`
 const LoginButton = styled.div`
   font-size: 21px;
   margin: 0 5px;
-  /* color: #0e72ed; */
   cursor: pointer;
   :hover {
     color: #0e72ed;
     font-weight: bold;
   }
-  /* margin-right: 10px; */
 `;
 
 const SignupButton = styled.div`
@@ -148,11 +129,9 @@ const AfterLoginBox = styled.div`
   display: flex;
   position: relative;
   margin-left: auto;
-  /* width: 84px; */
 `;
 
 const UserInfo = styled.div`
-  /* width: 200px; */
   display: flex;
   margin-right: 12px;
 `;
@@ -167,27 +146,6 @@ const LogoutButton = styled.div`
   :hover {
     font-weight: bold;
   }
-`;
-
-const ProfileImg = styled.div`
-  ${({ isPopperShown }) => {
-    return css`
-      width: 48px;
-      height: 48px;
-      border-radius: 25px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 10px;
-      cursor: pointer;
-      /* box-shadow: ${isPopperShown ? '0px 0px 5px #a2e9fa;' : ''};  */
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    `;
-  }}
 `;
 
 export default Header;

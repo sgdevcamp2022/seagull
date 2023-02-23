@@ -4,7 +4,7 @@ import { useState } from 'react';
 import RoomUserUnit from '../ui/VideoShareRoom/\bRoomUserUnit';
 import InvitePopover from '../ui/VideoShareRoom/InvitePopover';
 
-const RoomUserForm = ({ user, hostName, color }) => {
+const RoomUserForm = ({ user, hostName }) => {
   const [isPopperShown, setIsPopperShown] = useState(false);
 
   const onOpenerClick = (e) => {
@@ -25,12 +25,7 @@ const RoomUserForm = ({ user, hostName, color }) => {
           user
             .reverse()
             .map((name, idx) => (
-              <RoomUserUnit
-                key={idx}
-                username={name}
-                hostName={hostName}
-                color={color}
-              />
+              <RoomUserUnit key={idx} username={name} hostName={hostName} />
             ))}
       </Content>
     </Wrap>
@@ -64,12 +59,10 @@ const Title = styled.div`
   color: white;
   display: flex;
   padding-left: 22px;
-  /* justify-content: flex-start; */
   align-items: center;
   height: 30px;
   width: 100%;
   margin: 10px 0px;
-  /* background-color: aliceblue; */
   box-sizing: border-box;
   font-size: 13px;
   border-bottom: 1px solid grey;

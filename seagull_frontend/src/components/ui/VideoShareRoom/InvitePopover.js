@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { FiLink } from 'react-icons/fi';
 
 const InvitePopover = ({ onOpenerClick }) => {
   const settingsWindowRef = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const pageClickEvent = (e) => {
@@ -37,9 +35,7 @@ const InvitePopover = ({ onOpenerClick }) => {
       <ProfileBox>초대링크 복사</ProfileBox>
       <LogoutBox>
         <CopyWrap>
-          <InviteUrl placeholder={window.location.href} disabled>
-            {/* {window.location.href} */}
-          </InviteUrl>
+          <InviteUrl placeholder={window.location.href} disabled></InviteUrl>
           <CopyBtn onClick={clipboardCopy}>
             <FiLink size={18} />
           </CopyBtn>
@@ -71,7 +67,6 @@ const ProfileBox = styled.div`
 `;
 
 const LogoutBox = styled.div`
-  /* display: flex; */
   height: 55px;
   width: 100%;
   padding: 14px;
@@ -100,19 +95,6 @@ const CopyBtn = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-`;
-
-const Logout = styled.div`
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #f4f4f4;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  color: #000000;
-  /* margin-left: 5px; */
-  font-size: 12px;
-  border-top: #f4f4f4 solid 1.5px;
 `;
 
 export default InvitePopover;

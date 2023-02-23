@@ -8,18 +8,14 @@ import { BiArrowFromRight, BiArrowFromLeft } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { ChatMessageState, UserName } from '../../state/UserAtom';
+import { useSetRecoilState } from 'recoil';
+import { ChatMessageState } from '../../state/UserAtom';
 
 //components
 import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
-import VideoShareForm from '../layout/VideoShareForm';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 import webSocketAPI from '../../apis/webSocketAPI';
 import Swal from 'sweetalert2';
-
-//pages
-import Login from './Login';
 
 var isHost = false;
 
@@ -34,9 +30,7 @@ const VideoShareRoom = () => {
   const navigate = useNavigate();
 
   const { roomlink } = useParams();
-  const userRef = useRef();
   const setChatMessage = useSetRecoilState(ChatMessageState);
-  const [userName, setUserName] = useRecoilState(UserName);
 
   const clipboardCopy = async () => {
     await navigator.clipboard.writeText(window.location.href);
@@ -54,7 +48,6 @@ const VideoShareRoom = () => {
     stompClient.connect({}, onConnected, onError);
 
     setClient(stompClient);
-    console.log(sessionStorage.getItem('host'));
     if (sessionStorage.getItem('host')) {
       isHost = true;
       setControls(true);
@@ -65,7 +58,6 @@ const VideoShareRoom = () => {
   const onConnected = () => {
     const username = sessionStorage.getItem('username');
     let userInfo = { roomLink: roomlink, userId: username };
-    console.log(userInfo);
 
     stompClient.send(
       `/publish/enterRoom/${roomlink}`,
@@ -73,8 +65,6 @@ const VideoShareRoom = () => {
       JSON.stringify(userInfo)
     );
     stompClient.subscribe(`/subscribe/room/${roomlink}`, message);
-    console.log('호스트?', isHost);
-    console.log(stompClient);
     stompClient.subscribe(`/subscribe/group/${roomlink}`, onMessageReceived);
   };
 
@@ -82,9 +72,6 @@ const VideoShareRoom = () => {
     console.log(payload.body);
 
     if (payload.body === 'exit') {
-      console.log('여기 못와,?');
-      console.log(stompClient);
-
       if (!isHost) {
         Swal.fire({
           title: '호스트에 의해 방이 종료 되었습니다!',
@@ -104,10 +91,6 @@ const VideoShareRoom = () => {
       setUrl(JSON.parse(payload.body).url);
     }
 
-    console.log('참여자', JSON.parse(payload.body).users);
-    console.log('참여자 수', JSON.parse(payload.body).users.length);
-    console.log('url', JSON.parse(payload.body).url);
-
     setUser(JSON.parse(payload.body).users);
   };
 
@@ -119,18 +102,13 @@ const VideoShareRoom = () => {
   //채팅
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log(messageInputRef.current.value);
-    console.log(userName);
     var messageInput = messageInputRef.current.value;
 
     const username = sessionStorage.getItem('username');
 
     var messageContent = messageInput;
-    console.log(messageContent, client);
 
     if (messageContent && client) {
-      console.log(userName, messageContent);
-      console.log('유저네임', username);
       messageInputRef.current.value = '';
       var chatMessage = {
         roomLink: roomlink,
@@ -138,8 +116,6 @@ const VideoShareRoom = () => {
         content: messageInput,
         type: 'CHAT',
       };
-
-      console.log(chatMessage);
 
       client.send(
         `/publish/sendMessage/${roomlink}`,
@@ -172,7 +148,6 @@ const VideoShareRoom = () => {
   const onMessageReceived = (payload) => {
     console.log(payload.body);
     var message = JSON.parse(payload.body);
-    console.log('호스트맞놔', isHost);
 
     if (message.type === 'CHAT') {
       setChatMessage(message);
@@ -183,13 +158,10 @@ const VideoShareRoom = () => {
         }
       } else if (message.author === 'Control:play') {
         if (!isHost) {
-          console.log(!JSON.parse(message.content));
           setPlaying(!JSON.parse(message.content));
-          console.log(playing);
         }
       } else if (message.author === 'Control:sync') {
         if (!isHost) {
-          console.log(Number(message.content));
           setTime(Number(message.content));
           clearInterval(PlAYTIME);
         }
@@ -225,9 +197,6 @@ const VideoShareRoom = () => {
   //영상공유
   const sendVideo = (type, msg) => {
     var videoContent = msg;
-
-    console.log(videoContent);
-    console.log(isHost);
     if (isHost) {
       if (videoContent && client) {
         var chatMessage = {
@@ -252,8 +221,6 @@ const VideoShareRoom = () => {
   };
 
   const handleLeaveRoom = () => {
-    console.log('방나가기');
-
     const username = sessionStorage.getItem('username');
     let userInfo = {
       roomLink: roomlink,
@@ -270,8 +237,6 @@ const VideoShareRoom = () => {
     sessionStorage.removeItem('host');
     client.disconnect();
   };
-
-  console.log('나', sessionStorage.getItem('username'));
 
   const sendUrl = async (url) => {
     if (isHost) {
@@ -354,15 +319,12 @@ const VideoShareRoom = () => {
                       }
                     }}
                     onPause={() => {
-                      console.log(isHost);
                       if (isHost) {
                         sendVideo('Control:play', 'true');
                       }
                     }}
                     onPlay={() => {
-                      console.log('테스트', isHost);
                       if (isHost) {
-                        console.log('나오나');
                         sendVideo('Control:play', 'false');
                       }
                     }}
@@ -411,16 +373,6 @@ const VideoShareRoom = () => {
   );
 };
 
-const InputUser = styled.input`
-  width: 300px;
-  font-size: 50px;
-`;
-
-const Button = styled.div`
-  width: 400px;
-  height: 300px;
-`;
-
 const Container = styled.div`
   overflow: hidden;
   width: 100%;
@@ -465,7 +417,6 @@ const InfoIcon = styled.div`
   height: 20px;
   margin-top: 15px;
   cursor: pointer;
-  /* background-color: aliceblue; */
 `;
 
 const RoomName = styled.div`
@@ -483,15 +434,6 @@ const ChatButton = styled.div`
   cursor: pointer;
   width: 35px;
   height: 30px;
-`;
-
-const VideoChatWrap = styled.div`
-  display: flex;
-  height: 560px;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: aliceblue;
 `;
 
 const ToolBarWrap = styled.div`
