@@ -99,6 +99,7 @@ const Content = styled.div`
   }
 `;
 const InputWrap = styled.div`
+  overflow: hidden;
   height: 80px;
   width: 100%;
   display: flex;
