@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
@@ -21,7 +21,6 @@ const RoomMakeModal = ({ setModalOpen }) => {
       return alert('링크를 입력해주세요!');
     }
     navigate(`/${requestUrl}`);
-    console.log(requestUrl);
   };
 
   return (
@@ -64,9 +63,6 @@ const CloseBtn = styled.div`
   display: flex;
   height: 15px;
   align-items: center;
-  /* position: absolute; */
-  /* right: 10px; */
-  /* top: 10px; */
   cursor: pointer;
 `;
 
@@ -74,9 +70,7 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   font-size: 18px;
-  /* font-weight: bold; */
   height: 45px;
-  /* margin-bottom: 10px; */
 `;
 
 const ContentWrap = styled.div`
@@ -87,7 +81,6 @@ const WrapInput = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid lightgray;
-  /* margin-top: 10px; */
 `;
 
 const RequestRoomName = styled.div`
@@ -132,7 +125,6 @@ const InputRoomName = styled.input`
 const CancelBtn = styled.div`
   width: 110px;
   height: 37px;
-  /* margin: auto 10px auto 70px; */
   border-radius: 5px;
   font-size: 14px;
   box-sizing: border-box;
@@ -147,7 +139,6 @@ const CancelBtn = styled.div`
 const RoomMakeBtn = styled.div`
   width: 110px;
   height: 37px;
-  /* margin: auto 45px auto 10px; */
   border-radius: 5px;
   font-size: 14px;
   background-color: #0e72ed;

@@ -17,7 +17,6 @@ import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const navigate = useNavigate();
   const receiveEmail = async (email) => {
-    console.log(email);
     await userAPI
       .post('/auth/email_auth/sending_email', { email: email })
       .then((res) => {
@@ -90,7 +89,6 @@ const Signup = () => {
   const [alertSent, setAlertSent] = useState(false);
   const [alertcomment, setAlertcomment] = useState('');
   const [sentAuth, setSentAuth] = useState(false);
-  const [authData, setAuthData] = useState();
 
   const playNumber = useRef(null);
   const timerNumber = useRef(null);
@@ -171,7 +169,6 @@ const Signup = () => {
     ) {
       window.alert('필수입력값을 입력해주세요!');
     } else {
-      console.log(SignupData);
       completeSignUp(SignupData);
     }
   };
