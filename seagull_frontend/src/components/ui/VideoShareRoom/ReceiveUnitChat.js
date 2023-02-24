@@ -25,7 +25,6 @@ const ReceiveUnitChat = ({ time, content, author }) => {
 
 const Wrap = styled.div`
   width: 100%;
-  /* background-color: aliceblue; */
   display: flex;
   margin-bottom: 25px;
 `;
@@ -51,7 +50,6 @@ const ChatForm = styled.div`
 
 const ChatTitle = styled.div`
   display: flex;
-  /* justify-content: space-between; */
 `;
 
 const Nickname = styled.div`
@@ -59,13 +57,11 @@ const Nickname = styled.div`
   margin-top: 5px;
   height: 15px;
   font-size: 16px;
-  /* font-weight: bold; */
   margin-right: 15px;
   margin-bottom: 10px;
 `;
 
 const Time = styled.div`
-  /* margin-right: 100px; */
   font-size: 11px;
   padding-right: 5px;
   color: gray;

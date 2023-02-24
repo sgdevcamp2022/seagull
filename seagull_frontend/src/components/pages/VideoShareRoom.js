@@ -16,6 +16,7 @@ import ChatRoomUserContainer from '../layout/ChatRoomUserContainer';
 import LeaveButton from '../ui/VideoShareRoom/LeaveButton';
 import webSocketAPI from '../../apis/webSocketAPI';
 import Swal from 'sweetalert2';
+import VideoPlayer from '../ui/VideoShareRoom/VideoPlayer';
 
 var isHost = false;
 
@@ -170,7 +171,7 @@ const VideoShareRoom = () => {
   };
 
   const entryRoomSocket = () => {
-    connectRoomWebSocket();
+    // connectRoomWebSocket();
   };
 
   useEffect(() => {
@@ -286,54 +287,17 @@ const VideoShareRoom = () => {
                 )}
               </ChatButton>
             </RoomInfoWrap>
-            {/* <VideoShareForm /> */}
-            <Wrap>
-              <VideoPlayWrap>
-                {url ? (
-                  <ReactPlayer
-                    key={url}
-                    ref={videoRef}
-                    className="react-player"
-                    url={url}
-                    width="100%"
-                    height="100%"
-                    controls={controls}
-                    muted={true}
-                    playing={playing}
-                    progressInterval={1000}
-                    style={style}
-                    onProgress={() => {
-                      if (isHost) {
-                        if (playing) {
-                          sendVideo(
-                            'Control:sync',
 
-                            videoRef.current.getCurrentTime()
-                          );
-                        } else {
-                          sendVideo(
-                            'Control:sync',
-                            videoRef.current.getCurrentTime()
-                          );
-                        }
-                      }
-                    }}
-                    onPause={() => {
-                      if (isHost) {
-                        sendVideo('Control:play', 'true');
-                      }
-                    }}
-                    onPlay={() => {
-                      if (isHost) {
-                        sendVideo('Control:play', 'false');
-                      }
-                    }}
-                  />
-                ) : (
-                  'No Video'
-                )}
-              </VideoPlayWrap>
-            </Wrap>
+            <VideoPlayer
+              url={url}
+              videoRef={videoRef}
+              controls={controls}
+              playing={playing}
+              style={style}
+              sendVideo={sendVideo}
+              isHost={isHost}
+            />
+
             <ToolBarWrap>
               <ToolBarContainer>
                 <ShareVideoInput>
@@ -496,22 +460,4 @@ const InputButton = styled.div`
   }
 `;
 
-const Wrap = styled.div`
-  width: 100%;
-  height: calc(100vh - 130px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-`;
-
-const VideoPlayWrap = styled.div`
-  width: 90%;
-  height: calc(100vh - 130px);
-  background-color: black;
-  color: grey;
-  font-size: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 export default VideoShareRoom;
