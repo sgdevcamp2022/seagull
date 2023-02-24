@@ -8,6 +8,7 @@ import NotFound from './components/pages/NotFound';
 import PrivateRoute from './components/pages/PrivateRoute';
 import RoomMake from './components/pages/RoomMake';
 import Signup from './components/pages/Signup';
+import VideoShareRoom from './components/pages/VideoShareRoom';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       <Route path="/" element={<RoomMake />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/videoshare/:roomlink" element={<PrivateRoute />} />
+      {/* <Route path="/videoshare/:roomlink" element={<PrivateRoute />} /> */}
+      <Route path="/videoshare/:roomlink" element={<VideoShareRoom />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
