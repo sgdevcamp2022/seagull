@@ -56,13 +56,14 @@
 ​
 
 ## ✔️ Architecture
-<img width="929" alt="스크린샷 2023-02-21 오후 11 53 30" src="https://user-images.githubusercontent.com/63576379/220378703-c87866f6-9d26-44d0-aaeb-44cbf3f37272.png">
+<img width="991" alt="스크린샷 2023-02-24 오후 2 56 10" src="https://user-images.githubusercontent.com/63576379/221103247-d47e34ae-1668-4760-b228-430bf4b471d3.png">
 <img width="929" alt="스크린샷 2023-02-21 오후 11 54 13" src="https://user-images.githubusercontent.com/63576379/220378845-d0ab3cc5-5c66-4de3-9f89-96503785f66c.png">
 ​
 <br>
 
 ## ✔️ PMP 문서
 - PDF : [SeaGull.pdf](https://github.com/sgdevcamp2022/seagull/files/10794913/SeaGull.pdf)
+- Google Doc : https://drive.google.com/drive/u/0/my-drive
 
 <br>
 
