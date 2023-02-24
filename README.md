@@ -87,17 +87,29 @@
 <img width="991" alt="스크린샷 2023-02-24 오후 2 56 10" src="https://user-images.githubusercontent.com/63576379/221103247-d47e34ae-1668-4760-b228-430bf4b471d3.png">
 
 ### 📌 DB Architecture
+<img width="900" alt="스크린샷 2023-02-25 오전 3 56 41" src="https://user-images.githubusercontent.com/107834862/221267622-ddb55c17-9d4f-4947-b368-2a6eb5060f44.png">
 
-<details>
-<summary>DB Architecture</summary>
-<div markdown="1">
 
-<img width="929" alt="스크린샷 2023-02-21 오후 11 54 13" src="https://user-images.githubusercontent.com/63576379/220378845-d0ab3cc5-5c66-4de3-9f89-96503785f66c.png">
-
-</div>
-</details>
 
 ## 🚩UI
+### 메인페이지
+<img width="600" alt="스크린샷 2023-02-25 오전 3 39 43" src="https://user-images.githubusercontent.com/107834862/221263969-67783ce2-37f8-4317-a6f3-214c02f77c93.png">
+
+### 회원가입 
+<img width="600" alt="스크린샷 2023-02-25 오전 3 39 10" src="https://user-images.githubusercontent.com/107834862/221263787-2278677c-5bd7-40e5-b61e-65553e57a06b.png">
+
+### 로그인
+<img width="600" alt="스크린샷 2023-02-25 오전 3 39 31" src="https://user-images.githubusercontent.com/107834862/221263873-6ae7da2f-eda0-45eb-a41e-83e1f313a05c.png">
+
+### 참여링크 입력
+<img width="600" alt="스크린샷 2023-02-25 오전 3 39 56" src="https://user-images.githubusercontent.com/107834862/221264048-a6df77f8-00cd-4e05-9d2f-2cd726c33ba5.png">
+
+### 영상공유방 내 채팅
+https://user-images.githubusercontent.com/107834862/221268460-7d5ba637-4894-4ea2-9239-2c3225a004e2.mov
+
+### 영상공유 일시정지, 재생위치 변경
+https://user-images.githubusercontent.com/107834862/221269220-b3cd8575-679f-47f4-bbe2-353886858933.mov
+
 
 ## 🚩 주요기능 및 작업내역
 ### 🛠 주요기능
