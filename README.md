@@ -1,4 +1,4 @@
-# **EGuBa(이거봐)**
+# **eGuBa(이거봐)**
 
 ## 🔎 프로젝트 개요
 #### 친구들과 함께 하는 영상 공유 플랫폼
@@ -10,7 +10,7 @@
 |-----|-----------------------------------------------|----------------------------------------------------------------|
 | 박성준 | [@tjdwns4537 ](https://github.com/tjdwns4537) | <img src="https://img.shields.io/badge/-BE-red">  채팅 시스템, 실시간 웹소켓 구현, 메인서버 관리, Redis Repository 구성,<br> 영상공유 방 비지니스 로직 구현   |
 | 박정원 | [@jjjjjeongwon](https://github.com/jjjjjeongwon)    | <img src="https://img.shields.io/badge/-FE-blue"> 프론트 전체  |
-| 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 담당                                              |
+| 이효승 | [@hoos007](https://github.com/hoos007)        | <img src="https://img.shields.io/badge/-BE-red"> 영상 공유 시스템 전체, 웹소켓 통신 담당                                                |
 | 이범수 | [@dldks321](https://github.com/dldks321)        | <img src="https://img.shields.io/badge/-BE-red"> 유저 시스템 담당                                                 |
 <br/>
 
@@ -100,6 +100,12 @@
 - Redis를 이용한 이메일 인증과정
 - 카카오 API를 이용한 카카오 로그인 구현
 - EC2환경에서 Nginx, Uvicorn을 이용한 백엔드 서비스 배포 
+
+### BE - 이효승
+- 문제: 영상이 재생중인 방에 새로운 클라이언트가 접속하는 경우 url값이 잘못오는 문제발생
+  - 원인: 서버에서 url에 대해 redis set의 add로 값을 넣고 pop메서드로 값을 꺼내서 보내도록 구현되어있었다. pop은 value에 값이 여러개인경우 랜덤한 값을 꺼내기 때문에 발생한 문제이다.
+  - 해결: 스택처럼 list의 leftpush로 넣고 leftpop으로값을 꺼내도록 변경했다. 가장 마지막으로 들어간 최신 값을 꺼내오도록 동작한다.
+  - 추가로 url값을 계속 저장하도록 한 것은 추후에 추가될 재생목록 기능을 염두하고 한 것이다.
 ​
 ​
 <br>
