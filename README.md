@@ -62,7 +62,7 @@
 <br>
 
 ## ✔️ PMP 문서
-- PDF : [SeaGull.pdf](https://github.com/sgdevcamp2022/seagull/files/10794913/SeaGull.pdf)
+- PDF : https://docs.google.com/presentation/d/1R8a6CCL8lJsjGJM9iGdM-PytgpqIAH0VGUPHEEQKC-g/edit?usp=sharing
 - Google Doc : https://drive.google.com/file/d/1-mLLqmidhnFSgIg2pyUef_nOZGvWdaSS/view?usp=sharing
 
 <br>
