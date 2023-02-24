@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import webSocketAPI from '../../apis/webSocketAPI';
-import Loading from '../layout/Loading';
+import Loading from '../ui/public/Loading';
 import NotFound from './NotFound';
 import VideoShareRoom from './VideoShareRoom';
 
