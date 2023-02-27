@@ -6,3 +6,7 @@
 *.pdf
 *.txt
 seagull/**/KafkaConstants.*
+
+.env
+
+__pycache__/
